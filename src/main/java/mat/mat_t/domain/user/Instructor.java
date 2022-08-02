@@ -1,16 +1,29 @@
 package mat.mat_t.domain.user;
 
-import javax.persistence.*;
+import lombok.Getter;
+import mat.mat_t.domain.class_.Classes;
 
-import static javax.persistence.FetchType.LAZY;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Instructor extends User{
+@Getter
+public class Instructor {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "instructor_id")
-    private Long id;
+    private Long instructorId;
 
+    //회원매핑
+    @OneToOne(mappedBy = "instructor")
+    private User userIn;
+
+    @Column(nullable = false)
     private String major;
+
+    //클래스 매핑
+    @OneToMany(mappedBy = "instructorC")
+    private List<Classes> classList = new ArrayList<>();
 }

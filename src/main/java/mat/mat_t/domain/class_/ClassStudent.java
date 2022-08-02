@@ -1,23 +1,39 @@
 package mat.mat_t.domain.class_;
 
+import lombok.Getter;
+import mat.mat_t.domain.review.InstructorReview;
+import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.domain.user.User;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name="class_students")
+@Getter
 public class ClassStudent {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "classLi_id")
+    private Long classListId;
 
+    @ManyToOne
+    @JoinColumn(name = "login_id")
+    private User userCS;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "class_student_id")
-    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Classes classesCS;
 
-    @OneToMany
-    @JoinColumn(name="login_id")
-    private List<User> user;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ClassStatus status; //수강상태 [DOING, FINISHED]
 
-    private String content; // 수강 신청 시 메시지 전달 목적
+    //수강생 리뷰 매핑
+    @OneToOne
+    @JoinColumn(name = "stRe_id")
+    private StudentReview studentReview;
+
+    //강사 리뷰 매핑
+    @OneToOne
+    @JoinColumn(name = "insRe_id")
+    private InstructorReview instructorReview;
+
 }

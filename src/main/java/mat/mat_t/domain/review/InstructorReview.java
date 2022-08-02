@@ -1,12 +1,19 @@
 package mat.mat_t.domain.review;
 
-import javax.persistence.Entity;
+import lombok.Getter;
+
+import javax.persistence.*;
 
 @Entity
+@Getter
 public class InstructorReview {
 
-    private int classId;
-    private String studentId;
-    private int score;
-    private String content;  // 평가내용
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "insRe_id")
+    private Long insReviewId;
+
+    private float score;
+
+    private String reviewContent;
 }
