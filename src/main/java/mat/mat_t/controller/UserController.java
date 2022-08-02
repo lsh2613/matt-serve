@@ -1,6 +1,5 @@
 package mat.mat_t.controller;
 
-
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.User;
@@ -10,13 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-
 
     private final UserService userService;
 
@@ -27,9 +26,9 @@ public class UserController {
         return "user/createForm";
     }
 
-    @ApiOperation(value="신규 회원가입")
+    @ApiOperation(value = "신규 회원가입")
     @PostMapping("user/new")
-    public String create(@Valid userForm form, BindingResult bindingResult) {
+    public String create(@Valid @RequestBody userForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "user/createForm";
