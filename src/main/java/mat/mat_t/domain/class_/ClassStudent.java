@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 public class ClassStudent {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "classLi_id")
     private Long classListId;

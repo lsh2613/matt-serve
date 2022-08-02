@@ -10,19 +10,19 @@ import java.util.List;
 
 @Entity
 @Getter
+@Table(name="user_")
 public class User {
 
     @Id @GeneratedValue
-    @Column(name = "login_id")
+    @Column(name = "student_id")
     private String studentId;
-
+    private String name;  //로그인 아이디
     private String password;
-    private String name;
     private String nickname;
-    private int phoneNumber;
+    private int age;
+    private String phoneNumber;
     private String email;
     private int gender;
-    private int age;
     private int auth;
 
     //강사 매핑
@@ -37,4 +37,17 @@ public class User {
     //클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
     private List<WaitingStudent> waitingStudents= new ArrayList<>();
+
+    protected User() {
+    }
+
+    public User(String name, String password, String nickname, int age, String phoneNumber, String email, int gender) {
+        this.name = name;
+        this.password = password;
+        this.nickname = nickname;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.gender = gender;
+    }
 }
