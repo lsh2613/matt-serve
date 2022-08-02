@@ -27,7 +27,7 @@ public class SwaggerConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("mat API with Swagger")
-                .description("왜 아무 것도 안 뜨지..?")
+                .description("설명란")
                 .version("1.0.0")
                 .build();
     }

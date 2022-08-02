@@ -1,6 +1,7 @@
 package mat.mat_t.controller;
 
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.service.UserService;
@@ -26,6 +27,7 @@ public class UserController {
         return "user/createForm";
     }
 
+    @ApiOperation(value="신규 회원가입")
     @PostMapping("user/new")
     public String create(@Valid userForm form, BindingResult bindingResult) {
 
@@ -34,7 +36,7 @@ public class UserController {
         }
 
         User user = new User(form.getName(), form.getPassword(), form.getNickname(),
-                form.getAge(), form.getPhoneNumber(), form.getEmail(), form.getAge());
+                form.getAge(), form.getPhoneNumber(), form.getEmail(), form.getGender());
 
         userService.join(user);
 

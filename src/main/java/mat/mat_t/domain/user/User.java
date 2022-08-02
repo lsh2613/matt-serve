@@ -20,10 +20,11 @@ public class User {
     private String name;  //로그인 아이디
     private String password;
     private String nickname;
-    private int age;
+    private String age;
     private String phoneNumber;
     private String email;
-    private int gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private int auth;
 
     //강사 매핑
@@ -42,7 +43,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, String password, String nickname, int age, String phoneNumber, String email, int gender) {
+    public User(String name, String password, String nickname, String age, String phoneNumber, String email, Gender gender) {
         this.name = name;
         this.password = password;
         this.nickname = nickname;
