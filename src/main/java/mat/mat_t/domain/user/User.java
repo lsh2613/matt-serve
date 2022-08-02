@@ -1,6 +1,7 @@
 package mat.mat_t.domain.user;
 
 import lombok.Getter;
+import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudent;
 import mat.mat_t.domain.class_.WaitingStudent;
 
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @Table(name="user_")
 public class User {
 
     @Id @GeneratedValue
     @Column(name = "student_id")
-    private String studentId;
+    private Long id;
     private String name;  //로그인 아이디
     private String password;
     private String nickname;
@@ -38,7 +39,7 @@ public class User {
     @OneToMany(mappedBy = "userWS")
     private List<WaitingStudent> waitingStudents= new ArrayList<>();
 
-    protected User() {
+    public User() {
     }
 
     public User(String name, String password, String nickname, int age, String phoneNumber, String email, int gender) {

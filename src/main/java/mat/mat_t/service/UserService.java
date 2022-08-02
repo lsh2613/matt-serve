@@ -3,7 +3,6 @@ package mat.mat_t.service;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.repository.UserRepository;
-import net.bytebuddy.asm.MemberRemoval;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +16,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void join(User user) {
+    public Long join(User user) {
         hasDuplicateUser(user);
         userRepository.save(user);
+        return user.getId();
     }
 
     private void hasDuplicateUser(User user) {

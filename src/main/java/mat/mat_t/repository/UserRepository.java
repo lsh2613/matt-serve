@@ -6,7 +6,6 @@ import mat.mat_t.domain.user.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.lang.reflect.Member;
 import java.util.List;
 
 @Repository
@@ -19,10 +18,13 @@ public class UserRepository {
         em.persist(User);
     }
 
+    public User findById(Long id) {
+        return em.find(User.class, id);
+    }
+
     public List<User> findByName(String name) {
         return em.createQuery("select u from User u where u.name = :name", User.class)
                 .setParameter("name", name)
                 .getResultList();
     }
-
 }
