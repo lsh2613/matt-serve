@@ -35,13 +35,12 @@ public class UserController {
     @PostMapping("user/new")
     public ResponseEntity<User> create(@Valid @RequestBody userForm form, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            return "user/createForm";
-        }
-
         User user = new User(form.getName(), form.getPassword(), form.getNickname(),
                 form.getAge(), form.getPhoneNumber(), form.getEmail(), form.getGender());
 
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(user);
+        }
         userService.join(user);
 
         return ResponseEntity.ok().body(user);
