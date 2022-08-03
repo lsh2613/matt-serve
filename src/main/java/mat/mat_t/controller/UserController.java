@@ -4,12 +4,17 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.service.UserService;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.net.http.HttpResponse;
 
 import javax.validation.Valid;
 
@@ -28,7 +33,7 @@ public class UserController {
 
     @ApiOperation(value = "신규 회원가입")
     @PostMapping("user/new")
-    public String create(@Valid @RequestBody userForm form, BindingResult bindingResult) {
+    public ResponseEntity<User> create(@Valid @RequestBody userForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "user/createForm";
@@ -39,6 +44,6 @@ public class UserController {
 
         userService.join(user);
 
-        return "redirect:/";
+        return ResponseEntity.ok().body(user);
     }
 }
