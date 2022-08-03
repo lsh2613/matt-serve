@@ -20,9 +20,9 @@ public class UserController {
 
     private final UserService userService;
 
+    @ApiOperation(value="신규 회원가입")
     @GetMapping("/user/new")
     public String createForm(Model model) {
-
         model.addAttribute("userForm", new userForm());
         return "user/createForm";
     }
