@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -20,6 +21,15 @@ public class UserService {
         hasDuplicateUser(user);
         userRepository.save(user);
         return user.getId();
+    }
+
+    public String findPassword(String loginName) {
+        Optional<User> optionalUser = userRepository.findByName(loginName).stream().findFirst();
+        if (optionalUser.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 아이디 입니다");
+        }
+        else
+            return optionalUser.get().getPassword();
     }
 
     private void hasDuplicateUser(User user) {
