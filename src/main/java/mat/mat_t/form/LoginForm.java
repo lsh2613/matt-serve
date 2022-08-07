@@ -1,4 +1,4 @@
-package mat.mat_t.controller;
+package mat.mat_t.form;
 
 import lombok.Data;
 

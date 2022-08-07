@@ -2,8 +2,8 @@ package mat.mat_t.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.class_.ClassStudent;
-import mat.mat_t.domain.class_.WaitingStudent;
+import mat.mat_t.domain.class_.ClassStudents;
+import mat.mat_t.domain.class_.WaitingStudents;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,8 +17,9 @@ public class User {
     @Id @GeneratedValue
     @Column(name = "student_id")
     private Long id;
-    private String name;  //로그인 아이디
+    private String loginId;
     private String password;
+    private String name;
     private String nickname;
     private String birthDate;
     private String phoneNumber;
@@ -34,18 +35,19 @@ public class User {
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "userCS")
-    private List<ClassStudent> classStudents = new ArrayList<>();
+    private List<ClassStudents> classStudents = new ArrayList<>();
 
     //클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
-    private List<WaitingStudent> waitingStudents= new ArrayList<>();
+    private List<WaitingStudents> waitingStudents= new ArrayList<>();
 
     public User() {
     }
 
-    public User(String name, String password, String nickname, String birthDate, String phoneNumber, String email, Gender gender) {
-        this.name = name;
+    public User(String loginId, String password, String name, String nickname, String birthDate, String phoneNumber, String email, Gender gender) {
+        this.loginId = loginId;
         this.password = password;
+        this.name = name;
         this.nickname = nickname;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;

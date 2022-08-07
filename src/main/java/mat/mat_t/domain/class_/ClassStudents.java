@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class ClassStudent {
+public class ClassStudents {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "classLi_id")

@@ -1,4 +1,4 @@
-package mat.mat_t.controller;
+package mat.mat_t.form;
 
 
 import lombok.Getter;
@@ -6,25 +6,27 @@ import lombok.Setter;
 import mat.mat_t.domain.user.Gender;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
 @Getter
 @Setter
-public class userForm {
+public class UserForm {
 
     @NotBlank(message = "필수 입력란입니다.")
-    private String name;
+    private String loginId;
 
     @NotBlank(message = "필수 입력란입니다.")
     private String password;
 
     @NotBlank(message = "필수 입력란입니다.")
+    private String name;
+
+    @NotBlank(message = "필수 입력란입니다.")
     private String nickname;
 
     @NotBlank(message = "필수 입력란입니다.")
-    private String age;
+    private String birthDate;
 
     @NotBlank(message = "필수 입력란입니다.")
     private String phoneNumber;

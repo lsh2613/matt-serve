@@ -1,4 +1,4 @@
-package mat.mat_t.config;
+package mat.mat_t.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

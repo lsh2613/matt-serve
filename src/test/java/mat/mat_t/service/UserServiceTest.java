@@ -3,10 +3,10 @@ package mat.mat_t.service;
 import lombok.extern.slf4j.Slf4j;
 import mat.mat_t.domain.user.Gender;
 import mat.mat_t.domain.user.User;
-import mat.mat_t.repository.UserRepository;
+import mat.mat_t.web.repository.UserRepository;
+import mat.mat_t.web.service.LoginService;
+import mat.mat_t.web.service.UserService;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
-import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-
-import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -38,7 +36,7 @@ public class UserServiceTest {
     public void 회원가입() throws Exception{
         //given
         User user = new User();
-        user.setName("kim");
+        user.setLoginId("kim");
 
         //when
         Long savedId = userService.join(user);
@@ -69,7 +67,7 @@ public class UserServiceTest {
         userService.join(user);
 
         //when
-        String findPw = userService.findPassword(user.getName());
+        String findPw = userService.findPassword(user.getLoginId());
 
         //then
         assertEquals(user.getPassword(), findPw);
@@ -82,7 +80,7 @@ public class UserServiceTest {
         userService.join(user);
 
         //when
-        User loginMember = loginService.login(user.getName(), user.getPassword());
+        User loginMember = loginService.login(user.getLoginId(), user.getPassword());
 
         //then
         assertEquals(user, loginMember);

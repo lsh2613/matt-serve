@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class WaitingStudent {
+public class WaitingStudents {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "waiting_id")

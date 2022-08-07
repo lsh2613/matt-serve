@@ -29,11 +29,11 @@ public class Classes {
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "classesCS")
-    private List<ClassStudent> classStudents = new ArrayList<>();
+    private List<ClassStudents> classStudents = new ArrayList<>();
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "classesWS")
-    private List<WaitingStudent> waitingStudents = new ArrayList<>();
+    private List<WaitingStudents> waitingStudents = new ArrayList<>();
 
     //클래스 정보 매핑
     @OneToOne

@@ -1,4 +1,4 @@
-package mat.mat_t.repository;
+package mat.mat_t.web.repository;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.Classes;

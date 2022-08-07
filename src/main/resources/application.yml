@@ -20,4 +20,7 @@ logging:
 #    org.hibernate.sql: debug
     org.hibernate.type: trace
 
-
+server:
+  servlet:
+    session:
+      tracking-modes: cookie

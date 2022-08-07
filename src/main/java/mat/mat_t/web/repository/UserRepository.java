@@ -1,4 +1,4 @@
-package mat.mat_t.repository;
+package mat.mat_t.web.repository;
 
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ public class UserRepository {
         return em.find(User.class, id);
     }
 
-    public List<User> findByName(String name) {
-        return em.createQuery("select u from User u where u.name = :name", User.class)
+    public List<User> findByLoginId(String name) {
+        return em.createQuery("select u from User u where u.loginId = :name", User.class)
                 .setParameter("name", name)
                 .getResultList();
     }
