@@ -3,14 +3,14 @@ package mat.mat_t.domain.class_;
 import lombok.Getter;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
-import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.domain.user.User;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class ClassStudent {
+public class ClassStudents {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "classLi_id")
     private Long classListId;

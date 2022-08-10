@@ -1,8 +1,6 @@
 package mat.mat_t.domain.review;
 
 import lombok.Getter;
-import mat.mat_t.domain.class_.ClassStudent;
-import mat.mat_t.domain.user.User;
 
 import javax.persistence.*;
 

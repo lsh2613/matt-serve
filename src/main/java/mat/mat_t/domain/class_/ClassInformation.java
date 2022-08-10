@@ -1,12 +1,13 @@
 package mat.mat_t.domain.class_;
 
 
+import lombok.Data;
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Data
 public class ClassInformation {
 
     @Id
@@ -14,6 +15,19 @@ public class ClassInformation {
     @Column(name = "code_id")
     private Long codeId;
 
-    @Column(name = "code_name")
+    @OneToOne(mappedBy = "classInformation", fetch = FetchType.LAZY)
+    private Classes classes;
+
+
+    @Column(name = "code_name", unique = true)
     private String codeName;
+
+    public ClassInformation(Long codeId, String codeName) {
+        this.codeId = codeId;
+        this.codeName = codeName;
+    }
+
+    public ClassInformation() {
+
+    }
 }
