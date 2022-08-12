@@ -1,6 +1,5 @@
 package mat.mat_t.web.controller;
 
-
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassInformation;
@@ -123,6 +122,5 @@ public class ClassController {
     }
 
     */
-
 
 }

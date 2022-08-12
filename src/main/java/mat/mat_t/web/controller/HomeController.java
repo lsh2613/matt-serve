@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    //    @GetMapping("/")  //로그인 세션 관리 미완성이라 주석처리 해둠
+//    @GetMapping("/")  //로그인 세션 관리 미완성이라 주석처리 해둠
+
     public String home(@Login User loginUser) {
         if (loginUser == null) {
             return "home";
