@@ -1,19 +1,33 @@
-package mat.mat_t.domain.review;
+    package mat.mat_t.domain.review;
 
-import lombok.Getter;
+    import lombok.Getter;
+    import lombok.Setter;
 
-import javax.persistence.*;
+    import javax.persistence.*;
 
-@Entity
-@Getter
-public class InstructorReview {
+    @Entity
+    @Getter
+    @Setter
+    public class InstructorReview {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "insRe_id")
-    private Long insReviewId;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "insRe_id")
+        private Long insReviewId;
 
-    private float score;
+        private float score;
+        private String reviewContent;
 
-    private String reviewContent;
-}
+        public InstructorReview() {
+        }
+
+        public InstructorReview(String reviewContent, float score) {
+            this.score = score;
+            this.reviewContent = reviewContent;
+        }
+
+        public void update(InstructorReview newInstructorReview) {
+            this.score = newInstructorReview.getScore();
+            this.reviewContent = newInstructorReview.getReviewContent();
+        }
+    }
