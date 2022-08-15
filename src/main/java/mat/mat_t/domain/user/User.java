@@ -3,7 +3,7 @@ package mat.mat_t.domain.user;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
-import mat.mat_t.domain.class_.WaitingStudents;
+import mat.mat_t.domain.class_.WaitingStudent;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class User {
 
     //클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
-    private List<WaitingStudents> waitingStudents= new ArrayList<>();
+    private List<WaitingStudent> waitingStudents= new ArrayList<>();
 
     public User() {
     }

@@ -27,17 +27,17 @@ public class ClassController {
     private final ClassInfoService classInfoService;
 
     /** 클래스 생성**/
-    @ApiOperation(value="신규 클래스 생성")
-    @GetMapping("/class/new")
-    public String createForm(Model model) {
+//    @ApiOperation(value="신규 클래스 생성")
+//    @GetMapping("/class/new")
+//    public String createForm(Model model) {
         //instructService, classInfoService 만들어야함
-        List<Instructor> instructorId = instructorService.findInstructorId();
-        List<ClassInformation> codeId = classInfoService.findCodeId();
-        model.addAttribute("instructorId", instructorId);
-        model.addAttribute("codeId", codeId);
-        model.addAttribute("form", new ClassForm());
-        return "class/createClassForm";
-    }
+//        List<Instructor> instructorId = instructorService.findInstructorId();
+//        List<ClassInformation> codeId = classInfoService.findCodeId();
+//        model.addAttribute("instructorId", instructorId);
+//        model.addAttribute("codeId", codeId);
+//        model.addAttribute("form", new ClassForm());
+//        return "class/createClassForm";
+//    }
 
     @ApiOperation(value="신규 클래스 생성")
     @PostMapping(value = "/class/new")
