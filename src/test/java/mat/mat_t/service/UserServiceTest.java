@@ -87,7 +87,7 @@ public class UserServiceTest {
     }
 
     public User createUser() {
-        User user = new User("lsh", "123", "이승헌", "2000.01.23",
+        User user = new User("lsh", "123", "이승헌", "닉네임1","2000.01.23",
                 "010-4012-7068", "lsh2613@naver.com", Gender.MAN);
         return user;
     }

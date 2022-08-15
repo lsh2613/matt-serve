@@ -1,31 +1,36 @@
 package mat.mat_t.domain.class_;
 
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.user.Instructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Data
 public class Classes {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "class_id")
     private Long classId;
 
     private String title;
-    private int numberOfStudents;
+    private Long numberOfStudents;
     private String descriptions;
     private String place;
-//    private ?? startTime;
-//    private ?? endTime;
-//    private ?? days;
-//    private ?? category;
-//    private ?? date;
+
+    //우선은 문자형으로..
+    private String startTime;   //시작일
+    private String endTime; //종료일
+    private String days;    //요일
+    private String category;
+    private Long date;    //  기간
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "classesCS")
@@ -36,7 +41,7 @@ public class Classes {
     private List<WaitingStudents> waitingStudents = new ArrayList<>();
 
     //클래스 정보 매핑
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "code_id")
     private ClassInformation classInformation;
 
@@ -48,4 +53,51 @@ public class Classes {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
     private Instructor instructorC;
+
+    @Builder
+    public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+        this.classId = classId;
+        this.title = title;
+        this.numberOfStudents = numberOfStudents;
+        this.descriptions = descriptions;
+        this.place = place;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.days = days;
+        this.category = category;
+        this.date = date;
+    }
+
+    public Classes() {
+    }
+
+    //==연관관계 메서드==//
+    public void setClassInformation(ClassInformation classInformation) {
+        this.classInformation = classInformation;
+        classInformation.setClasses(this);
+    }
+
+    public void setInstructorC(Instructor instructorC) {
+        this.instructorC = instructorC;
+        instructorC.getClassList().add(this);
+    }
+
+    //==생성 메서드==//
+    public static Classes createClass( ClassInformation classInformation, Instructor instructor, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+        Classes classes = new Classes();
+        classes.setClassInformation(classInformation);
+        classes.setInstructorC(instructor);
+        classes.setTitle(title);
+        classes.setNumberOfStudents(numberOfStudents);
+        classes.setDescriptions(descriptions);
+        classes.setPlace(place);
+        classes.setStartTime(startTime);
+        classes.setEndTime(endTime);
+        classes.setDays(days);
+        classes.setCategory(category);
+        classes.setDate(date);
+
+        return classes;
+    }
+
 }

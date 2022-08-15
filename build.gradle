@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'jpabook'
+group = 'mat'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
