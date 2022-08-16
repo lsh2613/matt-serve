@@ -2,7 +2,7 @@
 
     import lombok.Getter;
     import lombok.Setter;
-
+    import mat.mat_t.domain.class_.ClassStudents;
     import javax.persistence.*;
 
     @Entity
@@ -17,6 +17,9 @@
 
         private float score;
         private String reviewContent;
+
+        @OneToOne(mappedBy = "instructorReview")
+        private ClassStudents classStudents;
 
         public InstructorReview() {
         }

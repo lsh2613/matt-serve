@@ -12,4 +12,10 @@ public class InstructorReviewForm {
 
     @NotEmpty
     private String reviewContent;
+
+    @NotEmpty
+    private String reviewer;
+
+    @NotEmpty
+    private String reviewers;
 }

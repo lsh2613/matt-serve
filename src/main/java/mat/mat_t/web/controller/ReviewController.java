@@ -33,8 +33,10 @@ public class ReviewController {
     @PostMapping("instructorReview/save")
     public ResponseEntity<InstructorReview> instructorReviewCreate(@Valid @RequestBody InstructorReviewForm form) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
+        instructorReviewService.checkReview(instructorReview, form.getReviewer(), form.getReviewers());
         instructorReviewService.saveReview(instructorReview);
         return ResponseEntity.ok().body(instructorReview);
+
     }
 
 

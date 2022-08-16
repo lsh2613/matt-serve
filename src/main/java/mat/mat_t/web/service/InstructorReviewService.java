@@ -13,6 +13,12 @@ public class InstructorReviewService {
 
     private final InstructorReviewRepository instructorReviewRepository;
 
+    public boolean checkReview(InstructorReview instructorReview,String name1,String name2){
+        if(name1.equals(instructorReview.getClassStudents().getClassesCS().getTitle())&&name2.equals(instructorReview.getClassStudents().getUserCS().getName()))
+            return true;
+        return false;
+    }
+
     //저장
     public void saveReview(InstructorReview instructorReview) {
         instructorReviewRepository.save(instructorReview);
