@@ -68,10 +68,26 @@ public class Classes {
         this.date = date;
     }
 
+    public Classes(Long classId, ClassInformation codeId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+        this.classId = classId;
+        this.classInformation= codeId;
+        this.instructorC = instructId;
+        this.title = title;
+        this.numberOfStudents = numberOfStudents;
+        this.descriptions = descriptions;
+        this.place = place;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.days = days;
+        this.category = category;
+        this.date = date;
+    }
+
+
     public Classes() {
     }
 
-    //==연관관계 메서드==//
+  /*  //==연관관계 메서드==//
     public void setClassInformation(ClassInformation classInformation) {
         this.classInformation = classInformation;
         classInformation.setClasses(this);
@@ -98,6 +114,18 @@ public class Classes {
         classes.setDate(date);
 
         return classes;
+    }*/
+
+    public void update(Classes upClasses) {
+        this.title = upClasses.getTitle();
+        this.numberOfStudents = upClasses.getNumberOfStudents();
+        this.descriptions = upClasses.getDescriptions();
+        this.place = upClasses.getPlace();
+        this.startTime = upClasses.getStartTime();
+        this.endTime = upClasses.getEndTime();
+        this.days = upClasses.getDays();
+        this.category = upClasses.getCategory();
+        this.date = upClasses.getDate();
     }
 
 }
