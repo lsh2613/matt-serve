@@ -36,6 +36,11 @@ public class Instructor {
 
     }
 
+    public Instructor(Long instructorId, String major) {
+        this.instructorId = instructorId;
+        this.major = major;
+    }
+
 
     public void update(Instructor upInstructor) {
         this.major = upInstructor.getMajor();
