@@ -1,12 +1,15 @@
 package mat.mat_t.form;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import mat.mat_t.domain.class_.ClassInformation;
+import mat.mat_t.domain.user.Instructor;
 
-@Getter @Setter
+@Data
 public class ClassForm {
 
     private Long classId;
+    private ClassInformation codeId;
+    private Instructor instructorId;
     private String title;
     private Long numberOfStudents;
     private String descriptions;

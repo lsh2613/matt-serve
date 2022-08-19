@@ -2,7 +2,6 @@ package mat.mat_t.domain.class_;
 
 
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -19,7 +18,7 @@ public class ClassInformation {
     private Classes classes;
 
 
-    @Column(name = "code_name", unique = true)
+    @Column(name = "code_name")
     private String codeName;
 
     public ClassInformation(Long codeId, String codeName) {
@@ -27,7 +26,16 @@ public class ClassInformation {
         this.codeName = codeName;
     }
 
+    public ClassInformation(Long codeId) {
+        this.codeId = codeId;
+    }
+
     public ClassInformation() {
 
+    }
+
+
+    public void update(ClassInformation upClassInfo) {
+        this.codeName = upClassInfo.getCodeName();
     }
 }
