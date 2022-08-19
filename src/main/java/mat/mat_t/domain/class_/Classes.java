@@ -2,13 +2,10 @@ package mat.mat_t.domain.class_;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import mat.mat_t.domain.user.Instructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -38,7 +35,7 @@ public class Classes {
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "classesWS")
-    private List<WaitingStudents> waitingStudents = new ArrayList<>();
+    private List<WaitingStudent> waitingStudents = new ArrayList<>();
 
     //클래스 정보 매핑
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
