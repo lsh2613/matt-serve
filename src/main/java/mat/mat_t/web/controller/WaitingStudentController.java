@@ -2,6 +2,7 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.domain.class_.WaitingStudent;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.web.service.ClassService;
