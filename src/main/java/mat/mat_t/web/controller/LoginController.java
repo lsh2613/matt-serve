@@ -50,7 +50,8 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute("loginUser", loginUser);
-        //redirectURL 적용
+
+        //세션 키 벨류 리턴
         return ResponseEntity.ok().body(loginUser);
     }
 
