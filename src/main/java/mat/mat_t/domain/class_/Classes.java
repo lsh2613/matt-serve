@@ -2,13 +2,10 @@ package mat.mat_t.domain.class_;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import mat.mat_t.domain.user.Instructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -38,7 +35,7 @@ public class Classes {
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "classesWS")
-    private List<WaitingStudents> waitingStudents = new ArrayList<>();
+    private List<WaitingStudent> waitingStudents = new ArrayList<>();
 
     //해당 클래스의 태그 매핑
     @OneToMany(mappedBy = "classesCT")
@@ -80,30 +77,6 @@ public class Classes {
 
     public Classes() {
     }
-
-  /*  //==연관관계 메서드==//
-
-    public void setInstructorC(Instructor instructorC) {
-        this.instructorC = instructorC;
-        instructorC.getClassList().add(this);
-    }
-
-    //==생성 메서드==//
-    public static Classes createClass(Instructor instructor, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
-        Classes classes = new Classes();
-        classes.setInstructorC(instructor);
-        classes.setTitle(title);
-        classes.setNumberOfStudents(numberOfStudents);
-        classes.setDescriptions(descriptions);
-        classes.setPlace(place);
-        classes.setStartTime(startTime);
-        classes.setEndTime(endTime);
-        classes.setDays(days);
-        classes.setCategory(category);
-        classes.setDate(date);
-
-        return classes;
-    }*/
 
     public void update(Classes upClasses) {
         this.title = upClasses.getTitle();

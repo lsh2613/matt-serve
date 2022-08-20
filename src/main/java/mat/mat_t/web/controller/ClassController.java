@@ -30,7 +30,6 @@ public class ClassController {
             return ResponseEntity.badRequest().body(classes);
         }
 
-        //classService.validateDuplicateClass(form1.getInstructorId()); // classinformation 지우면서 중복 검사를 할 필요가 없을것 같음.
         classService.saveClass(classes);
         return ResponseEntity.ok().body(classes);
     }

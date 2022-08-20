@@ -13,7 +13,7 @@ import java.util.List;
 public interface ClassRepository extends JpaRepository<Classes, Long> {
 
 
-    /*
+    /* 필요없어짐
     //같은 클래스 존재하는지 확인(codeId, instructorId 둘다 같으면 같은 클래스)
     @Query("select c from Classes c where c.instructorC = :instructorId")
     public List<Classes> findByClassInformationAndInstructorC(Instructor instructorId);
