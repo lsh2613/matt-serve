@@ -40,11 +40,6 @@ public class Classes {
     @OneToMany(mappedBy = "classesWS")
     private List<WaitingStudents> waitingStudents = new ArrayList<>();
 
-    //클래스 정보 매핑
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "code_id")
-    private ClassInformation classInformation;
-
     //해당 클래스의 태그 매핑
     @OneToMany(mappedBy = "classesCT")
     private List<ClassTag> classTags = new ArrayList<>();
@@ -68,9 +63,8 @@ public class Classes {
         this.date = date;
     }
 
-    public Classes(Long classId, ClassInformation codeId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+    public Classes(Long classId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
         this.classId = classId;
-        this.classInformation= codeId;
         this.instructorC = instructId;
         this.title = title;
         this.numberOfStudents = numberOfStudents;
@@ -88,10 +82,6 @@ public class Classes {
     }
 
   /*  //==연관관계 메서드==//
-    public void setClassInformation(ClassInformation classInformation) {
-        this.classInformation = classInformation;
-        classInformation.setClasses(this);
-    }
 
     public void setInstructorC(Instructor instructorC) {
         this.instructorC = instructorC;
@@ -99,9 +89,8 @@ public class Classes {
     }
 
     //==생성 메서드==//
-    public static Classes createClass( ClassInformation classInformation, Instructor instructor, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+    public static Classes createClass(Instructor instructor, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
         Classes classes = new Classes();
-        classes.setClassInformation(classInformation);
         classes.setInstructorC(instructor);
         classes.setTitle(title);
         classes.setNumberOfStudents(numberOfStudents);

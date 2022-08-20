@@ -2,29 +2,16 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.ClassInformation;
 import mat.mat_t.domain.class_.Classes;
-import mat.mat_t.domain.user.Instructor;
-import mat.mat_t.domain.user.User;
 import mat.mat_t.form.ClassForm;
-import mat.mat_t.form.ClassInfoForm;
-import mat.mat_t.form.InstructorForm;
-import mat.mat_t.form.UserForm;
-import mat.mat_t.web.repository.ClassRepository;
-import mat.mat_t.web.service.ClassInfoService;
 import mat.mat_t.web.service.ClassService;
-import mat.mat_t.web.service.InstructorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,17 +23,17 @@ public class ClassController {
     @PostMapping(value = "/class/new")
     public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassForm form1, BindingResult bindingResult) {
 
-        Classes classes = new Classes(form1.getClassId(), form1.getCodeId(), form1.getInstructorId(), form1.getTitle(), form1.getNumberOfStudents(),form1.getDescriptions(), form1.getPlace(),
+        Classes classes = new Classes(form1.getClassId(), form1.getInstructorId(), form1.getTitle(), form1.getNumberOfStudents(),form1.getDescriptions(), form1.getPlace(),
                 form1.getStartTime(), form1.getEndTime(), form1.getDays(), form1.getCategory(), form1.getDate());
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(classes);
         }
 
-        classService.validateDuplicateClass(classes.getClassInformation(), form1.getInstructorId());
+        //classService.validateDuplicateClass(form1.getInstructorId()); // classinformation 지우면서 중복 검사를 할 필요가 없을것 같음.
         classService.saveClass(classes);
         return ResponseEntity.ok().body(classes);
-    }   //클래스 생성시 만들어지는 codeId에 따른 codeName이 생성되도록 만들어야함
+    }
 
 
 
