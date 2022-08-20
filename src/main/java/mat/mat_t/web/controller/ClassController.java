@@ -2,8 +2,12 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.DTO.ClassDTO;
+import mat.mat_t.DTO.InstructorDTO;
 import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.form.ClassForm;
+import mat.mat_t.web.repository.ClassDtoRepository;
+import mat.mat_t.web.repository.ClassRepository;
 import mat.mat_t.web.service.ClassService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,12 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Controller
 @RequiredArgsConstructor
 public class ClassController {
 
     private final ClassService classService;
 
+    /**클래스 생성**/
     @ApiOperation(value="신규 클래스 생성")
     @PostMapping(value = "/class/new")
     public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassForm form1, BindingResult bindingResult) {
@@ -52,6 +59,14 @@ public class ClassController {
     @GetMapping(value = "/class")
     public ResponseEntity<List<Classes>> findAll() {
         return ResponseEntity.ok(classService.findAllClass());
+    }
+
+    private final ClassDtoRepository classDtoRepository;
+    /** 전체 클래스 조회**/
+    @ApiOperation(value="전체 클래스 조회 DTO 버전")
+    @GetMapping(value = "/class/DtoView")
+    public ResponseEntity<List<InstructorDTO>> findAll2() {
+        return ResponseEntity.ok(classDtoRepository.findInstructorDTOs());
     }
 
     /** 클래스 아이디 조회**/
