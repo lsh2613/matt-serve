@@ -2,6 +2,7 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.TagInfo;
+import mat.mat_t.form.TagInfoForm;
 import mat.mat_t.web.repository.TagInfoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class TagInfoService {
 
@@ -19,16 +20,10 @@ public class TagInfoService {
      * 태그 정보 생성
      **/
 
-    @Transactional
-    public Long createTagInfo(Long tagInfoId, String tagName) {
+    public void createTagInfo(TagInfo form) {
 
-        validateDuplicateTagInfo(tagName); // 중복 태그 검증
-
-        // 태그 생성
-        TagInfo tagInfo = TagInfo.createTagInfo(tagInfoId, tagName);
-
-        tagInfoRepository.save(tagInfo);
-        return tagInfo.getTagInfoId();
+        //validateDuplicateTagInfo(form.getTagName()); // 중복 태그 검증
+        tagInfoRepository.save(form);
     }
 
     /**

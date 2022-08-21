@@ -28,8 +28,8 @@ public class TagInfoController {
     @PostMapping("/tagInfo")
     public ResponseEntity<TagInfo> createTagInfo(@Valid @RequestBody TagInfoForm form) {
         TagInfo tagInfo = new TagInfo(form);
-        //tagInfoService.validateDuplicateTagInfo(tagInfo.getTagName());
-        //tagInfoService.createTagInfo(tagInfo.getTagInfoId(), tagInfo.getTagName());
+        tagInfoService.createTagInfo(tagInfo);
+        
         return ResponseEntity.ok().body(tagInfo);
 
     }
