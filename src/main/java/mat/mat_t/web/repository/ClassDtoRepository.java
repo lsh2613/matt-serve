@@ -42,8 +42,19 @@ public class ClassDtoRepository {
      */
     private List<ClassDTO> findClasses(Long instructorId) {
         return em.createQuery(
-                        "select new mat.mat_t.DTO.ClassDTO(c.classId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.days, c.category, c.date, c.instructorC.instructorId)" +
+                        "select new mat.mat_t.DTO.ClassDTO(c.classId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.days, c.category, c.startDate, c.endDate, c.instructorC.instructorId)" +
                         " from Classes c" +
+                                " where c.instructorC.instructorId = : instructorId",
+                        ClassDTO.class)
+                .setParameter("instructorId", instructorId)
+                .getResultList();
+    }
+
+    /**강사 아이디로 class 조회**/
+    public List<ClassDTO> findByInstructorId(Long instructorId) {
+        return em.createQuery(
+                        "select new mat.mat_t.DTO.ClassDTO(c.classId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.days, c.category, c.startDate, c.endDate, c.instructorC.instructorId)" +
+                                " from Classes c" +
                                 " where c.instructorC.instructorId = : instructorId",
                         ClassDTO.class)
                 .setParameter("instructorId", instructorId)

@@ -7,7 +7,6 @@ import mat.mat_t.DTO.InstructorDTO;
 import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.form.ClassForm;
 import mat.mat_t.web.repository.ClassDtoRepository;
-import mat.mat_t.web.repository.ClassRepository;
 import mat.mat_t.web.service.ClassService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,7 +29,7 @@ public class ClassController {
     public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassForm form1, BindingResult bindingResult) {
 
         Classes classes = new Classes(form1.getClassId(), form1.getInstructorId(), form1.getTitle(), form1.getNumberOfStudents(),form1.getDescriptions(), form1.getPlace(),
-                form1.getStartTime(), form1.getEndTime(), form1.getDays(), form1.getCategory(), form1.getDate());
+                form1.getStartTime(), form1.getEndTime(), form1.getDays(), form1.getCategory(), form1.getStartDate(), form1.getEndDate());
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(classes);
@@ -49,7 +47,7 @@ public class ClassController {
     @PatchMapping("/class/{classId}/edit")
     public ResponseEntity<Classes> updateClass(@Valid @RequestBody ClassForm form, Long ClassId) {
         Classes classes = new Classes(form.getClassId(), form.getTitle(), form.getNumberOfStudents(),form.getDescriptions(), form.getPlace(),
-                form.getStartTime(), form.getEndTime(), form.getDays(), form.getCategory(), form.getDate());
+                form.getStartTime(), form.getEndTime(), form.getDays(), form.getCategory(), form.getStartDate(), form.getEndDate());
         classService.updateClass(classes, ClassId);
         return ResponseEntity.ok().body(classes);
     }
@@ -61,8 +59,9 @@ public class ClassController {
         return ResponseEntity.ok(classService.findAllClass());
     }
 
+
     private final ClassDtoRepository classDtoRepository;
-    /** 전체 클래스 조회**/
+    /** 전체 클래스 조회 DTO**/
     @ApiOperation(value="전체 클래스 조회 DTO 버전")
     @GetMapping(value = "/class/DtoView")
     public ResponseEntity<List<InstructorDTO>> findAll2() {
@@ -76,13 +75,19 @@ public class ClassController {
         return ResponseEntity.ok().body(classService.findById(classId));
     }
 
+    /** 클래스 강사아이디로 조회로*/
+    @ApiOperation(value="클래스 강사아이디로 조회")
+    @GetMapping("/class/instructor/{instructorId}")
+    public ResponseEntity<List<ClassDTO>> findClassByInstructorId(@PathVariable Long instructorId) {
+        return ResponseEntity.ok().body(classDtoRepository.findByInstructorId(instructorId));
+    }
 
     /**클래스 삭제**/
     @ApiOperation(value = "클래스 삭제")
     @DeleteMapping("class/delete")
     public ResponseEntity<Classes> DeleteClass(@Valid @RequestBody ClassForm form, Long classId) {
         Classes classes = new Classes(form.getClassId(), form.getTitle(), form.getNumberOfStudents(),form.getDescriptions(), form.getPlace(),
-                form.getStartTime(), form.getEndTime(), form.getDays(), form.getCategory(), form.getDate());
+                form.getStartTime(), form.getEndTime(), form.getDays(), form.getCategory(), form.getStartDate(), form.getEndDate());
         classService.deleteClass(classId);
         return ResponseEntity.ok().body(classes);
     }

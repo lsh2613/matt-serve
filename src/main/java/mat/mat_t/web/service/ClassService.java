@@ -35,7 +35,7 @@ public class ClassService {
 
 
     //클래스 단건 조회
-    public Classes findById(long classId) {
+    public Classes findById(Long classId) {
         return classRepository.findById(classId).orElse(null);
     }
 

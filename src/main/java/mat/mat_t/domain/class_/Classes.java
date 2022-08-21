@@ -3,9 +3,11 @@ package mat.mat_t.domain.class_;
 import lombok.Builder;
 import lombok.Data;
 import mat.mat_t.domain.user.Instructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,13 +23,15 @@ public class Classes {
     private Long numberOfStudents;
     private String descriptions;
     private String place;
-
-    //우선은 문자형으로..
-    private String startTime;   //시작일
-    private String endTime; //종료일
+    private String startTime;   //시작시간
+    private String endTime; //종료시간
     private String days;    //요일
     private String category;
-    private Long date;    //  기간
+
+    @Temporal(TemporalType.DATE)    // 값 입력할 때 '2022-01-01' 이런식으로 입력하면 됨
+    private Date startDate; // 시작날짜
+    @Temporal(TemporalType.DATE)
+    private Date endDate;   //종료날짜
 
     //클래스 수강생 매핑
     @OneToMany(mappedBy = "classesCS")
@@ -47,7 +51,7 @@ public class Classes {
     private Instructor instructorC;
 
     @Builder
-    public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+    public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Date startDate, Date endDate) {
         this.classId = classId;
         this.title = title;
         this.numberOfStudents = numberOfStudents;
@@ -57,10 +61,11 @@ public class Classes {
         this.endTime = endTime;
         this.days = days;
         this.category = category;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public Classes(Long classId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+    public Classes(Long classId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Date startDate, Date endDate) {
         this.classId = classId;
         this.instructorC = instructId;
         this.title = title;
@@ -71,7 +76,8 @@ public class Classes {
         this.endTime = endTime;
         this.days = days;
         this.category = category;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 
@@ -87,7 +93,10 @@ public class Classes {
         this.endTime = upClasses.getEndTime();
         this.days = upClasses.getDays();
         this.category = upClasses.getCategory();
-        this.date = upClasses.getDate();
+        this.startDate = upClasses.getStartDate();
+        this.endDate = upClasses.getEndDate();
     }
+
+
 
 }

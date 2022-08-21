@@ -2,6 +2,9 @@ package mat.mat_t.form;
 
 import lombok.Data;
 import mat.mat_t.domain.user.Instructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Data
 public class ClassForm {
@@ -16,7 +19,8 @@ public class ClassForm {
     private String endTime; //종료일
     private String days;    //요일
     private String category;
-    private Long date;    //  기간
+    private Date startDate; // 시작날짜
+    private Date endDate;   //종료날짜
 
 
 
