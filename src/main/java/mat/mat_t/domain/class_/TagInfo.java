@@ -17,7 +17,7 @@ public class TagInfo {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "tagInfo_id")
     private Long tagInfoId;
 

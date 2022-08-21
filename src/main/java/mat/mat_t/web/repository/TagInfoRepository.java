@@ -16,8 +16,10 @@ public class TagInfoRepository {
 
     // 태그 정보 생성
     public void save(TagInfo tagInfo) {
-        em.persist(tagInfo);
+        em.merge(tagInfo);
+
     }
+            
 
     //같은 태그 정보가 존재하는지 확인(tagInfoId 같으면 같은 클래스)
     public List<TagInfo> findSameTagInfo(String tagName) {
