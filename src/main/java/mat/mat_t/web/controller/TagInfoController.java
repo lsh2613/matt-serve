@@ -27,9 +27,9 @@ public class TagInfoController {
     @ApiOperation(value = "태그 정보 생성")
     @PostMapping("/tagInfo")
     public ResponseEntity<TagInfo> createTagInfo(@Valid @RequestBody TagInfoForm form) {
-        TagInfo tagInfo = new TagInfo(form.getTagInfoId(), form.getTagName());
-        tagInfoService.validateDuplicateTagInfo(tagInfo.getTagName());
-        tagInfoService.createTagInfo(tagInfo.getTagInfoId(), tagInfo.getTagName());
+        TagInfo tagInfo = new TagInfo(form);
+        //tagInfoService.validateDuplicateTagInfo(tagInfo.getTagName());
+        //tagInfoService.createTagInfo(tagInfo.getTagInfoId(), tagInfo.getTagName());
         return ResponseEntity.ok().body(tagInfo);
 
     }
@@ -63,10 +63,9 @@ public class TagInfoController {
      **/
     @ApiOperation(value = "전체 태그 정보 조회")
     @GetMapping(value = "/tagInfo")
-    public String list(Model model) {
+    public ResponseEntity<List<TagInfo>> list() {
         List<TagInfo> tagInfo = tagInfoService.findTagInfo();
-        model.addAttribute("tagInfo", tagInfo);
-        return "tagInfo/tagInfoList";
+        return ResponseEntity.ok().body(tagInfo);
     }
 
     /**
