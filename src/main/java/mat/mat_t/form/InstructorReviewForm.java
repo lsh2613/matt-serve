@@ -13,9 +13,9 @@ public class InstructorReviewForm {
     @NotEmpty
     private String reviewContent;
 
-    @NotEmpty
-    private String reviewer;
+    @NotNull
+    private int loginId;
 
-    @NotEmpty
-    private String reviewers;
+    @NotNull
+    private int classId;
 }

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,12 +34,19 @@ public class ReviewController {
     @PostMapping("instructorReview/save")
     public ResponseEntity<InstructorReview> instructorReviewCreate(@Valid @RequestBody InstructorReviewForm form) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
-        instructorReviewService.checkReview(instructorReview, form.getReviewer(), form.getReviewers());
         instructorReviewService.saveReview(instructorReview);
+        long reviewId=instructorReview.getInsReviewId();
+        //로직 들가야함
         return ResponseEntity.ok().body(instructorReview);
-
     }
 
+    @ApiOperation(value = "선생 리뷰조회")
+    @GetMapping("instructorReview")
+    public String instructorReviewCheck(Model model) {
+        List reviews = instructorReviewService.checkReview();
+        model.addAttribute("reviews", reviews);
+        return "review/reviewList";
+    }
 
     @ApiOperation(value = "선생 리뷰수정")
     @PatchMapping("instructorReview/update")
@@ -86,5 +94,6 @@ public class ReviewController {
         studentReviewService.deleteReview(id);
         return ResponseEntity.ok().body(studentReview);
     }
+
 
 }

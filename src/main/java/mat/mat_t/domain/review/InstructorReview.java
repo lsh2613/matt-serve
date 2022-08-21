@@ -18,9 +18,6 @@
         private float score;
         private String reviewContent;
 
-        @OneToOne(mappedBy = "instructorReview")
-        private ClassStudents classStudents;
-
         public InstructorReview() {
         }
 
