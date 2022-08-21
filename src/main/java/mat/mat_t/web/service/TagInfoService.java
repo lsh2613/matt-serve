@@ -1,7 +1,6 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.domain.class_.TagInfo;
 import mat.mat_t.web.repository.TagInfoRepository;
 import org.springframework.stereotype.Service;
@@ -16,47 +15,58 @@ public class TagInfoService {
 
     private final TagInfoRepository tagInfoRepository;
 
-    /**태그 정보 생성**/
+    /**
+     * 태그 정보 생성
+     **/
 
     @Transactional
     public Long createTagInfo(Long tagInfoId, String tagName) {
 
-        validateDuplicateTagInfo(tagInfoId); // 중복 태그 검증
-
-        // 엔티티 조회
-        TagInfo tagInfo = tagInfoRepository.findById(tagInfoId);
+        validateDuplicateTagInfo(tagName); // 중복 태그 검증
 
         // 태그 생성
+        TagInfo tagInfo = TagInfo.createTagInfo(tagInfoId, tagName);
 
-        TagInfo newtagInfo = TagInfo.createTagInfo(tagInfoId, tagName);
-
-        tagInfoRepository.save(newtagInfo);
-        return newtagInfo.getTagInfoId();
+        tagInfoRepository.save(tagInfo);
+        return tagInfo.getTagInfoId();
     }
 
-    /** 중복 클래스 검사 **/
-    private void validateDuplicateTagInfo(Long tagInfoId) {
-        List<TagInfo> findTagInfo =   tagInfoRepository.findSameTagInfo(tagInfoId);
+    /**
+     * 중복 클래스 검사
+     **/
+    public void validateDuplicateTagInfo(String tagName) {
+        List<TagInfo> findTagInfo = tagInfoRepository.findSameTagInfo(tagName);
         if (!findTagInfo.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 태그 정보입니다."); }
+            throw new IllegalStateException("이미 존재하는 태그 정보입니다.");
+        }
     }
-    /**태그 수정**/
+
+    /**
+     * 태그 수정
+     **/
     public void updateTagInfo(TagInfo tagInfo) {
-
+        tagInfoRepository.save(tagInfo);
     }
 
-    /**전체 태그 조회**/
-    public List<TagInfo> findTagInfo (){
+    /**
+     * 태그 삭제
+     **/
+    public void deleteTagInfo(TagInfo tagInfo) {
+        tagInfoRepository.delete(tagInfo);
+    }
+
+    /**
+     * 전체 태그 조회
+     **/
+    public List<TagInfo> findTagInfo() {
         return tagInfoRepository.findAll();
     }
 
-    /**태그 개별 조회**/
+    /**
+     * 태그 개별 조회
+     **/
     public TagInfo findOne(Long tagInfoId) {
         return tagInfoRepository.findById(tagInfoId);
     }
 
-    //삭제
-    public void deleteTagInfo() {
-
-    }
 }
