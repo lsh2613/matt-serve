@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 public class WaitingStudent {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "waiting_id")
     private Long waitingId;
 

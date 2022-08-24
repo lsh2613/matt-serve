@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class StudentReview {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "stRe_id")
     private Long stReId;
 

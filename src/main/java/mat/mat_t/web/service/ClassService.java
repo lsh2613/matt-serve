@@ -6,6 +6,7 @@ import mat.mat_t.web.repository.ClassRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 
@@ -44,5 +45,9 @@ public class ClassService {
         return classRepository.findAll();
     }
 
+    //클래스 강사 아이디로 조회
+    public List<Classes> findByInstructorId(Long InstructorId) {
+        return classRepository.findByInstructorC_InstructorId(InstructorId);
+    }
 
 }

@@ -14,9 +14,10 @@ import java.util.List;
 @Table(name="user_")
 public class User {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "student_id")
     private Long id;
+
     private String loginId;
     private String password;
     private String name;
