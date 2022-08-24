@@ -10,14 +10,10 @@
     @Setter
     public class InstructorReview {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "insRe_id")
-        private Long insReviewId;
-
-        private float score;
-        private String reviewContent;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "insRe_id")
+    private Long insReviewId;
         public InstructorReview() {
         }
 
