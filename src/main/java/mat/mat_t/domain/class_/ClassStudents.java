@@ -37,4 +37,6 @@ public class ClassStudents {
     @JoinColumn(name = "insRe_id")
     private InstructorReview instructorReview;
 
+
+
 }
