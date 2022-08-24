@@ -3,6 +3,7 @@ package mat.mat_t.domain.user;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.Classes;
+import mat.mat_t.form.InstructorForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,5 +45,11 @@ public class Instructor {
 
     public void update(Instructor upInstructor) {
         this.major = upInstructor.getMajor();
+    }
+
+    //InstructorForm 이용한 생성자 생성
+    public Instructor(InstructorForm form) {
+        this.instructorId = form.getInstructorId();
+        this.major = form.getMajor();
     }
 }

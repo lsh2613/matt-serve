@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,12 +20,19 @@ public class InstructorController {
 
     private final InstructorService instructorService;
 
+    /**
+     * 강사 테이블 생성 후 유저 테이블의 강사 번호를 update 해줘야함
+     * 강사와 유저 데이터가 매핑 된 후에 조회 가능함
+     * 유저에 강사번호가 남아있을시 강사 테이블 삭제 안됨
+     * **/
+
+
     /**강사 생성**/
     @ApiOperation(value="강사 생성")
     @PostMapping(value = "/instructor/new")
-    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody Instructor form, BindingResult bindingResult) {
+    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorForm form, BindingResult bindingResult) {
 
-        Instructor instructor = new Instructor(form.getInstructorId(), form.getMajor());
+        Instructor instructor = new Instructor(form);
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(instructor);
@@ -46,15 +54,36 @@ public class InstructorController {
     /**강사 조회**/
     @ApiOperation(value="강사 조회")
     @GetMapping(value = "/instructor")
-    public ResponseEntity<List<Instructor>> findAll() {
-        return ResponseEntity.ok(instructorService.findAllInstructor());
+    public ResponseEntity<List<InstructorForm>> findAll() {
+        List<Instructor> instructors = new ArrayList<>();
+        List<InstructorForm> list = new ArrayList<>();
+
+        instructors = instructorService.findAllInstructor();
+        instructors.forEach(el -> {
+            InstructorForm data = new InstructorForm(el);
+            list.add(data);
+        });
+        return ResponseEntity.ok().body(list);
+    }
+
+    /** 강사 아이디로 조회**/
+    @ApiOperation(value="강사 아이디로 조회")
+    @GetMapping("/instructor/{instructorId}")
+    public ResponseEntity<List<InstructorForm>> findInstructorById( @PathVariable Long instructorId) {
+        Instructor instructor = new Instructor();
+        List<InstructorForm> list = new ArrayList<>();
+
+        instructor = instructorService.findById(instructorId);
+        InstructorForm data = new InstructorForm(instructor);
+        list.add(data);
+        return ResponseEntity.ok().body(list);
     }
 
     /**강사 삭제**/
     @ApiOperation(value = "강사 삭제")
     @DeleteMapping("/instructor/delete")
     public ResponseEntity<Instructor> deleteClassInfo(@Valid @RequestBody InstructorForm form, Long instructorId) {
-        Instructor instructor = new Instructor(form.getInstructorId(), form.getMajor());
+        Instructor instructor = new Instructor(form);
         instructorService.deleteInstructor(instructorId);
         return ResponseEntity.ok().body(instructor);
     }
