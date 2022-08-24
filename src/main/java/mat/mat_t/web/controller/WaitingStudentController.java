@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Enumeration;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,17 +29,24 @@ public class WaitingStudentController {
     @PostMapping("/waitingStudent/add/{classId}")
     public ResponseEntity add(@PathVariable Long classId,
                               @RequestParam String content,
-                              HttpServletRequest request){
+                              HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
-        User loginUser = (User)session.getAttribute("loginUser");
+        User loginUser = (User) session.getAttribute("loginUser");
 
         WaitingStudent waitingStudent = new WaitingStudent();
         waitingStudent.setUserWS(loginUser);
-        waitingStudent.setClassesWS(classService.findOne(classId));
+        waitingStudent.setClassesWS(classService.findById(classId));
         waitingStudent.setContent(content);
+        waitingStudentsService.add(waitingStudent);
 
         return ResponseEntity.ok(waitingStudent);
     }
 
+    @ApiOperation("해당 클래스에 신청한 학생들 조회")
+    @GetMapping("/waitingStudent/list/{classId}")
+    public ResponseEntity listStudents(@PathVariable Long classId) {
+        List<WaitingStudent> classStudents = waitingStudentsService.findStudentsByClassId(classId);
+        return ResponseEntity.ok(classStudents);
+    }
 }

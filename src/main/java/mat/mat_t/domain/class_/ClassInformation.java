@@ -2,11 +2,15 @@ package mat.mat_t.domain.class_;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+//@Data
+@Getter
+@Setter
 public class ClassInformation {
 
     @Id

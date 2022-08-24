@@ -2,6 +2,8 @@ package mat.mat_t.domain.class_;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import mat.mat_t.domain.user.Instructor;
 
 import javax.persistence.*;
@@ -9,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+//@Data
+@Getter
+@Setter
 public class Classes {
 
     @Id
@@ -67,7 +71,7 @@ public class Classes {
 
     public Classes(Long classId, ClassInformation codeId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
         this.classId = classId;
-        this.classInformation= codeId;
+        this.classInformation = codeId;
         this.instructorC = instructId;
         this.title = title;
         this.numberOfStudents = numberOfStudents;

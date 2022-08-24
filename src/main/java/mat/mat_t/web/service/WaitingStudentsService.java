@@ -30,4 +30,8 @@ public class WaitingStudentsService {
     public void delete(WaitingStudent student) {
         waitingStudentsRepository.remove(student);
     }
+
+    public List<WaitingStudent> findStudentsByClassId(Long classId) {
+        return waitingStudentsRepository.findListByClassId(classId);
+    }
 }
