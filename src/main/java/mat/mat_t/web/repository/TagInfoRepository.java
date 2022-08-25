@@ -14,15 +14,9 @@ public class TagInfoRepository {
 
 
     // 태그 정보 생성
-<<<<<<< HEAD
-    public void save(TagInfo tagInfo) {
-        em.merge(tagInfo);
-
-=======
     public Long save(TagInfo tagInfo) {
         em.merge(tagInfo);
         return tagInfo.getTagInfoId();
->>>>>>> 60808ee111cd0a79a95dbb4f651500b34a2dc9f4
     }
             
 
