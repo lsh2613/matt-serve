@@ -2,10 +2,12 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.form.InstructorReviewForm;
 import mat.mat_t.form.StudentReviewForm;
+import mat.mat_t.web.service.ClassStudentsService;
 import mat.mat_t.web.service.InstructorReviewService;
 import mat.mat_t.web.service.StudentReviewService;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class ReviewController {
 
     private final StudentReviewService studentReviewService;
     private final InstructorReviewService instructorReviewService;
+    private final ClassStudentsService classStudentsService;
 
     @ApiOperation(value = "선생 리뷰화면")
 //    @GetMapping("/instructorReview")
@@ -34,9 +37,9 @@ public class ReviewController {
     @PostMapping("instructorReview/save")
     public ResponseEntity<InstructorReview> instructorReviewCreate(@Valid @RequestBody InstructorReviewForm form) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
+        ClassStudents classStudents=new ClassStudents();
         instructorReviewService.saveReview(instructorReview);
-        long reviewId=instructorReview.getInsReviewId();
-        //로직 들가야함
+        classStudentsService.(classStudents,form.getLoginId(),form.getClassId(),instructorReview.getInsReviewId());
         return ResponseEntity.ok().body(instructorReview);
     }
 
@@ -94,6 +97,4 @@ public class ReviewController {
         studentReviewService.deleteReview(id);
         return ResponseEntity.ok().body(studentReview);
     }
-
-
 }

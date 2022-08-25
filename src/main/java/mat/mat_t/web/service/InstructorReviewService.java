@@ -42,6 +42,4 @@ public class InstructorReviewService {
         List<InstructorReview> instructorReviews = instructorReviewRepository.findAll();
         return instructorReviews;
     }
-
-
 }
