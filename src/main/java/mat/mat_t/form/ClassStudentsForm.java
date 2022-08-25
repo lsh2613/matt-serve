@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ClassStudentsForm {
 
-    @NotEmpty
-    private String classId;
+    @NotNull
+    private Long classId;
 
-    @NotEmpty
-    private String loginId;
+    @NotNull
+    private Long loginId;
 
 }

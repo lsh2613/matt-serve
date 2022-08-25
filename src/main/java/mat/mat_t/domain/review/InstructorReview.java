@@ -30,4 +30,9 @@
             this.score = newInstructorReview.getScore();
             this.reviewContent = newInstructorReview.getReviewContent();
         }
+
+        public InstructorReview getId(Long id){
+            this.insReviewId=id;
+            return null;
+        }
     }

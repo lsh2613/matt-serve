@@ -26,7 +26,7 @@ public class ClassStudentsService {
         classStudentsRepository.deleteById(id);
     }
 
-    public void matchReview(ClassStudents classStudents, String userId, String classId, InstructorReview id){
+    public void matchReview(ClassStudents classStudents, Long userId, Long classId, InstructorReview id){
         if(classStudents.getUserCS().getId().equals(userId)&&classStudents.getClassesCS().getClassId().equals(classId))
             classStudents.setInstructorReview(id);
     }

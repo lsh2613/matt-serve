@@ -39,7 +39,8 @@ public class ReviewController {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         ClassStudents classStudents=new ClassStudents();
         instructorReviewService.saveReview(instructorReview);
-        classStudentsService.(classStudents,form.getLoginId(),form.getClassId(),instructorReview.getInsReviewId());
+        long insId=instructorReview.getInsReviewId();
+        classStudentsService.matchReview(classStudents,form.getLoginId(),form.getClassId(),instructorReview.getId(insId));
         return ResponseEntity.ok().body(instructorReview);
     }
 
@@ -48,7 +49,7 @@ public class ReviewController {
     public String instructorReviewCheck(Model model) {
         List reviews = instructorReviewService.checkReview();
         model.addAttribute("reviews", reviews);
-        return "review/reviewList";
+        return "/reviewList";
     }
 
     @ApiOperation(value = "선생 리뷰수정")

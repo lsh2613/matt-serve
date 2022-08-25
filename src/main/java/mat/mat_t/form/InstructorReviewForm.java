@@ -14,8 +14,8 @@ public class InstructorReviewForm {
     private String reviewContent;
 
     @NotNull
-    private int loginId;
+    private Long loginId;
 
     @NotNull
-    private int classId;
+    private Long classId;
 }
