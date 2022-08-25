@@ -14,13 +14,14 @@ public class TagInfoRepository {
 
 
     // 태그 정보 생성
-    public void save(TagInfo tagInfo) {
+    public Long save(TagInfo tagInfo) {
         em.merge(tagInfo);
+        return tagInfo.getTagInfoId();
     }
 
     // 태그 정보 생성
-    public void update(TagInfo tagInfo, String tagName) {
-        TagInfo findTagInfo = em.find(TagInfo.class, tagInfo.getTagInfoId());
+    public void update(Long tagInfoId, String tagName) {
+        TagInfo findTagInfo = em.find(TagInfo.class, tagInfoId);
         findTagInfo.setTagName(tagName);
     }
 

@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.TagInfo;
 import mat.mat_t.form.TagInfoForm;
 import mat.mat_t.web.service.TagInfoService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +28,7 @@ public class TagInfoController {
     public ResponseEntity<TagInfo> createTagInfo(@Valid @RequestBody TagInfoForm form) {
         TagInfo tagInfo = new TagInfo(form);
         tagInfoService.createTagInfo(tagInfo);
-        
+
         return ResponseEntity.ok().body(tagInfo);
     }
 
@@ -38,9 +38,10 @@ public class TagInfoController {
 
     @ApiOperation(value = "태그 정보 수정")
     @PatchMapping("/tagInfo/update")
-    public ResponseEntity<TagInfo> updateTagInfo(@Valid @RequestBody TagInfoForm form, String tagName) {
-        TagInfo tagInfo = new TagInfo(form.getTagInfoId(), form.getTagName());
-        tagInfoService.updateTagInfo(tagInfo, tagName);
+    public ResponseEntity<TagInfo> updateTagInfo(@Valid @RequestParam("tagInfoId") Long tagInfoId,
+                                                 @RequestParam("tagInfoName")String tagInfoName) {
+        TagInfo tagInfo = new TagInfo(tagInfoId, tagInfoName);
+        tagInfoService.updateTagInfo(tagInfoId, tagInfoName);
 
         return ResponseEntity.ok().body(tagInfo);
     }

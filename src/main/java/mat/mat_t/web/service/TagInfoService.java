@@ -27,8 +27,8 @@ public class TagInfoService {
     /**
      * 태그 수정
      **/
-    public void updateTagInfo(TagInfo tagInfo, String tagName) {
-        tagInfoRepository.update(tagInfo, tagName);
+    public void updateTagInfo(Long tagInfoId, String tagInfoName) {
+        tagInfoRepository.update(tagInfoId, tagInfoName);
     }
 
     /**

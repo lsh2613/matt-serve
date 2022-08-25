@@ -11,8 +11,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Getter
-@Setter
 public class TagInfo {
 
     @Id
