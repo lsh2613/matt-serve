@@ -2,7 +2,6 @@
 
     import lombok.Getter;
     import lombok.Setter;
-    import mat.mat_t.domain.class_.ClassStudents;
     import javax.persistence.*;
 
     @Entity
@@ -14,6 +13,9 @@
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "insRe_id")
     private Long insReviewId;
+
+    private String reviewContent;
+    private float score;
         public InstructorReview() {
         }
 
