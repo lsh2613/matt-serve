@@ -60,7 +60,7 @@ public class TagInfoService {
     /**
      * 태그 개별 조회
      **/
-    public TagInfo findOne(Long tagInfoId) {
+    public TagInfo findByTagId(Long tagInfoId) {
         return tagInfoRepository.findById(tagInfoId);
     }
 
