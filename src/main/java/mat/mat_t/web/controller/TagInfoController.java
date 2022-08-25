@@ -8,10 +8,7 @@ import mat.mat_t.web.service.TagInfoService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-<<<<<<< HEAD
 
-=======
->>>>>>> 60808ee111cd0a79a95dbb4f651500b34a2dc9f4
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
