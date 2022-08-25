@@ -2,8 +2,6 @@ package mat.mat_t.domain.class_;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.form.ClassForm;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,8 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 public class Classes implements Serializable {
 
     @Id
@@ -45,12 +42,6 @@ public class Classes implements Serializable {
     @OneToMany(mappedBy = "classesWS")
     private List<WaitingStudent> waitingStudents = new ArrayList<>();
 
-    //클래스 정보 매핑
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "code_id")
-    private ClassInformation classInformation;
-
-
     //해당 클래스의 태그 매핑
     @OneToMany(mappedBy = "classesCT")
     private List<ClassTag> classTags = new ArrayList<>();
@@ -64,31 +55,18 @@ public class Classes implements Serializable {
     @OneToMany(mappedBy = "classesDay")
     private List<ClassDay> days = new ArrayList<>();
 
-
-    // public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime,  String category, Date startDate, Date endDate) {
-    //     this.classId = classId;
-    //     this.title = title;
-    //     this.numberOfStudents = numberOfStudents;
-    //     this.descriptions = descriptions;
-    //     this.place = place;
-    //     this.startTime = startTime;
-    //     this.endTime = endTime;
-    //     this.category = category;
-    //     this.startDate = startDate;
-    //     this.endDate = endDate;
-    // }
-    public Classes(Long classId, ClassInformation codeId, Instructor instructId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String days, String category, Long date) {
+    @Builder
+    public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime,  String category, Date startDate, Date endDate) {
         this.classId = classId;
-        this.classInformation = codeId;
-        this.instructorC = instructId;
         this.title = title;
         this.numberOfStudents = numberOfStudents;
         this.descriptions = descriptions;
         this.place = place;
         this.startTime = startTime;
         this.endTime = endTime;
-
         this.category = category;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     //ClassForm을 이용한 생성자 생성
@@ -104,7 +82,6 @@ public class Classes implements Serializable {
         this.category = form.getCategory();
         this.startDate = form.getStartDate();
         this.endDate = form.getEndDate();
-
     }
 
 
