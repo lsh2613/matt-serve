@@ -2,6 +2,9 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.WaitingStudent;
+
+import mat.mat_t.domain.user.User;
+
 import mat.mat_t.web.repository.WaitingStudentsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,7 @@ public class WaitingStudentsService {
     private final WaitingStudentsRepository waitingStudentsRepository;
 
     public void add(WaitingStudent student) {
+
         hasDuplicate(student);
         waitingStudentsRepository.save(student);
     }
@@ -27,11 +31,15 @@ public class WaitingStudentsService {
         }
     }
 
+
+
     public void delete(WaitingStudent student) {
         waitingStudentsRepository.remove(student);
     }
 
+
     public List<WaitingStudent> findStudentsByClassId(Long classId) {
         return waitingStudentsRepository.findListByClassId(classId);
     }
+
 }

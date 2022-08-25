@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class ClassTag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "tagCl_id")
     private Long tagClId;
 

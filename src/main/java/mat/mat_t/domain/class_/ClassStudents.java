@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 public class ClassStudents {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "classLi_id")
     private Long classListId;
 
@@ -36,5 +36,7 @@ public class ClassStudents {
     @OneToOne
     @JoinColumn(name = "insRe_id")
     private InstructorReview instructorReview;
+
+
 
 }

@@ -12,18 +12,20 @@ import javax.persistence.*;
 @Setter
 public class WaitingStudent {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "waiting_id")
     private Long waitingId;
 
+    //pull 했을때 밑에 부분 주석 처리되어 있었는데 일단 다른거 만들려면 있어야 해서 난 주석 풀고 돌림,,
+//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private User userWS;
-
+//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
     private Classes classesWS;
-
+//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
     private Instructor instructorWS;

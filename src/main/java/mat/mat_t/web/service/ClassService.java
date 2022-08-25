@@ -1,17 +1,12 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.ClassInformation;
 import mat.mat_t.domain.class_.Classes;
-import mat.mat_t.domain.user.Instructor;
-import mat.mat_t.web.repository.ClassInfoRepository;
 import mat.mat_t.web.repository.ClassRepository;
-import mat.mat_t.web.repository.InstructorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
+import java.awt.print.Pageable;
 import java.util.List;
 
 
@@ -39,15 +34,9 @@ public class ClassService {
         classRepository.deleteById(ClassId);
     }
 
-    //중복 클래스 검사
-    public void validateDuplicateClass(ClassInformation codeId,Instructor instructorId){
-        List<Classes> findClasses =   classRepository.findByClassInformationAndInstructorC(codeId, instructorId);
-        if (!findClasses.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 클래스입니다."); }
-    }
 
     //클래스 단건 조회
-    public Classes findById(long classId) {
+    public Classes findById(Long classId) {
         return classRepository.findById(classId).orElse(null);
     }
 
@@ -56,5 +45,9 @@ public class ClassService {
         return classRepository.findAll();
     }
 
+    //클래스 강사 아이디로 조회
+    public List<Classes> findByInstructorId(Long InstructorId) {
+        return classRepository.findByInstructorC_InstructorId(InstructorId);
+    }
 
 }

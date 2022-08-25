@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +34,7 @@ public class WaitingStudentsServiceTest {
     public void add() throws Exception{
         //given
         WaitingStudent waitingStudent = new WaitingStudent();
+
         waitingStudent.setContent("test");
 
         User user = new User();
@@ -42,11 +43,24 @@ public class WaitingStudentsServiceTest {
         Classes classes = new Classes();
         waitingStudent.setClassesWS(classes);
 
+        waitingStudent.setWaitingId(1L);
+        waitingStudent.setContent("test");
+//
+//        User user = new User();
+//        user.setId(1L);
+//        waitingStudent.setUserWS(new User());
+//
+//        Classes classes = new Classes();
+//        classes.setClassId(1L);
+//        waitingStudent.setClassesWS(new Classes());
+
+
         //when
         waitingStudentsService.add(waitingStudent);
 
         //then
         assertEquals(waitingStudent, waitingStudentsRepository.findOne(1L));
+
     }
 
     @Test(expected = IllegalStateException.class)
@@ -116,6 +130,7 @@ public class WaitingStudentsServiceTest {
 
         //then
         assertNull(waitingStudentsRepository.findOne(1L));
+
 
     }
 

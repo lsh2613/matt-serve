@@ -1,28 +1,18 @@
 package mat.mat_t.web.repository;
 
 
-import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.ClassInformation;
 import mat.mat_t.domain.class_.Classes;
-import mat.mat_t.domain.user.Instructor;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
+import java.awt.print.Pageable;
 import java.util.List;
+
 
 @Repository
 public interface ClassRepository extends JpaRepository<Classes, Long> {
 
-
-    //같은 클래스 존재하는지 확인(codeId, instructorId 둘다 같으면 같은 클래스)
-    @Query("select c from Classes c where c.classInformation = :codeId and c.instructorC = :instructorId")
-    public List<Classes> findByClassInformationAndInstructorC(ClassInformation codeId, Instructor instructorId);
-
-    //강사 아이디로 조회
-    @Query("select c from Classes c where c.instructorC = :instructorId")
-    public List<Classes> findByInstructorC(Long instructorId);
-
+    List findByInstructorC_InstructorId(@Param(value = "instructor_id") Long instructorId);
 
 }
