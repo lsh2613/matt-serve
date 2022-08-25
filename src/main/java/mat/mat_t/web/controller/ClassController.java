@@ -2,13 +2,9 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.ClassInformation;
 import mat.mat_t.domain.class_.Classes;
-import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.form.ClassForm;
-import mat.mat_t.web.service.ClassInfoService;
 import mat.mat_t.web.service.ClassService;
-import mat.mat_t.web.service.InstructorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,110 +12,101 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
 public class ClassController {
 
     private final ClassService classService;
-    private final InstructorService instructorService;
-    private final ClassInfoService classInfoService;
 
-    /** 클래스 생성**/
-    @ApiOperation(value="신규 클래스 생성")
-    @GetMapping("/class/new")
-    public String createForm(Model model) {
-        List<Instructor> instructors = instructorService.findAllInstructor();
-        List<ClassInformation> codeInfo = classInfoService.findAllCodeInfo();
-        model.addAttribute("instructors", instructors);
-        model.addAttribute("codeInfo", codeInfo);
-        model.addAttribute("form", new ClassForm());
-        return "class/createClassForm";
-    }
-
+    /**클래스 생성**/
     @ApiOperation(value="신규 클래스 생성")
     @PostMapping(value = "/class/new")
-    public String classes(@RequestParam("codeId") Long codeId,
-                          @RequestParam("instructorId") Long instructorId,
-                          @RequestParam("title") String  title,
-                          @RequestParam("numberOfStudents") Long  numberOfStudents,
-                          @RequestParam("descriptions") String  descriptions,
-                          @RequestParam("place") String  place,
-                          @RequestParam("startTime") String  startTime,
-                          @RequestParam("endTime") String  endTime,
-                          @RequestParam("days") String  days,
-                          @RequestParam("category") String  category,
-                          @RequestParam("date") Long  date) {
-        classService.create(codeId, instructorId, title, numberOfStudents, descriptions, place, startTime, endTime, days, category, date);
-        return "redirect:/class";
-    }
+    public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassForm form, BindingResult bindingResult) {
 
+        Classes classes = new Classes(form);
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(classes);
+        }
+
+        classService.saveClass(classes);
+        return ResponseEntity.ok().body(classes);
+    }
 
     /**클래스 수정**/
+    /*클래스 아이디, 강사아이디, 코드아이디는 변경안되게 함*/
     @ApiOperation(value="클래스 수정")
-    @GetMapping(value = "/class/{classId}/edit")
-    public String updateClassForm(@PathVariable("classId") Long classId, Model model) {
-        Classes classes = (Classes) classService.findOne(classId);
-        ClassForm form = new ClassForm();
-        form.setClassId(classes.getClassId());
-        form.setTitle(classes.getTitle());
-        form.setNumberOfStudents(classes.getNumberOfStudents());
-        form.setDescriptions(classes.getDescriptions());
-        form.setPlace(classes.getPlace());
-        form.setStartTime(classes.getStartTime());
-        form.setEndTime(classes.getEndTime());
-        form.setDays(classes.getDays());
-        form.setCategory(classes.getCategory());
-        form.setDate(classes.getDate());
-        model.addAttribute("form", form);
-        return "class/updateClassForm";
-    }
-
-    @ApiOperation(value="클래스 수정")
-    @PostMapping(value = "/class/{classId}/edit")
-    public String updateClass(@ModelAttribute("form") ClassForm form) {
-        Classes classes = new Classes();
-        classes.setClassId(form.getClassId());
-        classes.setTitle(form.getTitle());
-        classes.setNumberOfStudents(form.getNumberOfStudents());
-        classes.setDescriptions(form.getDescriptions());
-        classes.setPlace(form.getPlace());
-        classes.setStartTime(form.getStartTime());
-        classes.setEndTime(form.getEndTime());
-        classes.setDays(form.getDays());
-        classes.setCategory(form.getCategory());
-        classes.setDate(form.getDate());
-        classService.updateClass(classes);
-        return "redirect:/class";
+    @PatchMapping("/class/{classId}/edit")
+    public ResponseEntity<Classes> updateClass(@Valid @RequestBody ClassForm form, Long ClassId) {
+        Classes classes = new Classes(form.getClassId(), form.getTitle(), form.getNumberOfStudents(),form.getDescriptions(), form.getPlace(),
+                form.getStartTime(), form.getEndTime(), form.getCategory(), form.getStartDate(), form.getEndDate());
+        classService.updateClass(classes, ClassId);
+        return ResponseEntity.ok().body(classes);
     }
 
 
     /** 전체 클래스 조회**/
+    /*
+     * clasForm 을 dto 로 사용하여 전체 클래스 출력하기
+     * return 결과는 body 에 담아둘 것
+     */
     @ApiOperation(value="전체 클래스 조회")
     @GetMapping(value = "/class")
-    public String list(Model model) {
-        List<Classes> classes = classService.findClasses();
-        model.addAttribute("classes", classes);
-        return "class/classList";
+    public ResponseEntity<List<ClassForm>> findAll() {
+        List<Classes> classes = new ArrayList<>();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findAllClass();
+        classes.forEach(el -> {
+            ClassForm data = new ClassForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
     }
+
 
     /** 클래스 아이디 조회**/
     @ApiOperation(value="클래스 아이디로 조회")
     @GetMapping("/class/{classId}")
-    public Classes getClassById(@PathVariable Long classId) {
-        return classService.findOne(classId);
+    public ResponseEntity<List<ClassForm>> findClassById( @PathVariable Long classId) {
+        Classes classes = new Classes();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findById(classId);
+        ClassForm data = new ClassForm(classes);
+        list.add(data);
+        return ResponseEntity.ok().body(list);
     }
 
-    /*
-    //클래스 삭제
-    @ApiOperation(value="클래스 삭제")
-    @DeleteMapping("/class/{classId}")
-    public void delete(@PathVariable("classId") Long classId){
-        ??
-        return "redirect:/";
+    /**강사 아이디로 클래스 조회**/
+    @ApiOperation(value="클래스 강사아이디로 조회")
+    @GetMapping("/class/instructor/{instructorId}")
+    public ResponseEntity<List<ClassForm>> findClassByInstructorId( @PathVariable Long instructorId) {
+        List<Classes> classes = new ArrayList<>();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findByInstructorId(instructorId);
+        classes.forEach(el -> {
+            ClassForm data = new ClassForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
     }
 
-    */
+
+    /**클래스 삭제**/
+    @ApiOperation(value = "클래스 삭제")
+    @DeleteMapping("class/delete")
+    public ResponseEntity<Classes> DeleteClass(@Valid @RequestBody ClassForm form, Long classId) {
+        Classes classes = new Classes(form);
+        classService.deleteClass(classId);
+        return ResponseEntity.ok().body(classes);
+    }
 
 }
