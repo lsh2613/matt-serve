@@ -11,10 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Getter
-@Setter
 public class TagInfo {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -23,11 +20,6 @@ public class TagInfo {
 
     @Column(name = "tag_name", unique = true)
     private String tagName;
-
-    // 해당 태그 정보 매핑
-    @OneToOne(mappedBy = "tagInfo")
-    private ClassTag classTag;
-
 
     @Builder
     public TagInfo(Long tagInfoId, String tagName) {
@@ -41,16 +33,6 @@ public class TagInfo {
     public TagInfo(TagInfoForm form){
         this.tagInfoId = form.getTagInfoId();
         this.tagName = form.getTagName();
-    }
-
-    // 생성 메소드
-    public static TagInfo createTagInfo(Long tagInfoId, String tagName) {
-
-        TagInfo tagInfo = new TagInfo();
-        tagInfo.setTagInfoId(tagInfoId);
-        tagInfo.setTagName(tagName);
-
-        return tagInfo;
     }
 
 }
