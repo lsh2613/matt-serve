@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.form.ClassForm;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,8 +51,8 @@ public class Classes implements Serializable {
     private Instructor instructorC;
 
     //요일 매핑
-    @OneToMany(mappedBy = "classesDay")
-    private List<ClassDay> days = new ArrayList<>();
+    @OneToMany(mappedBy = "classesD")
+    private List<ClassDay> classDays = new ArrayList<>();
 
     @Builder
     public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime,  String category, Date startDate, Date endDate) {
@@ -84,7 +83,9 @@ public class Classes implements Serializable {
         this.endDate = form.getEndDate();
     }
 
-
+    public Classes(Long classId){
+        this.classId = classId;
+    }
 
     public Classes() {
     }
