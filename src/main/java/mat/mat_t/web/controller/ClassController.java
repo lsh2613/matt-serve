@@ -40,11 +40,11 @@ public class ClassController {
     /**클래스 수정**/
     /*클래스 아이디, 강사아이디, 코드아이디는 변경안되게 함*/
     @ApiOperation(value="클래스 수정")
-    @PatchMapping("/class/{classId}/edit")
-    public ResponseEntity<Classes> updateClass(@Valid @RequestBody ClassForm form, Long ClassId) {
+    @PatchMapping("/class/edit/{classId}")
+    public ResponseEntity<Classes> updateClass(@Valid @RequestBody ClassForm form, @PathVariable Long classId) {
         Classes classes = new Classes(form.getClassId(), form.getTitle(), form.getNumberOfStudents(),form.getDescriptions(), form.getPlace(),
                 form.getStartTime(), form.getEndTime(), form.getCategory(), form.getStartDate(), form.getEndDate());
-        classService.updateClass(classes, ClassId);
+        classService.updateClass(classes, classId);
         return ResponseEntity.ok().body(classes);
     }
 
