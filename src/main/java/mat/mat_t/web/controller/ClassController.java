@@ -102,7 +102,7 @@ public class ClassController {
 
     /**클래스 삭제**/
     @ApiOperation(value = "클래스 삭제")
-    @DeleteMapping("class/delete")
+    @DeleteMapping("/class/delete")
     public ResponseEntity<Classes> DeleteClass(@Valid @RequestBody ClassForm form, Long classId) {
         Classes classes = new Classes(form);
         classService.deleteClass(classId);
