@@ -6,6 +6,8 @@ import mat.mat_t.web.repository.StudentReviewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -28,4 +30,14 @@ public class StudentReviewService {
     public void deleteReview(Long id) {
         studentReviewRepository.deleteById(id);
     }
+
+    public List<StudentReview> checkAll() {
+        return studentReviewRepository.findAll();
+    }
+
+    //클래스 단건 조회
+    public StudentReview check(Long classId) {
+        return studentReviewRepository.findById(classId).orElse(null);
+    }
+
 }

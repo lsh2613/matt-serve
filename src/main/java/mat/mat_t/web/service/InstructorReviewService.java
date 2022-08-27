@@ -15,13 +15,6 @@ public class InstructorReviewService {
 
     private final InstructorReviewRepository instructorReviewRepository;
 
-//    public boolean validateReview(InstructorReview instructorReview,String name1,String name2){
-//        if(name1.equals(instructorReview.getClassStudents().getUserCS().getName())&&name2.equals(instructorReview.getClassStudents().getClassesCS().getTitle())) {
-//            return true;
-//        }
-//        return false;
-//    }
-
     //저장
     public void saveReview(InstructorReview instructorReview) {
         instructorReviewRepository.save(instructorReview);
@@ -33,13 +26,18 @@ public class InstructorReviewService {
         instructorReview.update(newInstructorReview);
     }
 
+    public List<InstructorReview> checkAll() {
+        return instructorReviewRepository.findAll();
+    }
+
     //삭제
     public void deleteReview(Long id) {
         instructorReviewRepository.deleteById(id);
     }
 
-    public List checkReview(){
-        List<InstructorReview> instructorReviews = instructorReviewRepository.findAll();
-        return instructorReviews;
+    //클래스 단건 조회
+    public InstructorReview check(Long classId) {
+        return instructorReviewRepository.findById(classId).orElse(null);
     }
+
 }

@@ -15,11 +15,12 @@ public class StudentReview {
     @Column(name = "stRe_id")
     private Long stReId;
 
-    private float mannerTemperature;  // 평가내용
+    private Long mannerTemperature;  // 평가내용
 
     public StudentReview(){}
 
-    public StudentReview( float mannerTemperature) {
+
+    public StudentReview( Long mannerTemperature) {
         this.mannerTemperature = mannerTemperature;
     }
 

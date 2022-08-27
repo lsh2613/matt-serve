@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.WaitingStudent;
+import mat.mat_t.form.UserForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -56,4 +57,18 @@ public class User {
         this.gender = gender;
     }
 
+    public User(UserForm form){
+        this.id=form.getId();
+    }
+
+    public User(Long id){
+        this.id=id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                '}';
+    }
 }

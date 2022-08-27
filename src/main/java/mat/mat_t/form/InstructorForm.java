@@ -19,6 +19,4 @@ public class InstructorForm {
         this.major = instructor.getMajor();
         this.userIn = instructor.getUserIn().getId();
     }
-
-
 }

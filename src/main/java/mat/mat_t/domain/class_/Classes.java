@@ -84,7 +84,9 @@ public class Classes implements Serializable {
         this.endDate = form.getEndDate();
     }
 
-
+    public Classes(Long id){
+        this.classId=id;
+    }
 
     public Classes() {
     }
@@ -101,6 +103,10 @@ public class Classes implements Serializable {
         this.endDate = upClasses.getEndDate();
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Classes{" +
+                "classId=" + classId +
+                '}';
+    }
 }
