@@ -51,17 +51,14 @@ public class ClassStudents {
         this.userCS = new User(form.getLoginId());
     }
 
-    public void ss(Long id) {
-        this.instructorReview = new InstructorReview(id);
-    }
 
     public ClassStudents(ClassStatus classStatus) {
         this.status = classStatus;
     }
 
-    public void update(ClassStudents classStudents) {
-        this.status = classStudents.getStatus();
-    }
+    // public void update(ClassStudents classStudents) {
+    //     this.status = classStudents.getStatus();
+    // }
 
     @Override
     public String toString() {

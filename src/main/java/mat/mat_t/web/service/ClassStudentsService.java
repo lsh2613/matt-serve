@@ -17,9 +17,11 @@ public class ClassStudentsService {
         classStudentsRepository.save(classStudents);
     }
 
-    public void updateClassStudents(ClassStudents classStudents, Long id) {
+    //수정 
+    public ClassStudents updateClassStudents(ClassStudents classStudents, Long id) {
         ClassStudents students = classStudentsRepository.findById(id).get();
-        classStudents.update(students);
+        students.setStatus(classStudents.getStatus());
+        return classStudentsRepository.save(students); 
     }
 
     public void deleteClassStudents(Long id) {
@@ -36,10 +38,11 @@ public class ClassStudentsService {
     }
 
 
-    public void matchReview(Long userId, Long classId, Long id1, Long id2) {
+
+    //유저 id 와 클래스 id 를 이용한 class-student 조회 
+    public ClassStudents findByUserIdAndClassId(Long userId, Long classId) {
         ClassStudents students = classStudentsRepository.findById(id1).get();
         if (userId.equals(students.getUserCS().getId()) && classId.equals(students.getClassesCS().getClassId())) {
-            students.ss(id2);
             System.out.println("students.getInstructorReview() = " + students.getInstructorReview());
             System.out.println("students.getUserCS() = " + students.getUserCS());
             System.out.println("students.getClassesCS() = " + students.getClassesCS());
