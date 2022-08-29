@@ -46,7 +46,9 @@ public class ReviewController {
     public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
             Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
-        instructorReviewService.updateReview(instructorReview, id);
+        // 이거 정확히 수정 안된거임 그냥 엔티티에 메소드 제거해놔서 주석처리해놓음 
+        // 모든 메소드는 service 단에 구현할 수 있도록
+        // instructorReviewService.updateReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
     }
 
