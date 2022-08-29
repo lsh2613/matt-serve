@@ -7,7 +7,6 @@ import mat.mat_t.form.ClassForm;
 import mat.mat_t.web.service.ClassService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -99,7 +98,6 @@ public class ClassController {
         return ResponseEntity.ok().body(list);
     }
 
-
     /**클래스 삭제**/
     @ApiOperation(value = "클래스 삭제")
     @DeleteMapping("/class/delete")
@@ -109,4 +107,36 @@ public class ClassController {
         return ResponseEntity.ok().body(classes);
     }
 
+
+    /**현재 날짜에 따른 진행상황 조회**/
+
+    /**시작 전 강의**/
+    @ApiOperation(value="진행 전 클래스 조회")
+    @GetMapping(value = "/class/before")
+    public ResponseEntity<List<Classes>> findBeforeDo() {
+        List<Classes> classes = new ArrayList<>();
+        classes = classService.findBefore();
+
+        return ResponseEntity.ok().body(classes);
+    }
+
+    /**진행 중인 강의**/
+    @ApiOperation(value="진행 중인 클래스 조회")
+    @GetMapping(value = "/class/doing")
+    public ResponseEntity<List<Classes>> findDoingNow() {
+        List<Classes> classes = new ArrayList<>();
+        classes = classService.findNow();
+
+        return ResponseEntity.ok().body(classes);
+    }
+
+    /**진행 완료 강의**/
+    @ApiOperation(value="진행 완료인 클래스 조회")
+    @GetMapping(value = "/class/finished")
+    public ResponseEntity<List<Classes>> findAfterDo() {
+        List<Classes> classes = new ArrayList<>();
+        classes = classService.findAfter();
+
+        return ResponseEntity.ok().body(classes);
+    }
 }
