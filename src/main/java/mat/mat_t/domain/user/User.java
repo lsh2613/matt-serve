@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
-@Table(name="user_")
+@Getter
+@Setter
+@Table(name = "user_")
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "student_id")
     private Long id;
 
@@ -30,23 +32,24 @@ public class User {
     private Gender gender;
     private int auth;
 
-    //강사 매핑
+    // 강사 매핑
     @OneToOne
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
-    //클래스 수강생 매핑
+    // 클래스 수강생 매핑
     @OneToMany(mappedBy = "userCS")
     private List<ClassStudents> classStudents = new ArrayList<>();
 
-    //클래스 수강희망생 매핑
+    // 클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
-    private List<WaitingStudent> waitingStudents= new ArrayList<>();
+    private List<WaitingStudent> waitingStudents = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String loginId, String password, String name, String nickname, String birthDate, String phoneNumber, String email, Gender gender) {
+    public User(String loginId, String password, String name, String nickname, String birthDate, String phoneNumber,
+            String email, Gender gender) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -57,12 +60,12 @@ public class User {
         this.gender = gender;
     }
 
-    public User(UserForm form){
-        this.id=form.getId();
+    public User(UserForm form) {
+        this.id = form.getId();
     }
 
-    public User(Long id){
-        this.id=id;
+    public User(Long id) {
+        this.id = id;
     }
 
     @Override

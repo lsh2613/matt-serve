@@ -15,18 +15,12 @@ public class InitDB {
 
     private final InitService initService;
 
-    @PostConstruct
-    public void init(){
-        initService.dbInit();
-    }
-
     @Component
     @Transactional
     @RequiredArgsConstructor
     static class InitService {
         private final EntityManager em;
 
-    
     }
 
 }

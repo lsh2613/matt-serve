@@ -30,19 +30,24 @@ public class ClassStudents {
     @Enumerated(EnumType.STRING)
 
     @Column(nullable = false)
-    private ClassStatus status; //수강상태 [DOING, FINISHED]
+    private ClassStatus status; // 수강상태 [DOING, FINISHED]
 
-    //수강생 리뷰 매핑
+    // 수강생 리뷰 매핑
     @OneToOne
     @JoinColumn(name = "stRe_id")
     private StudentReview studentReview;
 
-    //강사 리뷰 매핑
-    @OneToOne(fetch=FetchType.LAZY)
+    // 강사 리뷰 매핑
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "insRe_id")
     private InstructorReview instructorReview;
 
     public ClassStudents() {
+    }
+
+    public ClassStudents(Long ins_re_id) {
+        InstructorReview review = new InstructorReview();
+        review.setInsReviewId(ins_re_id);
     }
 
     public ClassStudents(ClassStudentsForm form) {
@@ -51,13 +56,12 @@ public class ClassStudents {
         this.userCS = new User(form.getLoginId());
     }
 
-
     public ClassStudents(ClassStatus classStatus) {
         this.status = classStatus;
     }
 
     // public void update(ClassStudents classStudents) {
-    //     this.status = classStudents.getStatus();
+    // this.status = classStudents.getStatus();
     // }
 
     @Override

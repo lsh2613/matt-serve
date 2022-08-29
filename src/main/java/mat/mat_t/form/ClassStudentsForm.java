@@ -15,19 +15,19 @@ public class ClassStudentsForm {
     @NotNull
     private Long classId;
 
-
-//    private Long insReviewId;
-//    private Long stReviewId;
+    // private Long insReviewId;
+    // private Long stReviewId;
 
     @NotNull
     private Long loginId;
 
-    public ClassStudentsForm(){}
+    public ClassStudentsForm() {
+    }
 
-    public ClassStudentsForm(ClassStudents classStudents){
-        this.status=classStudents.getStatus();
-        this.classId=classStudents.getClassesCS().getClassId();
-        this.loginId=classStudents.getUserCS().getId();
+    public ClassStudentsForm(ClassStudents classStudents) {
+        this.status = classStudents.getStatus();
+        this.classId = classStudents.getClassesCS().getClassId();
+        this.loginId = classStudents.getUserCS().getId();
     }
 
 }

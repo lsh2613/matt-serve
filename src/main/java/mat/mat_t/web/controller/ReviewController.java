@@ -2,6 +2,7 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.form.InstructorReviewForm;
@@ -31,14 +32,19 @@ public class ReviewController {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.saveReview(instructorReview);
         long insId = instructorReview.getInsReviewId();
-        classStudentsService.matchReview(form.getLoginId(), form.getClassId(), form.getClassStudentsId(), insId);
+
+        // 유저 id와 클래스 id를 이용한 class-student 조회
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getLoginId(), form.getClassId());
+        // 조회한 student 로부터 class-student의 rewid 수정하기
+        student = classStudentsService.updateClassStudentsRevId(student, insId);
 
         return ResponseEntity.ok().body(instructorReview);
     }
 
     @ApiOperation(value = "수업 리뷰수정")
     @PatchMapping("instructorReview/update")
-    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form, Long id) {
+    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
+            Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.updateReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
@@ -46,7 +52,8 @@ public class ReviewController {
 
     @ApiOperation(value = "수업 리뷰삭제")
     @DeleteMapping("instructorReview/delete")
-    public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form, Long id) {
+    public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
+            Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
@@ -55,7 +62,8 @@ public class ReviewController {
     @ApiOperation(value = "수업리뷰 전체 조회")
     @GetMapping("instructorReview/reviewLists")
     public ResponseEntity<List<InstructorReviewForm>> checkAllInstructorReviews() {
-        List<InstructorReview> instructorReviews= instructorReviewService.checkAll();;
+        List<InstructorReview> instructorReviews = instructorReviewService.checkAll();
+        ;
         List<InstructorReviewForm> list = new ArrayList<>();
         instructorReviews.forEach(el -> {
             InstructorReviewForm instructorReviewForm = new InstructorReviewForm(el);
@@ -102,7 +110,7 @@ public class ReviewController {
     @ApiOperation(value = "학생 리뷰전체 조회")
     @GetMapping("studentReview/reviewLists")
     public ResponseEntity<List<StudentReviewForm>> checkAllStudentReviews() {
-        List<StudentReview> studentReviews=studentReviewService.checkAll();
+        List<StudentReview> studentReviews = studentReviewService.checkAll();
         List<StudentReviewForm> list = new ArrayList<>();
         studentReviews.forEach(el -> {
             StudentReviewForm studentReviewForm = new StudentReviewForm(el);
@@ -114,7 +122,7 @@ public class ReviewController {
     @ApiOperation(value = "학생리뷰 하나만 조회")
     @GetMapping("studentReview/{classId}")
     public ResponseEntity<List<StudentReviewForm>> checkStudentReview(@PathVariable Long classId) {
-        StudentReview studentReview=studentReviewService.check(classId);
+        StudentReview studentReview = studentReviewService.check(classId);
         List<StudentReviewForm> list = new ArrayList<>();
         StudentReviewForm data = new StudentReviewForm(studentReview);
         list.add(data);
