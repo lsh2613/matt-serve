@@ -1,11 +1,13 @@
 package mat.mat_t.domain.class_;
 
-import lombok.Getter;
+
+import lombok.Data;
+import mat.mat_t.form.ClassTagForm;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Data
 public class ClassTag {
 
     @Id
@@ -13,8 +15,8 @@ public class ClassTag {
     @Column(name = "tagCl_id")
     private Long tagClId;
 
-    //클래스 정보 매핑
-    @OneToOne
+    //클래스 태그 정보 매핑
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tagInfo_id")
     private TagInfo tagInfo;
 
@@ -23,4 +25,12 @@ public class ClassTag {
     @JoinColumn(name = "class_id")
     private Classes classesCT;
 
+    public ClassTag() {
+    }
+
+    public ClassTag(ClassTagForm form) {
+        this.tagClId = form.getTagClId();
+        this.tagInfo = new TagInfo(form.getTagInfo());
+        this.classesCT = new Classes(form.getClassesCT());
+    }
 }

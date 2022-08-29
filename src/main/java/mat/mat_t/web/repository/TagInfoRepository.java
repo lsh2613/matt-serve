@@ -12,7 +12,6 @@ public class TagInfoRepository {
 
     private final EntityManager em;
 
-
     // 태그 정보 생성
     public Long save(TagInfo tagInfo) {
         em.merge(tagInfo);
