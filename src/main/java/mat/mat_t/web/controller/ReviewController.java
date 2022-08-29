@@ -27,7 +27,7 @@ public class ReviewController {
     private final ClassStudentsService classStudentsService;
 
     @ApiOperation(value = "수업 리뷰저장")
-    @PostMapping("instructorReview/save")
+    @PostMapping("instructorReview")
     public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.saveReview(instructorReview);
@@ -42,7 +42,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "수업 리뷰수정")
-    @PatchMapping("instructorReview/update")
+    @PatchMapping("instructorReview")
     public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
             Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
@@ -51,7 +51,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "수업 리뷰삭제")
-    @DeleteMapping("instructorReview/delete")
+    @DeleteMapping("instructorReview")
     public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
             Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
@@ -60,7 +60,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "수업리뷰 전체 조회")
-    @GetMapping("instructorReview/reviewLists")
+    @GetMapping("instructorReview")
     public ResponseEntity<List<InstructorReviewForm>> checkAllInstructorReviews() {
         List<InstructorReview> instructorReviews = instructorReviewService.checkAll();
         ;
@@ -84,7 +84,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "학생 리뷰저장")
-    @PostMapping("studentReview/save")
+    @PostMapping("studentReview")
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature());
         studentReviewService.saveReview(studentReview);
@@ -92,7 +92,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "학생 리뷰수정")
-    @PatchMapping("studentReview/update")
+    @PatchMapping("studentReview")
     public ResponseEntity<StudentReview> updateStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature());
         studentReviewService.updateReview(studentReview, id);
@@ -100,7 +100,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "학생 리뷰삭제")
-    @DeleteMapping("studentReview/delete")
+    @DeleteMapping("studentReview")
     public ResponseEntity<StudentReview> deleteStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature());
         studentReviewService.deleteReview(id);
@@ -108,7 +108,7 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "학생 리뷰전체 조회")
-    @GetMapping("studentReview/reviewLists")
+    @GetMapping("studentReview")
     public ResponseEntity<List<StudentReviewForm>> checkAllStudentReviews() {
         List<StudentReview> studentReviews = studentReviewService.checkAll();
         List<StudentReviewForm> list = new ArrayList<>();
