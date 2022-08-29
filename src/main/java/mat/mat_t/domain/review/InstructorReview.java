@@ -33,15 +33,6 @@ public class InstructorReview {
         this.insReviewId=id;
     }
 
-    public void update(InstructorReview newInstructorReview) {
-        this.score = newInstructorReview.getScore();
-        this.reviewContent = newInstructorReview.getReviewContent();
-    }
-
-    public InstructorReview getId(InstructorReview instructorReview) {
-        this.insReviewId = instructorReview.getInsReviewId();
-        return this;
-    }
 
     @Override
     public String toString() {

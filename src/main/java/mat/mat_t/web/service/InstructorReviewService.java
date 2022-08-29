@@ -23,7 +23,7 @@ public class InstructorReviewService {
     //수정
     public void updateReview(InstructorReview newInstructorReview, Long id) {
         InstructorReview instructorReview = instructorReviewRepository.findById(id).get();
-        instructorReview.update(newInstructorReview);
+        instructorReviewRepository.save(newInstructorReview);
     }
 
     public List<InstructorReview> checkAll() {

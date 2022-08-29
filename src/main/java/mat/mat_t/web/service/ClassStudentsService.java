@@ -44,6 +44,7 @@ public class ClassStudentsService {
         return students;
     }
 
+    // class student 에서 insReId 수정 
     public ClassStudents updateClassStudentsRevId(ClassStudents student, Long ins_re_id) {
 
         student.setInstructorReview(new InstructorReview(ins_re_id));

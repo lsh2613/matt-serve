@@ -45,10 +45,6 @@ public class ClassStudents {
     public ClassStudents() {
     }
 
-    public ClassStudents(Long ins_re_id) {
-        InstructorReview review = new InstructorReview();
-        review.setInsReviewId(ins_re_id);
-    }
 
     public ClassStudents(ClassStudentsForm form) {
         this.status = form.getStatus();
