@@ -6,7 +6,9 @@ import mat.mat_t.web.repository.ClassRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,6 +19,8 @@ public class ClassService {
 
     private final ClassRepository classRepository;
 
+    @Temporal(TemporalType.DATE)
+    private Date now = new Date();
 
     //클래스 생성{
     public void saveClass(Classes classes){
@@ -50,4 +54,18 @@ public class ClassService {
         return classRepository.findByInstructorC_InstructorId(InstructorId);
     }
 
+    //진행 전 클래스 조회
+    public List<Classes> findBefore() {
+        return classRepository.findAllByStartDateBefore(now);
+    }
+
+    //진행 중 클래스 조회
+    public List<Classes> findNow() {
+        return classRepository.findAllByStartDateAfterAndEndDateBefore(now);
+    }
+
+    //진행 완료 클래스 조회
+    public List<Classes> findAfter() {
+        return classRepository.findAllByEndDateAfter(now);
+    }
 }
