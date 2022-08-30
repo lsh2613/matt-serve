@@ -1,6 +1,5 @@
 package mat.mat_t.web.repository;
 
-
 import mat.mat_t.domain.class_.Classes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,5 +27,11 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
     //진행 완료 강의 조회
     @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate) from Classes c where c.endDate < :NOW")
     List<Classes> findAllByEndDateAfter(@Param("NOW") Date NOW);
+
+    //해당 요일 클래스 조회
+    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate)"+
+            " from Classes c join c.classDays d" +
+            " where d.days.dayName like :dayName")
+    List<Classes> findAllByClassDays(@Param("dayName")String dayName);
 
 }

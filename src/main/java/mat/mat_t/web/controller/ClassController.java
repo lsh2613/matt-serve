@@ -139,4 +139,20 @@ public class ClassController {
 
         return ResponseEntity.ok().body(classes);
     }
+
+    /**요일 검색으로 해당 클래스들 조회**/
+    @ApiOperation(value="요일 검색으로 해당 클래스들 조회")
+    @GetMapping("/class/dayName/{dayName}/classesView")
+    public ResponseEntity<List<ClassForm>> findClassByDayName( @PathVariable String dayName) {
+        List<Classes> classes = new ArrayList<>();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findByDayName(dayName);
+        classes.forEach(el -> {
+            ClassForm data = new ClassForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
 }
