@@ -34,7 +34,7 @@ public class TagInfoRepository {
 
     // 전체 태그 정보 검색
     public List<TagInfo> findAll() {
-        return em.createQuery("select t from TagInfo t", TagInfo.class)
+        return em.createQuery("select t from TagInfo t order by t.tagInfoId asc", TagInfo.class)
                 .getResultList();
     }
 
