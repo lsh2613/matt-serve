@@ -34,4 +34,9 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
             " where d.days.dayName like :dayName")
     List<Classes> findAllByClassDays(@Param("dayName")String dayName);
 
+    //키워드로 클래스 조회(title, category, description, place 에서 검색)
+    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate)"+
+            " from Classes c where c.title like %:keyword% or c.category like %:keyword% or c.descriptions like %:keyword% or c.place like %:keyword%")
+    List<Classes> findAllByTitleOrCategoryOrDescriptionsOrPlace(@Param("keyword")String keyword);
+
 }

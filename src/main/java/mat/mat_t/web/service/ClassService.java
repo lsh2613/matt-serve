@@ -74,4 +74,9 @@ public class ClassService {
     public List<Classes> findByDayName(String dayName) {
         return classRepository.findAllByClassDays(dayName);
     }
+
+    //키워드로 클래스 조회(title, category, description, place 에서 검색)
+    public List<Classes> findByKeyword(String keyword) {
+        return classRepository.findAllByTitleOrCategoryOrDescriptionsOrPlace(keyword);
+    }
 }
