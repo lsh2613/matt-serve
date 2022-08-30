@@ -18,4 +18,8 @@ public interface ClassDayRepository extends JpaRepository<ClassDay, Long> {
 
     //중복체크
     boolean existsClassDayByClassesD_ClassIdAndDays_DayId(@Param(value = "class_id") Long classId, @Param(value = "day_id") Long dayId);
+
+    //dayName 클래스데이 조회(클래스데이 아이디, 클래스 아이디, 데이 아이디만 조회됨)
+    List<ClassDay> findClassDayByDays_DayName(@Param(value = "dayName")String dayName);
+
 }
