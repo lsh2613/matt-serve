@@ -74,7 +74,7 @@ public class ClassDayController {
         return ResponseEntity.ok().body(list);
     }
 
-    /**day 아이디로(요일) 클래스데이 조회**/
+    /**day 아이디로(= ex. 1---> 월요일을 뜻함) 클래스데이 조회**/
     @ApiOperation(value="클래스데이 day 아이디로 조회")
     @GetMapping("/classDay/dayId/{dayId}")
     public ResponseEntity<List<ClassDayForm>> findClassByDayId(@PathVariable Long dayId) {
@@ -89,4 +89,21 @@ public class ClassDayController {
 
         return ResponseEntity.ok().body(list);
     }
+
+    /**dayName 으로(= ex. 월요일) 바로 클래스데이 조회**/
+    @ApiOperation(value="클래스데이 dayName으로 조회")
+    @GetMapping("/classDay/dayName/{dayName}")
+    public ResponseEntity<List<ClassDayForm>> findClassByDayName(@PathVariable String dayName) {
+        List<ClassDay> classDays = new ArrayList<>();
+        List<ClassDayForm> list = new ArrayList<>();
+
+        classDays = classDayService.findClassDayByDayName(dayName);
+        classDays.forEach(el -> {
+            ClassDayForm data = new ClassDayForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
+
 }

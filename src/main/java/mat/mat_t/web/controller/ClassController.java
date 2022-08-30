@@ -136,4 +136,39 @@ public class ClassController {
 
         return ResponseEntity.ok().body(classes);
     }
+
+    /**요일 검색으로 해당 클래스들 조회**/
+    @ApiOperation(value="요일 검색으로 해당 클래스들 조회")
+    @GetMapping("/class/dayName/{dayName}/classesView")
+    public ResponseEntity<List<ClassForm>> findClassByDayName( @PathVariable String dayName) {
+        List<Classes> classes = new ArrayList<>();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findByDayName(dayName);
+        classes.forEach(el -> {
+            ClassForm data = new ClassForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
+     * 키워드로 클래스 조회(title, category, description, place 에서 검색)
+     * 찾고자하는 문자열이 포함되어 있으면 검색되도록 함( %문자%)
+     * **/
+    @ApiOperation(value="키워드 검색으로 해당 클래스들 조회")
+    @GetMapping("/class/keyword/{keyword}/classesView")
+    public ResponseEntity<List<ClassForm>> findClassByKeyword( @PathVariable String keyword) {
+        List<Classes> classes = new ArrayList<>();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findByKeyword(keyword);
+        classes.forEach(el -> {
+            ClassForm data = new ClassForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
 }
