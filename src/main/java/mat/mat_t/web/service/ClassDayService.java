@@ -40,4 +40,10 @@ public class ClassDayService {
     public boolean checkClassesAndDaysDuplicate(Long classId, Long dayId){
         return classDayRepository.existsClassDayByClassesD_ClassIdAndDays_DayId(classId, dayId);
     }
+
+    //dayName 으로 클래스데이 조회
+    public List<ClassDay> findClassDayByDayName(String dayName) {
+        return classDayRepository.findClassDayByDays_DayName(dayName);
+    }
+
 }

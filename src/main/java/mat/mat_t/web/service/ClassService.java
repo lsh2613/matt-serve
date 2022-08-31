@@ -1,12 +1,15 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassDay;
 import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.web.repository.ClassRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,6 +20,8 @@ public class ClassService {
 
     private final ClassRepository classRepository;
 
+    @Temporal(TemporalType.DATE)
+    private Date now = new Date();
 
     //클래스 생성{
     public void saveClass(Classes classes){
@@ -50,4 +55,28 @@ public class ClassService {
         return classRepository.findByInstructorC_InstructorId(InstructorId);
     }
 
+    //진행 전 클래스 조회
+    public List<Classes> findBefore() {
+        return classRepository.findAllByStartDateBefore(now);
+    }
+
+    //진행 중 클래스 조회
+    public List<Classes> findNow() {
+        return classRepository.findAllByStartDateAfterAndEndDateBefore(now);
+    }
+
+    //진행 완료 클래스 조회
+    public List<Classes> findAfter() {
+        return classRepository.findAllByEndDateAfter(now);
+    }
+
+    //요일로 클래스 조회(해당 클래스들 정보 모두 조회)
+    public List<Classes> findByDayName(String dayName) {
+        return classRepository.findAllByClassDays(dayName);
+    }
+
+    //키워드로 클래스 조회(title, category, description, place 에서 검색)
+    public List<Classes> findByKeyword(String keyword) {
+        return classRepository.findAllByTitleOrCategoryOrDescriptionsOrPlace(keyword);
+    }
 }

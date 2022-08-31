@@ -33,7 +33,7 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @ApiOperation(value="로그인화면")
+    @ApiOperation(value = "로그인화면")
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -44,7 +44,6 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody LoginForm form, BindingResult bindingResult,
                                 HttpServletRequest request) {
-
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
@@ -62,9 +61,7 @@ public class LoginController {
 
         LoginUserDto loginUserDto = new LoginUserDto(loginUser);
 
-        //세션 키 벨류 리턴
         return ResponseEntity.ok().body(loginUserDto);
-    }
 
     @ApiOperation(value = "로그아웃 시 세션에서 loginUser객체 제거")
     @GetMapping("/logout")
