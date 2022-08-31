@@ -6,6 +6,7 @@ import mat.mat_t.web.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EntityManager em;
 
     public Long join(User user) {
         hasDuplicateUser(user);
@@ -30,6 +32,10 @@ public class UserService {
         }
         else
             return optionalUser.get().getPassword();
+    }
+
+    public User findById(Long id) {
+        return em.find(User.class, id);
     }
 
     private void hasDuplicateUser(User user) {

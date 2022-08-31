@@ -24,7 +24,7 @@ public class WaitingStudentsRepository {
 
     }
 
-    public WaitingStudent findOne(Long id) {
+    public WaitingStudent findOneById(Long id) {
         return em.find(WaitingStudent.class, id);
     }
 

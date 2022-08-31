@@ -3,13 +3,17 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.Instructor;
+import mat.mat_t.domain.user.User;
 import mat.mat_t.form.InstructorForm;
 import mat.mat_t.web.service.InstructorService;
+import mat.mat_t.web.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,7 @@ import java.util.List;
 public class InstructorController {
 
     private final InstructorService instructorService;
-
+    private final UserService userService;
     /**
      * 강사 테이블 생성 후 유저 테이블의 강사 번호를 update 해줘야함
      * 강사와 유저 데이터가 매핑 된 후에 조회 가능함
@@ -30,9 +34,14 @@ public class InstructorController {
     /**강사 생성**/
     @ApiOperation(value="강사 생성")
     @PostMapping(value = "/instructor/new")
-    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorForm form, BindingResult bindingResult) {
+    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorForm form, BindingResult bindingResult, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
 
         Instructor instructor = new Instructor(form);
+        User findUser = userService.findById(loginUser.getId());
+        findUser.setInstructor(instructor);
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(instructor);
@@ -55,8 +64,8 @@ public class InstructorController {
     @ApiOperation(value="강사 조회")
     @GetMapping(value = "/instructor")
     public ResponseEntity<List<InstructorForm>> findAll() {
-        List<Instructor> instructors = new ArrayList<>();
         List<InstructorForm> list = new ArrayList<>();
+        List<Instructor> instructors = new ArrayList<>();
 
         instructors = instructorService.findAllInstructor();
         instructors.forEach(el -> {
