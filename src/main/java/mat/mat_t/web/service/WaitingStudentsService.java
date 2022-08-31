@@ -25,7 +25,7 @@ public class WaitingStudentsService {
     }
 
     private void hasDuplicate(WaitingStudent student) {
-        List<WaitingStudent> findStudents = waitingStudentsRepository.findListByClassId(student.getClassesWS().getClassId());
+        List<WaitingStudent> findStudents = waitingStudentsRepository.findListByClassIdAndUserId(student.getClassesWS().getClassId(), student.getUserWS().getId());
         if (!findStudents.isEmpty()) {
             throw new IllegalStateException("이미 신청한 클래스입니다.");
         }
