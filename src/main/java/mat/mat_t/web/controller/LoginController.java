@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,9 +33,8 @@ public class LoginController {
 
     @ApiOperation(value = "로그인 시 세션에 loginUser객체 저장")
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
-
-                        HttpServletRequest request) {
+    public ResponseEntity login(@Valid @RequestBody LoginForm form, BindingResult bindingResult,
+                                HttpServletRequest request) {
 
 
         if (bindingResult.hasErrors()) {
