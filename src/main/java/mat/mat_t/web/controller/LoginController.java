@@ -63,6 +63,9 @@ public class LoginController {
 
         return ResponseEntity.ok().body(loginUserDto);
 
+
+    }
+
     @ApiOperation(value = "로그아웃 시 세션에서 loginUser객체 제거")
     @GetMapping("/logout")
     public ResponseEntity logoutV3(HttpServletRequest request) {
