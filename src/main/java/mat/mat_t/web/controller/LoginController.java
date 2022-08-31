@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @ApiOperation(value="로그인화면")
+    @ApiOperation(value = "로그인화면")
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -32,10 +33,9 @@ public class LoginController {
 
     @ApiOperation(value = "로그인 시 세션에 loginUser객체 저장")
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
+    public ResponseEntity login(@Valid @RequestBody LoginForm form, BindingResult bindingResult,
 
-                        HttpServletRequest request) {
-
+            HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
@@ -51,7 +51,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.setAttribute("loginUser", loginUser);
 
-        //세션 키 벨류 리턴
+        // 세션 키 벨류 리턴
         return ResponseEntity.ok().body(loginUser);
     }
 
