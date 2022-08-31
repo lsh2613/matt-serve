@@ -1,5 +1,6 @@
 package mat.mat_t.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.Classes;
@@ -20,6 +21,7 @@ public class Instructor {
 
     //회원매핑
     @OneToOne(mappedBy = "instructor")
+    @JsonIgnore
     private User userIn;
 
     @Column(nullable = false)
