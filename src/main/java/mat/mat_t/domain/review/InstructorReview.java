@@ -25,6 +25,11 @@ public class InstructorReview {
         this.reviewContent = reviewContent;
     }
 
+    public void setReview(long score,String reviewContent){
+        this.score=score;
+        this.reviewContent=reviewContent;
+    }
+
     public InstructorReview() {
 
     }

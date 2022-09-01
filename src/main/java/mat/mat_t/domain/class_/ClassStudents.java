@@ -38,7 +38,7 @@ public class ClassStudents {
     private StudentReview studentReview;
 
     // 강사 리뷰 매핑
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "insRe_id")
     private InstructorReview instructorReview;
 
