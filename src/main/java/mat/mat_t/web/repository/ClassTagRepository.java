@@ -3,6 +3,7 @@ package mat.mat_t.web.repository;
 import mat.mat_t.domain.class_.ClassTag;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,6 @@ public interface ClassTagRepository extends JpaRepository<ClassTag, Long> {
     List findClassTagByTagInfo_TagInfoId(@Param(value = "tagInfo_id") Long tagInfoId);
 
     // tagInfo 아이디 리스트로 클래스 태그 조회
-    List findClassTagByTagInfo_TagInfoIdList( @RequestParam(required = false) List<Short> tagInfoIdList);
+    List findClassTagByTagInfo_TagInfoIdIn( @RequestParam(required = false) List<Long> tagInfoIdList);
 
 }

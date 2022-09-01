@@ -89,12 +89,12 @@ public class ClassTagController {
      **/
 
     @ApiOperation(value = "클래스태그 태그정보 아이디리스트로 조회")
-    @GetMapping(value = "/classTag/tagInfoId/{tagInfoIdList}")
-    public ResponseEntity<List<ClassTagForm>> findClassTagByTagInfoIdList(@PathVariable @RequestParam(required = false) List<Short> codeKeys) {
+    @GetMapping(value = "/classTag/tagInfoId/")
+    public ResponseEntity<List<ClassTagForm>> findClassTagByTagInfoIdList( @RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
         List<ClassTagForm> list = new ArrayList<>();
 
-        classTags = classTagService.findClassTagByTagInfoIdList(codeKeys);
+        classTags = classTagService.findClassTagByTagInfoIdList(tagInfoId);
         classTags.forEach(el -> {
             ClassTagForm data = new ClassTagForm(el);
             list.add(data);

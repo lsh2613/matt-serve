@@ -34,4 +34,9 @@ public class ClassTag {
         this.classesCT = new Classes(form.getClassesCT());
     }
 
+    public ClassTag(Long tagClId, TagInfo tagInfo, Classes classesCT) {
+        this.tagClId = tagClId;
+        this.tagInfo = tagInfo;
+        this.classesCT = classesCT;
+    }
 }

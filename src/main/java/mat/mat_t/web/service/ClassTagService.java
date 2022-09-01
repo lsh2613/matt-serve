@@ -47,7 +47,7 @@ public class ClassTagService {
     /**
      * 클래스 태그 태그 아이디 리스트로 조회
      **/
-    public List<ClassTag> findClassTagByTagInfoIdList(List<Short> tagInfoIdList) {
-        return classTagRepository.findClassTagByTagInfo_TagInfoIdList(tagInfoIdList);
+    public List findClassTagByTagInfoIdList(List<Long> tagInfoIdList) {
+        return classTagRepository.findClassTagByTagInfo_TagInfoIdIn(tagInfoIdList);
     }
 }
