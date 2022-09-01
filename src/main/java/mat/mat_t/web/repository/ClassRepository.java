@@ -39,4 +39,11 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
             " from Classes c where c.title like %:keyword% or c.category like %:keyword% or c.descriptions like %:keyword% or c.place like %:keyword%")
     List<Classes> findAllByTitleOrCategoryOrDescriptionsOrPlace(@Param("keyword")String keyword);
 
+    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate)" +
+            " from Classes c" +
+            " join c.classTags ct" +
+            " join ct.tagInfo ti" +
+            " where c.classId = ct.classesCT.classId and ct.tagInfo.tagName like :tagName")
+    List<Classes> findByClassTags(@Param("tagName") String tagName);
+
 }
