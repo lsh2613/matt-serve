@@ -1,5 +1,6 @@
 package mat.mat_t.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
@@ -30,20 +31,22 @@ public class User {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private int auth;
 
     // 강사 매핑
     @OneToOne
     @JoinColumn(name = "instructor_id")
+    @JsonIgnore
     private Instructor instructor;
 
     // 클래스 수강생 매핑
     @OneToMany(mappedBy = "userCS")
+    @JsonIgnore
     private List<ClassStudents> classStudents = new ArrayList<>();
 
     // 클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
-    private List<WaitingStudent> waitingStudents = new ArrayList<>();
+    @JsonIgnore
+    private List<WaitingStudent> waitingStudents= new ArrayList<>();
 
     public User() {
     }

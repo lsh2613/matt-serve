@@ -13,14 +13,5 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class InitDB {
 
-    private final InitService initService;
-
-    @Component
-    @Transactional
-    @RequiredArgsConstructor
-    static class InitService {
-        private final EntityManager em;
-
-    }
 
 }

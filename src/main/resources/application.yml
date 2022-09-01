@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/mat
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://matt.cpacw9fl5njb.ap-northeast-2.rds.amazonaws.com:3306/matt
+    username: admin
+    password: admin0810
+    driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -16,10 +16,11 @@ spring:
         format_sql: true
 logging:
   level:
-#    org.hibernate.sql: debug
+    #    org.hibernate.sql: debug
     org.hibernate.type: trace
 
 server:
   servlet:
     session:
       tracking-modes: cookie
+  port: 8999

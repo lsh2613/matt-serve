@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.form.ClassForm;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,10 +28,14 @@ public class Classes implements Serializable {
     private String endTime; // 종료시간\
     private String category;
 
-    @Temporal(TemporalType.DATE) // 값 입력할 때 '2022-01-01' 이런식으로 입력하면 됨
+
+    @Temporal(TemporalType.DATE)    // 값 입력할 때 '2022-01-01' 이런식으로 입력하면 됨
+    @Column(nullable = false)
     private Date startDate; // 시작날짜
+
     @Temporal(TemporalType.DATE)
-    private Date endDate; // 종료날짜
+    @Column(nullable = false)
+    private Date endDate;   //종료날짜
 
     // 클래스 수강생 매핑
     @OneToMany(mappedBy = "classesCS")
@@ -51,9 +54,9 @@ public class Classes implements Serializable {
     @JoinColumn(name = "instructor_id")
     private Instructor instructorC;
 
-    // 요일 매핑
-    @OneToMany(mappedBy = "classesDay")
-    private List<ClassDay> days = new ArrayList<>();
+    //요일 매핑
+    @OneToMany(mappedBy = "classesD")
+    private List<ClassDay> classDays = new ArrayList<>();
 
     @Builder
     public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place,
@@ -85,8 +88,8 @@ public class Classes implements Serializable {
         this.endDate = form.getEndDate();
     }
 
-    public Classes(Long id) {
-        this.classId = id;
+    public Classes(Long classId){
+        this.classId = classId;
     }
 
     public Classes() {
@@ -104,10 +107,18 @@ public class Classes implements Serializable {
         this.endDate = upClasses.getEndDate();
     }
 
-    @Override
-    public String toString() {
-        return "Classes{" +
-                "classId=" + classId +
-                '}';
+    public Classes(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime,  String category, Date startDate, Date endDate) {
+        this.classId = classId;
+        this.instructorC= new Instructor(instructorId);
+        this.title = title;
+        this.numberOfStudents = numberOfStudents;
+        this.descriptions = descriptions;
+        this.place = place;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.category = category;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
+
 }

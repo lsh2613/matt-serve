@@ -2,7 +2,7 @@ package mat.mat_t.web.repository;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.WaitingStudent;
-import org.hibernate.sql.Select;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,16 +19,27 @@ public class WaitingStudentsRepository {
     }
 
     public void remove(WaitingStudent wsUser) {
-        em.remove(wsUser.getWaitingId());
+
+        em.remove(wsUser);
+
     }
 
-    public WaitingStudent findOne(Long id) {
+    public WaitingStudent findOneById(Long id) {
         return em.find(WaitingStudent.class, id);
     }
 
     public List<WaitingStudent> findListByClassId(Long classId) {
-        return em.createQuery("select w from WaitingStudent w where w.classesWS.classId =:classId", WaitingStudent.class)
+
+        return em.createQuery("select w from WaitingStudent w join w.classesWS c where c.classId=:classId", WaitingStudent.class)
                 .setParameter("classId", classId)
+                .getResultList();
+    }
+
+    public List<WaitingStudent> findListByClassIdAndUserId(Long classId, Long userId) {
+
+        return em.createQuery("select w from WaitingStudent w join w.classesWS c join w.userWS u where c.classId=:classId and u.id=:userId", WaitingStudent.class)
+                .setParameter("classId", classId)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
