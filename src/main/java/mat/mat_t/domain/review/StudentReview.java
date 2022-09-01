@@ -2,6 +2,7 @@ package mat.mat_t.domain.review;
 
 import lombok.Getter;
 import lombok.Setter;
+import mat.mat_t.domain.class_.ClassStudents;
 
 import javax.persistence.*;
 
@@ -15,16 +16,23 @@ public class StudentReview {
     @Column(name = "stRe_id")
     private Long stReId;
 
-    private Long mannerTemperature;  // 평가내용
+    private long mannerTemperature;  // 평가내용
+
+    private String reviewContent;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private ClassStudents classStudentsStId;
 
     public StudentReview(){}
 
-
-    public StudentReview( Long mannerTemperature) {
-        this.mannerTemperature = mannerTemperature;
+    public StudentReview(long mannerTemperature,String reviewContent){
+        this.mannerTemperature=mannerTemperature;
+        this.reviewContent=reviewContent;
     }
 
-    public void update(StudentReview newStudentReview){
-        this.mannerTemperature=newStudentReview.getMannerTemperature();
+    public StudentReview(Long id){this.stReId=id;}
+
+    public void setReview(long mannerTemperature){
+        this.mannerTemperature=mannerTemperature;
     }
 }

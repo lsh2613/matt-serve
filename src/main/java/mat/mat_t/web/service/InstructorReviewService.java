@@ -1,4 +1,4 @@
-package mat.mat_t.web.service;
+    package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.review.InstructorReview;
@@ -20,10 +20,10 @@ public class InstructorReviewService {
         instructorReviewRepository.save(instructorReview);
     }
 
-    //수정
-    public void updateReview(InstructorReview newInstructorReview, Long id) {
-        InstructorReview instructorReview = instructorReviewRepository.findById(id).get();
-        instructorReviewRepository.save(newInstructorReview);
+    public InstructorReview updateInstructorReview(InstructorReview instructorReview, Long id) {
+        InstructorReview review = instructorReviewRepository.findById(id).get();
+        review.setReview(instructorReview.getScore(),instructorReview.getReviewContent());
+        return instructorReviewRepository.save(review);
     }
 
     public List<InstructorReview> checkAll() {

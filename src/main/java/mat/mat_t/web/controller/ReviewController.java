@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ReviewController {
-
+    
     private final StudentReviewService studentReviewService;
     private final InstructorReviewService instructorReviewService;
     private final ClassStudentsService classStudentsService;
@@ -36,7 +36,7 @@ public class ReviewController {
         // 유저 id와 클래스 id를 이용한 class-student 조회
         ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getLoginId(), form.getClassId());
         // 조회한 student 로부터 class-student의 rewid 수정하기
-        student = classStudentsService.updateClassStudentsRevId(student, insId);
+        student = classStudentsService.updateClassStudentsInsRevId(student, insId);
 
         return ResponseEntity.ok().body(instructorReview);
     }
@@ -46,9 +46,7 @@ public class ReviewController {
     public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
             Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
-        // 이거 정확히 수정 안된거임 그냥 엔티티에 메소드 제거해놔서 주석처리해놓음 
-        // 모든 메소드는 service 단에 구현할 수 있도록
-        // instructorReviewService.updateReview(instructorReview, id);
+        instructorReviewService.updateInstructorReview(instructorReview,id);
         return ResponseEntity.ok().body(instructorReview);
     }
 
@@ -88,23 +86,29 @@ public class ReviewController {
     @ApiOperation(value = "학생 리뷰저장")
     @PostMapping("studentReview")
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
         studentReviewService.saveReview(studentReview);
+        long stReId = studentReview.getStReId();
+
+        // 유저 id와 클래스 id를 이용한 class-student 조회
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getLoginId(), form.getClassId());
+        // 조회한 student 로부터 class-student의 rewid 수정하기
+        student = classStudentsService.updateClassStudentsStRevId(student, stReId);
         return ResponseEntity.ok().body(studentReview);
     }
 
     @ApiOperation(value = "학생 리뷰수정")
     @PatchMapping("studentReview")
     public ResponseEntity<StudentReview> updateStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
-        studentReviewService.updateReview(studentReview, id);
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
+        studentReviewService.updateStudentReview(studentReview, id);
         return ResponseEntity.ok().body(studentReview);
     }
 
     @ApiOperation(value = "학생 리뷰삭제")
     @DeleteMapping("studentReview")
     public ResponseEntity<StudentReview> deleteStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
         studentReviewService.deleteReview(id);
         return ResponseEntity.ok().body(studentReview);
     }

@@ -1,6 +1,7 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.StudentReviewRepository;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,11 @@ public class StudentReviewService {
         studentReviewRepository.save(studentReview);
     }
 
-    //수정
-    public void updateReview(StudentReview newStudentReview, Long id) {
-        StudentReview studentReview = studentReviewRepository.findById(id).get();
-        studentReview.update(newStudentReview);
+    public StudentReview updateStudentReview(StudentReview studentReview, Long id) {
+        StudentReview review = studentReviewRepository.findById(id).get();
+        review.setReview(studentReview.getMannerTemperature());
+        review.setReviewContent(studentReview.getReviewContent());
+        return studentReviewRepository.save(review);
     }
 
     //삭제

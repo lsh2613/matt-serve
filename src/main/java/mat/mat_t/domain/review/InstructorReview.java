@@ -32,12 +32,4 @@ public class InstructorReview {
     public InstructorReview(Long id) {
         this.insReviewId=id;
     }
-
-
-    @Override
-    public String toString() {
-        return "InstructorReview{" +
-                "insReviewId=" + insReviewId +
-                '}';
-    }
 }

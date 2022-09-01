@@ -55,20 +55,4 @@ public class ClassStudents {
     public ClassStudents(ClassStatus classStatus) {
         this.status = classStatus;
     }
-
-    // public void update(ClassStudents classStudents) {
-    // this.status = classStudents.getStatus();
-    // }
-
-    @Override
-    public String toString() {
-        return "ClassStudents{" +
-                "classListId=" + classListId +
-                ", userCS=" + userCS +
-                ", classesCS=" + classesCS +
-                ", status=" + status +
-                ", studentReview=" + studentReview +
-                ", instructorReview=" + instructorReview +
-                '}';
-    }
 }
