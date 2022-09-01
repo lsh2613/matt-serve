@@ -33,4 +33,5 @@ public class ClassTag {
         this.tagInfo = new TagInfo(form.getTagInfo());
         this.classesCT = new Classes(form.getClassesCT());
     }
+
 }

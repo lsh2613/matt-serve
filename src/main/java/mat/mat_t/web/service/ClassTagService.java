@@ -38,9 +38,16 @@ public class ClassTagService {
     }
 
     /**
-     * 태그 개별 조회
+     * 클래스 태그 태그 아이디로 조회
      **/
-    public List<ClassTag> findClassTagByTagInfoId(Long tagClId) {
-        return classTagRepository.findClassTagByTagInfo_TagInfoId(tagClId);
+    public List<ClassTag> findClassTagByTagInfoId(Long tagInfoId) {
+        return classTagRepository.findClassTagByTagInfo_TagInfoId(tagInfoId);
+    }
+
+    /**
+     * 클래스 태그 태그 아이디 리스트로 조회
+     **/
+    public List<ClassTag> findClassTagByTagInfoIdList(List<Short> tagInfoIdList) {
+        return classTagRepository.findClassTagByTagInfo_TagInfoIdList(tagInfoIdList);
     }
 }
