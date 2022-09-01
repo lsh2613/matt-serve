@@ -3,22 +3,17 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.domain.class_.WaitingStudent;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.web.service.ClassService;
 import mat.mat_t.web.service.WaitingStudentsService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,6 +53,21 @@ public class WaitingStudentController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(classStudentsDto);
+    }
+
+
+    @ApiOperation("클래스 신청 수정")
+    @PatchMapping("/waitingStudent/edit/{wsId}")
+    public ResponseEntity editWs(@PathVariable Long wsId,
+                                 @RequestParam String content) {
+        WaitingStudent updateStudent = waitingStudentsService.update(wsId, content);
+        return ResponseEntity.ok(updateStudent);
+    }
+
+    @ApiOperation("클래스 신청 삭제")
+    @DeleteMapping("/waitingStudent/delete/{wsId}")
+    public void deleteWs(@PathVariable Long wsId) {
+        waitingStudentsService.delete(wsId);
     }
 
     @Getter

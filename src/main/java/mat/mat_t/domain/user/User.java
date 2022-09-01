@@ -33,7 +33,6 @@ public class User {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private int auth;
 
     // 강사 매핑
     @JsonIgnore
@@ -43,10 +42,12 @@ public class User {
 
     // 클래스 수강생 매핑
     @OneToMany(mappedBy = "userCS")
+    @JsonIgnore
     private List<ClassStudents> classStudents = new ArrayList<>();
 
     // 클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
+    @JsonIgnore
     private List<WaitingStudent> waitingStudents = new ArrayList<>();
 
     public User() {

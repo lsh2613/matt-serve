@@ -130,17 +130,17 @@ public class ClassController {
     /** 진행 완료 강의 **/
     @ApiOperation(value = "진행 완료인 클래스 조회")
     @GetMapping(value = "/class/finished")
-    public ResponseEntity<List<Classes>> findAfterDo() {
+    public ResponseEntity<List<Classes>> findAfterDo(@RequestParam(required = false) Long studentId) {
         List<Classes> classes = new ArrayList<>();
         classes = classService.findAfter();
 
         return ResponseEntity.ok().body(classes);
     }
 
-    /**요일 검색으로 해당 클래스들 조회**/
-    @ApiOperation(value="요일 검색으로 해당 클래스들 조회")
+    /** 요일 검색으로 해당 클래스들 조회 **/
+    @ApiOperation(value = "요일 검색으로 해당 클래스들 조회")
     @GetMapping("/class/dayName/{dayName}/classesView")
-    public ResponseEntity<List<ClassForm>> findClassByDayName( @PathVariable String dayName) {
+    public ResponseEntity<List<ClassForm>> findClassByDayName(@PathVariable String dayName) {
         List<Classes> classes = new ArrayList<>();
         List<ClassForm> list = new ArrayList<>();
 
@@ -156,10 +156,10 @@ public class ClassController {
     /**
      * 키워드로 클래스 조회(title, category, description, place 에서 검색)
      * 찾고자하는 문자열이 포함되어 있으면 검색되도록 함( %문자%)
-     * **/
-    @ApiOperation(value="키워드 검색으로 해당 클래스들 조회")
+     **/
+    @ApiOperation(value = "키워드 검색으로 해당 클래스들 조회")
     @GetMapping("/class/keyword/{keyword}/classesView")
-    public ResponseEntity<List<ClassForm>> findClassByKeyword( @PathVariable String keyword) {
+    public ResponseEntity<List<ClassForm>> findClassByKeyword(@PathVariable String keyword) {
         List<Classes> classes = new ArrayList<>();
         List<ClassForm> list = new ArrayList<>();
 
