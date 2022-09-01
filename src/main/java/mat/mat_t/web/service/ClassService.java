@@ -1,7 +1,6 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.ClassDay;
 import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.web.repository.ClassRepository;
 import org.springframework.stereotype.Service;
@@ -78,5 +77,10 @@ public class ClassService {
     //키워드로 클래스 조회(title, category, description, place 에서 검색)
     public List<Classes> findByKeyword(String keyword) {
         return classRepository.findAllByTitleOrCategoryOrDescriptionsOrPlace(keyword);
+    }
+
+    //태그로 클래스 조회
+    public List<Classes> findByTagName(String tagName) {
+        return classRepository.findByClassTags(tagName);
     }
 }

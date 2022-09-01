@@ -171,4 +171,22 @@ public class ClassController {
 
         return ResponseEntity.ok().body(list);
     }
+
+    /**
+     * 클래스태그 정보로 조회
+     * **/
+    @ApiOperation(value="키워드 검색으로 해당 클래스들 조회")
+    @GetMapping("/class/tag/{tagName}")
+    public ResponseEntity<List<ClassForm>> findClassByTagName( @PathVariable String tagName) {
+        List<Classes> classes = new ArrayList<>();
+        List<ClassForm> list = new ArrayList<>();
+
+        classes = classService.findByTagName(tagName);
+        classes.forEach(el -> {
+            ClassForm data = new ClassForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
 }
