@@ -16,10 +16,11 @@ spring:
         format_sql: true
 logging:
   level:
-#    org.hibernate.sql: debug
+    #    org.hibernate.sql: debug
     org.hibernate.type: trace
 
 server:
   servlet:
     session:
       tracking-modes: cookie
+  port: 8999

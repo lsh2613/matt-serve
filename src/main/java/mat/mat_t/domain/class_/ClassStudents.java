@@ -5,6 +5,7 @@ import lombok.Setter;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.ClassStudentsForm;
 
 import javax.persistence.*;
 
@@ -13,7 +14,8 @@ import javax.persistence.*;
 @Setter
 public class ClassStudents {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "classLi_id")
     private Long classListId;
 
@@ -26,18 +28,31 @@ public class ClassStudents {
     private Classes classesCS;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ClassStatus status; //수강상태 [DOING, FINISHED]
 
-    //수강생 리뷰 매핑
+    @Column(nullable = false)
+    private ClassStatus status; // 수강상태 [DOING, FINISHED]
+
+    // 수강생 리뷰 매핑
     @OneToOne
     @JoinColumn(name = "stRe_id")
     private StudentReview studentReview;
 
-    //강사 리뷰 매핑
-    @OneToOne
+    // 강사 리뷰 매핑
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "insRe_id")
     private InstructorReview instructorReview;
 
+    public ClassStudents() {
+    }
 
+
+    public ClassStudents(ClassStudentsForm form) {
+        this.status = form.getStatus();
+        this.classesCS = new Classes(form.getClassId());
+        this.userCS = new User(form.getLoginId());
+    }
+
+    public ClassStudents(ClassStatus classStatus) {
+        this.status = classStatus;
+    }
 }

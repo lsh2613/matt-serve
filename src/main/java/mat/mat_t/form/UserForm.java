@@ -4,6 +4,8 @@ package mat.mat_t.form;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.user.Gender;
+import mat.mat_t.domain.user.Instructor;
+import mat.mat_t.domain.user.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UserForm {
+
+    @NotNull
+    private Long id;
 
     @NotBlank(message = "필수 입력란입니다.")
     private String loginId;
@@ -37,4 +42,9 @@ public class UserForm {
     @NotNull(message = "필수 입력란입니다.")
     private Gender gender;
 
+    public UserForm(){}
+
+    public UserForm(User user){
+        this.id=user.getId();
+    }
 }

@@ -59,7 +59,7 @@ public class WaitingStudentsServiceTest {
         waitingStudentsService.add(waitingStudent);
 
         //then
-        assertEquals(waitingStudent, waitingStudentsRepository.findOne(1L));
+        assertEquals(waitingStudent, waitingStudentsRepository.findOneById(1L));
 
     }
 
@@ -126,10 +126,10 @@ public class WaitingStudentsServiceTest {
 
         //when
         waitingStudentsService.add(waitingStudent);
-        waitingStudentsService.delete(waitingStudent);
+//        waitingStudentsService.delete(waitingStudent);
 
         //then
-        assertNull(waitingStudentsRepository.findOne(1L));
+        assertNull(waitingStudentsRepository.findOneById(1L));
 
 
     }

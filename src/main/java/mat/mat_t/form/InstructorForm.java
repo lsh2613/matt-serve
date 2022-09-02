@@ -30,5 +30,4 @@ public class InstructorForm {
         this.email = instructor.getUserIn().getEmail();
         this.gender = instructor.getUserIn().getGender();
     }
-
 }
