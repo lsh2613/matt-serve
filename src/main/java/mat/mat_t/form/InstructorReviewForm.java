@@ -23,7 +23,7 @@ public class InstructorReviewForm {
     public InstructorReviewForm(){}
 
     public InstructorReviewForm(InstructorReview instructorReview) {
-        this.score = instructorReview.getScore();
-        this.reviewContent = instructorReview.getReviewContent();
+//        this.score = instructorReview.getScore();
+//        this.reviewContent = instructorReview.getReviewContent();
     }
 }

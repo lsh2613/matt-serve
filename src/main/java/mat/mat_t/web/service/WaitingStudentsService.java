@@ -1,6 +1,7 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.WaitingStudent;
 
 import mat.mat_t.web.repository.WaitingStudentsRepository;
@@ -45,5 +46,12 @@ public class WaitingStudentsService {
         WaitingStudent find = waitingStudentsRepository.findOneById(wsId);
         find.setContent(content);
         return find;
+    }
+
+    public ClassStudents transfer(Long wsId) {
+        WaitingStudent findWs = waitingStudentsRepository.findOneById(wsId);
+        ClassStudents cs = new ClassStudents(findWs);
+        delete(findWs.getWaitingId());
+        return cs;
     }
 }

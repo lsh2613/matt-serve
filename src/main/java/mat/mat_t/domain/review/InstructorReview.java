@@ -36,5 +36,4 @@ public class InstructorReview {
             this.insReviewId=id;
             return null;
         }
-    }
 }
