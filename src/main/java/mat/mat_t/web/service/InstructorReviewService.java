@@ -22,7 +22,7 @@ public class InstructorReviewService {
 
     public InstructorReview updateInstructorReview(InstructorReview instructorReview, Long id) {
         InstructorReview review = instructorReviewRepository.findById(id).get();
-        review.setReview(instructorReview.getScore(),instructorReview.getReviewContent());
+//        review.setReview(instructorReview.getScore(),instructorReview.getReviewContent());
         return instructorReviewRepository.save(review);
     }
 

@@ -48,7 +48,7 @@ public class ClassStudentsService {
     // class student 에서 insReId 수정 
     public ClassStudents updateClassStudentsInsRevId(ClassStudents student, Long ins_re_id) {
 
-        student.setInstructorReview(new InstructorReview(ins_re_id));
+//        student.setInstructorReview(new InstructorReview(ins_re_id));
         return classStudentsRepository.save(student);
     }
 

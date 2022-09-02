@@ -19,25 +19,23 @@ public class InstructorReview {
 
     private long score;
     private String reviewContent;
+    private float score;
+    
+        public InstructorReview() {
+        }
 
-    public InstructorReview(String reviewContent, long score) {
-        this.score = score;
-        this.reviewContent = reviewContent;
-    }
+        public InstructorReview(String reviewContent, float score) {
+            this.score = score;
+            this.reviewContent = reviewContent;
+        }
 
-    public InstructorReview() {
+        public void update(InstructorReview newInstructorReview) {
+            this.score = newInstructorReview.getScore();
+            this.reviewContent = newInstructorReview.getReviewContent();
+        }
 
-    }
-
-    public InstructorReview(Long id) {
-        this.insReviewId=id;
-    }
-
-
-    @Override
-    public String toString() {
-        return "InstructorReview{" +
-                "insReviewId=" + insReviewId +
-                '}';
-    }
+        public InstructorReview getId(Long id){
+            this.insReviewId=id;
+            return null;
+        }
 }

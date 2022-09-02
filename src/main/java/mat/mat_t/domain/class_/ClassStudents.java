@@ -16,11 +16,11 @@ public class ClassStudents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "classLi_id")
-    private Long classListId;
+    @Column(name = "cs_id")
+    private Long classStudentId;
 
     @ManyToOne
-    @JoinColumn(name = "login_id")
+    @JoinColumn(name = "student_id")
     private User userCS;
 
     @ManyToOne
@@ -28,7 +28,6 @@ public class ClassStudents {
     private Classes classesCS;
 
     @Enumerated(EnumType.STRING)
-
     @Column(nullable = false)
     private ClassStatus status; // 수강상태 [DOING, FINISHED]
 
@@ -54,5 +53,11 @@ public class ClassStudents {
 
     public ClassStudents(ClassStatus classStatus) {
         this.status = classStatus;
+    }
+
+    public ClassStudents(WaitingStudent findWs) {
+        this.status = ClassStatus.DOING;
+        this.setClassesCS(findWs.getClassesWS());
+        this.setUserCS(findWs.getUserWS());
     }
 }
