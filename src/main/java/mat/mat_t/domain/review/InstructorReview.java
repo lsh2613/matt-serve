@@ -1,9 +1,9 @@
 package mat.mat_t.domain.review;
 
-
-    import lombok.Getter;
-    import lombok.Setter;
-    import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import mat.mat_t.domain.class_.ClassStatus;
+import mat.mat_t.domain.class_.ClassStudents;
 
 import javax.persistence.*;
 
@@ -16,6 +16,8 @@ public class InstructorReview {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "insRe_id")
     private Long insReviewId;
+
+    private long score;
     private String reviewContent;
     private float score;
     
