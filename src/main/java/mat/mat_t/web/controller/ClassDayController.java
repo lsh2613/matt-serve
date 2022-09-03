@@ -7,7 +7,6 @@ import mat.mat_t.form.ClassDayForm;
 import mat.mat_t.web.service.ClassDayService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,16 +32,12 @@ public class ClassDayController {
     /**클래스데이 생성**/
     @ApiOperation(value="클래스데이 생성")
     @PostMapping(value = "/classDay/new")
-    public ResponseEntity<ClassDay> createClassDay(@Valid @RequestBody ClassDayForm form, BindingResult bindingResult) {
+    public ResponseEntity<ClassDay> createClassDay(@RequestParam Long classesId, @RequestParam Long dayId) {
 
-        ClassDay classDay = new ClassDay(form);
-
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(classDay);
-        }
+        ClassDay classDay = new ClassDay(classesId, dayId);
 
         //중복검사
-        if(classDayService.checkClassesAndDaysDuplicate(form.getClassesID(), form.getDayId())){
+        if(classDayService.checkClassesAndDaysDuplicate(classesId, dayId)){
             throw new IllegalStateException("이미 존재하는 클래스데이입니다.");
         }
         classDayService.saveClassDay(classDay);

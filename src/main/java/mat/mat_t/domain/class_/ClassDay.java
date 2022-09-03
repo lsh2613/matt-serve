@@ -37,4 +37,8 @@ public class ClassDay implements Serializable {
 
     }
 
+    public ClassDay(Long classesID, Long dayId) {
+        this.classesD = new Classes(classesID);
+        this.days = new Days(dayId);
+    }
 }

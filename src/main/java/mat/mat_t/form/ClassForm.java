@@ -2,7 +2,6 @@ package mat.mat_t.form;
 
 import lombok.Data;
 import mat.mat_t.domain.class_.Classes;
-
 import java.util.Date;
 
 @Data
@@ -16,7 +15,6 @@ public class ClassForm {
     private String place;
     private String startTime;   //시작일
     private String endTime; //종료일
-    private Long daysId;    //요일
     private String category;
     private Date startDate; // 시작날짜
     private Date endDate;   //종료날짜
@@ -36,6 +34,5 @@ public class ClassForm {
         this.startDate = classes.getStartDate();
         this.endDate = classes.getEndDate();
     }
-
 
 }
