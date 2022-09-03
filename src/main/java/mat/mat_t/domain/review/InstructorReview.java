@@ -17,7 +17,6 @@ public class InstructorReview {
     @Column(name = "insRe_id")
     private Long insReviewId;
 
-    private long score;
     private String reviewContent;
     private float score;
     
