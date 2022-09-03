@@ -13,5 +13,5 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class InitDB {
 
- 
+
 }

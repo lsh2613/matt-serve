@@ -1,6 +1,7 @@
 package mat.mat_t.form;
 
 import lombok.Data;
+import mat.mat_t.domain.review.InstructorReview;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -8,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class InstructorReviewForm {
     @NotNull
-    private float score;
+    private Long score;
 
     @NotEmpty
     private String reviewContent;
@@ -18,4 +19,11 @@ public class InstructorReviewForm {
 
     @NotNull
     private Long classId;
+
+    public InstructorReviewForm(){}
+
+    public InstructorReviewForm(InstructorReview instructorReview) {
+//        this.score = instructorReview.getScore();
+//        this.reviewContent = instructorReview.getReviewContent();
+    }
 }

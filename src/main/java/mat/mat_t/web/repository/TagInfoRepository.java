@@ -12,13 +12,11 @@ public class TagInfoRepository {
 
     private final EntityManager em;
 
-
     // 태그 정보 생성
     public Long save(TagInfo tagInfo) {
         em.merge(tagInfo);
         return tagInfo.getTagInfoId();
     }
-            
 
     // 태그 정보 생성
     public void update(Long tagInfoId, String tagName) {
@@ -34,7 +32,7 @@ public class TagInfoRepository {
 
     // 전체 태그 정보 검색
     public List<TagInfo> findAll() {
-        return em.createQuery("select t from TagInfo t", TagInfo.class)
+        return em.createQuery("select t from TagInfo t order by t.tagInfoId asc", TagInfo.class)
                 .getResultList();
     }
 
@@ -44,4 +42,3 @@ public class TagInfoRepository {
     }
 
 }
-

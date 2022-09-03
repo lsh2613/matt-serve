@@ -1,4 +1,4 @@
-package mat.mat_t.web.service;
+    package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.review.InstructorReview;
@@ -15,22 +15,19 @@ public class InstructorReviewService {
 
     private final InstructorReviewRepository instructorReviewRepository;
 
-//    public boolean validateReview(InstructorReview instructorReview,String name1,String name2){
-//        if(name1.equals(instructorReview.getClassStudents().getUserCS().getName())&&name2.equals(instructorReview.getClassStudents().getClassesCS().getTitle())) {
-//            return true;
-//        }
-//        return false;
-//    }
-
     //저장
     public void saveReview(InstructorReview instructorReview) {
         instructorReviewRepository.save(instructorReview);
     }
 
-    //수정
-    public void updateReview(InstructorReview newInstructorReview, Long id) {
-        InstructorReview instructorReview = instructorReviewRepository.findById(id).get();
-        instructorReview.update(newInstructorReview);
+    public InstructorReview updateInstructorReview(InstructorReview instructorReview, Long id) {
+        InstructorReview review = instructorReviewRepository.findById(id).get();
+//        review.setReview(instructorReview.getScore(),instructorReview.getReviewContent());
+        return instructorReviewRepository.save(review);
+    }
+
+    public List<InstructorReview> checkAll() {
+        return instructorReviewRepository.findAll();
     }
 
     //삭제
@@ -38,8 +35,9 @@ public class InstructorReviewService {
         instructorReviewRepository.deleteById(id);
     }
 
-    public List checkReview(){
-        List<InstructorReview> instructorReviews = instructorReviewRepository.findAll();
-        return instructorReviews;
+    //클래스 단건 조회
+    public InstructorReview check(Long classId) {
+        return instructorReviewRepository.findById(classId).orElse(null);
     }
+
 }
