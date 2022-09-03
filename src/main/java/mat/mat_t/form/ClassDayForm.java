@@ -11,7 +11,6 @@ public class ClassDayForm {
     private Long classDayId;
     private Long classesID;
     private Long dayId;
-
     private Long instructorId;
     private String title;
     private Long numberOfStudents;

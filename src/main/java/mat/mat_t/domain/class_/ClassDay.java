@@ -4,7 +4,6 @@ import lombok.Data;
 import mat.mat_t.form.ClassDayForm;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.io.Serializable;
 

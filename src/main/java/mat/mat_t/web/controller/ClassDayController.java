@@ -86,7 +86,7 @@ public class ClassDayController {
     }
 
     /**dayName 으로(= ex. 월요일) 바로 클래스데이 조회**/
-    @ApiOperation(value="클래스데이 dayName으로 조회")
+    @ApiOperation(value="클래스데이 dayName 으로 조회")
     @GetMapping("/classDay/dayName/{dayName}")
     public ResponseEntity<List<ClassDayForm>> findClassByDayName(@PathVariable String dayName) {
         List<ClassDay> classDays = new ArrayList<>();
