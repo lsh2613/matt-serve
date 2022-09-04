@@ -48,7 +48,7 @@ public class ClassStudents {
     public ClassStudents(ClassStudentsForm form) {
         this.status = form.getStatus();
         this.classesCS = new Classes(form.getClassId());
-        this.userCS = new User(form.getLoginId());
+        this.userCS = new User(form.getStudentId());
     }
 
     public ClassStudents(ClassStatus classStatus) {

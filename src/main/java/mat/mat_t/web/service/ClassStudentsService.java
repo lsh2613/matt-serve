@@ -7,6 +7,7 @@ import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.ClassStudentsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,21 +41,42 @@ public class ClassStudentsService {
     }
 
     // 유저 id 와 클래스 id 를 이용한 class-student 조회
-    public ClassStudents findByUserIdAndClassId(Long userId, Long classId) {
-        ClassStudents students = classStudentsRepository.findByUserCS_IdAndClassesCS_ClassId(userId, classId);
+    public List<ClassStudents> findByUserIdAndClassId(Long userId, Long classId) {
+        List<ClassStudents> students = new ArrayList<>();
+        students=classStudentsRepository.findByUserCS_IdAndClassesCS_ClassId(userId, classId);
         return students;
     }
 
-    // class student 에서 insReId 수정 
+    public ClassStudents findCS(List<ClassStudents> classStudents,Long id){
+        for(ClassStudents cs: classStudents){
+            if(cs.getClassStudentId().equals(id))
+                return cs;
+        }
+        return null;
+    }
+
+    // class student 에서 insReId 수정
     public ClassStudents updateClassStudentsInsRevId(ClassStudents student, Long ins_re_id) {
 
-//        student.setInstructorReview(new InstructorReview(ins_re_id));
+        student.setInstructorReview(new InstructorReview(ins_re_id));
+        return classStudentsRepository.save(student);
+    }
+
+    // classStudents랑 연관관계 끊는 메서드
+    public ClassStudents deleteClassStudentsInsRevId(ClassStudents student) {
+        student.setInstructorReview(null);
         return classStudentsRepository.save(student);
     }
 
     public ClassStudents updateClassStudentsStRevId(ClassStudents student, Long st_re_id) {
 
         student.setStudentReview(new StudentReview(st_re_id));
+        return classStudentsRepository.save(student);
+    }
+
+    // classStudents랑 연관관계 끊는 메서드
+    public ClassStudents deleteClassStudentsStRevId(ClassStudents student) {
+        student.setStudentReview(null);
         return classStudentsRepository.save(student);
     }
 }
