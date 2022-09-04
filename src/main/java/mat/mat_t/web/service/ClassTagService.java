@@ -31,6 +31,13 @@ public class ClassTagService {
     }
 
     /**
+     * 클래스 아이디, 태그 아이디 중복 처리
+     **/
+    public boolean checkClassesAndTagInfoDuplicate(Long classId, Long tagInfoId) {
+        return classTagRepository.existsClassTagByClassesCT_ClassIdAndTagInfo_TagInfoId(classId, tagInfoId);
+    }
+
+    /**
      * 클래스 태그 클래스 아이디로 조회
      **/
     public List<ClassTag> findClassTagByClassId(Long classId) {
