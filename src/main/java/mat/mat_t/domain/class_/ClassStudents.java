@@ -44,7 +44,6 @@ public class ClassStudents {
     public ClassStudents() {
     }
 
-
     public ClassStudents(ClassStudentsForm form) {
         this.status = form.getStatus();
         this.classesCS = new Classes(form.getClassId());

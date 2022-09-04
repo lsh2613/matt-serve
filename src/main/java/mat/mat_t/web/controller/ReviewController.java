@@ -61,6 +61,7 @@ public class ReviewController {
     public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
                                                                    Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
+
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
     }
