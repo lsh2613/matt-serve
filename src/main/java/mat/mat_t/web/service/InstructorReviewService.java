@@ -1,43 +1,58 @@
-package mat.mat_t.web.service;
+    package mat.mat_t.web.service;
 
-import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.review.InstructorReview;
-import mat.mat_t.web.repository.InstructorReviewRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+    import lombok.RequiredArgsConstructor;
+    import mat.mat_t.domain.class_.ClassStudents;
+    import mat.mat_t.domain.review.InstructorReview;
+    import mat.mat_t.web.repository.InstructorReviewRepository;
+    import org.springframework.stereotype.Service;
+    import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+    import java.util.List;
 
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class InstructorReviewService {
+    @Service
+    @Transactional
+    @RequiredArgsConstructor
+    public class InstructorReviewService {
 
-    private final InstructorReviewRepository instructorReviewRepository;
+        private final InstructorReviewRepository instructorReviewRepository;
 
-    //저장
-    public void saveReview(InstructorReview instructorReview) {
-        instructorReviewRepository.save(instructorReview);
+        //저장
+        public void saveReview(InstructorReview instructorReview) {
+            instructorReviewRepository.save(instructorReview);
+        }
+
+        public InstructorReview updateInstructorReview(InstructorReview instructorReview, Long id) {
+            InstructorReview review = instructorReviewRepository.findById(id).get();
+            review.setReview(instructorReview.getReviewContent(),instructorReview.getScore());
+            return instructorReviewRepository.save(review);
+        }
+
+        public List<InstructorReview> checkAll() {
+            return instructorReviewRepository.findAll();
+        }
+
+        //삭제
+        public void deleteReview(Long id) {
+            instructorReviewRepository.deleteById(id);
+        }
+
+        //클래스 단건 조회
+        public InstructorReview check(Long classId) {
+            return instructorReviewRepository.findById(classId).orElse(null);
+        }
+
+        public InstructorReview updateClassStudents(ClassStudents classStudents,InstructorReview instructorReview) {
+            instructorReview.setClassStudents(classStudents);
+            return instructorReviewRepository.save(instructorReview);
+        }
+
+        public InstructorReview findByInsReviewId(Long id) {
+            return instructorReviewRepository.findByInsReviewId(id);
+        }
+
+        public InstructorReview deleteClassStudents(ClassStudents classStudents,InstructorReview instructorReview) {
+            classStudents=null;
+            instructorReview.setClassStudents(classStudents);
+            return instructorReviewRepository.save(instructorReview);
+        }
     }
-
-    public InstructorReview updateInstructorReview(InstructorReview instructorReview, Long id) {
-        InstructorReview review = instructorReviewRepository.findById(id).get();
-        review.setReview(instructorReview.getReviewContent(),instructorReview.getScore());
-        return instructorReviewRepository.save(review);
-    }
-
-    public List<InstructorReview> checkAll() {
-        return instructorReviewRepository.findAll();
-    }
-
-    //삭제
-    public void deleteReview(Long id) {
-        instructorReviewRepository.deleteById(id);
-    }
-
-    //클래스 단건 조회
-    public InstructorReview check(Long classId) {
-        return instructorReviewRepository.findById(classId).orElse(null);
-    }
-
-}

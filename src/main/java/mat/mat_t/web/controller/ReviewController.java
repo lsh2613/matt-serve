@@ -30,21 +30,11 @@ public class ReviewController {
     @ApiOperation(value = "수업 리뷰저장")
     @PostMapping("instructorReview")
     public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form, BindingResult bindingResult) {
-        InstructorReview instructorReview = new InstructorReview();
-        instructorReview.setReview(form.getReviewContent(), form.getScore());
+        InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.saveReview(instructorReview);
-        long insId = instructorReview.getInsReviewId();
 
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(instructorReview);
-        }
-
-        //매핑하는거
-        List<ClassStudents> students = new ArrayList<>();
-        students = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
-        ClassStudents student = classStudentsService.findCS(students, form.getClassStudentsId());
-        student = classStudentsService.updateClassStudentsInsRevId(student, insId);
-
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
+        instructorReview = instructorReviewService.updateClassStudents(student, instructorReview);
         return ResponseEntity.ok().body(instructorReview);
     }
 
@@ -61,7 +51,6 @@ public class ReviewController {
     public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
                                                                    Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
-
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
     }
@@ -95,12 +84,10 @@ public class ReviewController {
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
         studentReviewService.saveReview(studentReview);
-        long stReId = studentReview.getStReId();
 
-        // 유저 id와 클래스 id를 이용한 class-student 조회
-//        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
-//        // 조회한 student 로부터 class-student의 rewid 수정하기
-//        student = classStudentsService.updateClassStudentsStRevId(student, stReId);
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
+        studentReview = studentReviewService.updateClassStudents(student, studentReview);
+
         return ResponseEntity.ok().body(studentReview);
     }
 

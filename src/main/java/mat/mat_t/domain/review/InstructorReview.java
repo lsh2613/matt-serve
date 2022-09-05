@@ -2,6 +2,7 @@ package mat.mat_t.domain.review;
 
 import lombok.Getter;
 import lombok.Setter;
+import mat.mat_t.domain.class_.ClassStudents;
 
 import javax.persistence.*;
 
@@ -20,6 +21,9 @@ public class InstructorReview {
 
     //클래스 스튜던트 매핑
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private ClassStudents classStudents;
+
     public InstructorReview(String reviewContent, float score) {
 
         this.reviewContent = reviewContent;
@@ -32,10 +36,5 @@ public class InstructorReview {
     }
 
     public InstructorReview() {
-
-    }
-
-    public InstructorReview(Long id) {
-        this.insReviewId=id;
     }
 }

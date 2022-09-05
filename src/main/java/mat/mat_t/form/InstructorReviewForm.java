@@ -21,8 +21,6 @@ public class InstructorReviewForm {
     @NotNull
     private Long classId;
 
-    private Long classStudentsId;
-
     public InstructorReviewForm() {
     }
 

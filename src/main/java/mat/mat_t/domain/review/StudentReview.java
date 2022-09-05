@@ -20,6 +20,9 @@ public class StudentReview {
 
     private String reviewContent;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private ClassStudents classStudents;
+
     public StudentReview(){}
 
     public StudentReview(float mannerTemperature,String reviewContent){
@@ -27,9 +30,8 @@ public class StudentReview {
         this.reviewContent=reviewContent;
     }
 
-    public StudentReview(Long id){this.stReId=id;}
-
-    public void setReview(float mannerTemperature){
+    public void setReview(float mannerTemperature,String reviewContent){
         this.mannerTemperature=mannerTemperature;
+        this.reviewContent=reviewContent;
     }
 }
