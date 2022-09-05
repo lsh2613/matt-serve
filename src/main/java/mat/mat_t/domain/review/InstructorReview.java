@@ -2,7 +2,6 @@ package mat.mat_t.domain.review;
 
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 
 import javax.persistence.*;
@@ -17,24 +16,25 @@ public class InstructorReview {
     @Column(name = "insRe_id")
     private Long insReviewId;
 
-    private String reviewContent;
     private float score;
-    
-        public InstructorReview() {
-        }
+    private String reviewContent;
 
-        public InstructorReview(String reviewContent, float score) {
-            this.score = score;
-            this.reviewContent = reviewContent;
-        }
+    //클래스 스튜던트 매핑
 
-        public void update(InstructorReview newInstructorReview) {
-            this.score = newInstructorReview.getScore();
-            this.reviewContent = newInstructorReview.getReviewContent();
-        }
+    @OneToOne(fetch = FetchType.LAZY)
+    private ClassStudents classStudents;
 
-        public InstructorReview getId(Long id){
-            this.insReviewId=id;
-            return null;
-        }
+    public InstructorReview(String reviewContent, float score) {
+
+        this.reviewContent = reviewContent;
+        this.score = score;
+    }
+
+    public void setReview(String reviewContent,float score){
+        this.reviewContent=reviewContent;
+        this.score=score;
+    }
+
+    public InstructorReview() {
+    }
 }

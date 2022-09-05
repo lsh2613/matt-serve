@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull;
 public class StudentReviewForm {
 
     @NotNull
-    private Long mannerTemperature;
+    private float mannerTemperature;
 
     @NotNull
-    private Long loginId;
+    private Long studentId;
 
     @NotNull
     private Long classId;
@@ -21,9 +21,10 @@ public class StudentReviewForm {
     @NotEmpty
     private String reviewContent;
 
-    public StudentReviewForm(){}
+    public StudentReviewForm() {
+    }
 
     public StudentReviewForm(StudentReview studentReview) {
-        this.mannerTemperature=studentReview.getMannerTemperature();
+        this.mannerTemperature = studentReview.getMannerTemperature();
     }
 }

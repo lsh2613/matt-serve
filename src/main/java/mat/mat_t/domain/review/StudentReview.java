@@ -16,23 +16,22 @@ public class StudentReview {
     @Column(name = "stRe_id")
     private Long stReId;
 
-    private long mannerTemperature;  // 평가내용
+    private float mannerTemperature;  // 평가내용
 
     private String reviewContent;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private ClassStudents classStudentsStId;
+    private ClassStudents classStudents;
 
     public StudentReview(){}
 
-    public StudentReview(long mannerTemperature,String reviewContent){
+    public StudentReview(float mannerTemperature,String reviewContent){
         this.mannerTemperature=mannerTemperature;
         this.reviewContent=reviewContent;
     }
 
-    public StudentReview(Long id){this.stReId=id;}
-
-    public void setReview(long mannerTemperature){
+    public void setReview(float mannerTemperature,String reviewContent){
         this.mannerTemperature=mannerTemperature;
+        this.reviewContent=reviewContent;
     }
 }

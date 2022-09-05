@@ -1,6 +1,7 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.StudentReviewRepository;
@@ -23,8 +24,7 @@ public class StudentReviewService {
 
     public StudentReview updateStudentReview(StudentReview studentReview, Long id) {
         StudentReview review = studentReviewRepository.findById(id).get();
-        review.setReview(studentReview.getMannerTemperature());
-        review.setReviewContent(studentReview.getReviewContent());
+        review.setReview(studentReview.getMannerTemperature(),studentReview.getReviewContent());
         return studentReviewRepository.save(review);
     }
 
@@ -42,4 +42,18 @@ public class StudentReviewService {
         return studentReviewRepository.findById(classId).orElse(null);
     }
 
+    public StudentReview updateClassStudents(ClassStudents classStudents, StudentReview studentReview) {
+        studentReview.setClassStudents(classStudents);
+        return studentReviewRepository.save(studentReview);
+    }
+
+    public StudentReview findByStReId(Long id) {
+        return studentReviewRepository.findByStReId(id);
+    }
+
+    public StudentReview deleteClassStudents(ClassStudents classStudents,StudentReview studentReview) {
+        classStudents=null;
+        studentReview.setClassStudents(classStudents);
+        return studentReviewRepository.save(studentReview);
+    }
 }
