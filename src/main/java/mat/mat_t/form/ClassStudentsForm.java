@@ -15,11 +15,8 @@ public class ClassStudentsForm {
     @NotNull
     private Long classId;
 
-    // private Long insReviewId;
-    // private Long stReviewId;
-
     @NotNull
-    private Long loginId;
+    private Long studentId;
 
     public ClassStudentsForm() {
     }
@@ -27,7 +24,7 @@ public class ClassStudentsForm {
     public ClassStudentsForm(ClassStudents classStudents) {
         this.status = classStudents.getStatus();
         this.classId = classStudents.getClassesCS().getClassId();
-        this.loginId = classStudents.getUserCS().getId();
+        this.studentId = classStudents.getUserCS().getId();
     }
 
 }

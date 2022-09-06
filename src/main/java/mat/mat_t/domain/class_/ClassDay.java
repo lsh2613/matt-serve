@@ -4,7 +4,6 @@ import lombok.Data;
 import mat.mat_t.form.ClassDayForm;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -37,4 +36,8 @@ public class ClassDay implements Serializable {
 
     }
 
+    public ClassDay(Long classesID, Long dayId) {
+        this.classesD = new Classes(classesID);
+        this.days = new Days(dayId);
+    }
 }

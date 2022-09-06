@@ -12,6 +12,7 @@ import mat.mat_t.web.service.InstructorReviewService;
 import mat.mat_t.web.service.StudentReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,39 +22,34 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ReviewController {
-    
+
     private final StudentReviewService studentReviewService;
     private final InstructorReviewService instructorReviewService;
     private final ClassStudentsService classStudentsService;
 
     @ApiOperation(value = "수업 리뷰저장")
     @PostMapping("instructorReview")
-    public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form) {
+    public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form, BindingResult bindingResult) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.saveReview(instructorReview);
-        long insId = instructorReview.getInsReviewId();
 
-        // 유저 id와 클래스 id를 이용한 class-student 조회
-        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getLoginId(), form.getClassId());
-        // 조회한 student 로부터 class-student의 rewid 수정하기
-        student = classStudentsService.updateClassStudentsInsRevId(student, insId);
-
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
+        instructorReview = instructorReviewService.updateClassStudents(student, instructorReview);
         return ResponseEntity.ok().body(instructorReview);
     }
 
     @ApiOperation(value = "수업 리뷰수정")
     @PatchMapping("instructorReview")
-    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
-            Long id) {
+    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form, Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
-        instructorReviewService.updateInstructorReview(instructorReview,id);
+        instructorReviewService.updateInstructorReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
     }
 
     @ApiOperation(value = "수업 리뷰삭제")
     @DeleteMapping("instructorReview")
     public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
-            Long id) {
+                                                                   Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
@@ -88,12 +84,10 @@ public class ReviewController {
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
         studentReviewService.saveReview(studentReview);
-        long stReId = studentReview.getStReId();
 
-        // 유저 id와 클래스 id를 이용한 class-student 조회
-        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getLoginId(), form.getClassId());
-        // 조회한 student 로부터 class-student의 rewid 수정하기
-        student = classStudentsService.updateClassStudentsStRevId(student, stReId);
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
+        studentReview = studentReviewService.updateClassStudents(student, studentReview);
+
         return ResponseEntity.ok().body(studentReview);
     }
 

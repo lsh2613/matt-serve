@@ -2,7 +2,6 @@ package mat.mat_t.domain.class_;
 
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.ClassStudentsForm;
@@ -16,11 +15,11 @@ public class ClassStudents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "classLi_id")
-    private Long classListId;
+    @Column(name = "cs_id")
+    private Long classStudentId;
 
     @ManyToOne
-    @JoinColumn(name = "login_id")
+    @JoinColumn(name = "student_id")
     private User userCS;
 
     @ManyToOne
@@ -28,31 +27,29 @@ public class ClassStudents {
     private Classes classesCS;
 
     @Enumerated(EnumType.STRING)
-
     @Column(nullable = false)
     private ClassStatus status; // 수강상태 [DOING, FINISHED]
-
-    // 수강생 리뷰 매핑
-    @OneToOne
-    @JoinColumn(name = "stRe_id")
-    private StudentReview studentReview;
-
-    // 강사 리뷰 매핑
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "insRe_id")
-    private InstructorReview instructorReview;
 
     public ClassStudents() {
     }
 
-
     public ClassStudents(ClassStudentsForm form) {
         this.status = form.getStatus();
         this.classesCS = new Classes(form.getClassId());
-        this.userCS = new User(form.getLoginId());
+        this.userCS = new User(form.getStudentId());
     }
 
     public ClassStudents(ClassStatus classStatus) {
         this.status = classStatus;
+    }
+
+    public ClassStudents(WaitingStudent findWs) {
+        this.status = ClassStatus.DOING;
+        this.setClassesCS(findWs.getClassesWS());
+        this.setUserCS(findWs.getUserWS());
+    }
+
+    public ClassStudents(Long id) {
+        this.classStudentId = id;
     }
 }

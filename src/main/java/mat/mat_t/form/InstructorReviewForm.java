@@ -8,22 +8,24 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class InstructorReviewForm {
+
     @NotNull
-    private Long score;
+    private float score;
 
     @NotEmpty
     private String reviewContent;
 
     @NotNull
-    private Long loginId;
+    private Long studentId;
 
     @NotNull
     private Long classId;
 
-    public InstructorReviewForm(){}
+    public InstructorReviewForm() {
+    }
 
     public InstructorReviewForm(InstructorReview instructorReview) {
-        this.score = instructorReview.getScore();
         this.reviewContent = instructorReview.getReviewContent();
+        this.score = instructorReview.getScore();
     }
 }

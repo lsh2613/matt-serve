@@ -23,4 +23,4 @@ server:
   servlet:
     session:
       tracking-modes: cookie
-  port: 8999
+  port: 8000
