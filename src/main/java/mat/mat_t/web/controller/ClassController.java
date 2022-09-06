@@ -130,7 +130,7 @@ public class ClassController {
     /** 진행 완료 강의 **/
     @ApiOperation(value = "진행 완료인 클래스 조회")
     @GetMapping(value = "/class/finished")
-    public ResponseEntity<List<Classes>> findAfterDo(@RequestParam(required = false) Long studentId) {
+    public ResponseEntity<List<Classes>> findAfterDo() {
         List<Classes> classes = new ArrayList<>();
         classes = classService.findAfter();
 

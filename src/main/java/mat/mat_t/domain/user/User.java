@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.WaitingStudent;
+import mat.mat_t.form.UserForm;
 
 import javax.persistence.*;
 
@@ -36,6 +37,7 @@ public class User {
 
     // 강사 매핑
     @JsonIgnore
+
     @OneToOne
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
@@ -65,4 +67,18 @@ public class User {
         this.gender = gender;
     }
 
+    public User(UserForm form) {
+        this.id = form.getId();
+    }
+
+    public User(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                '}';
+    }
 }
