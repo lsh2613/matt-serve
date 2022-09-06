@@ -2,7 +2,6 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
-import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.StudentReviewRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class StudentReviewService {
 
     public StudentReview updateStudentReview(StudentReview studentReview, Long id) {
         StudentReview review = studentReviewRepository.findById(id).get();
-        review.setReview(studentReview.getMannerTemperature(),studentReview.getReviewContent());
+        review.setReview(studentReview.getMannerTemperature());
         return studentReviewRepository.save(review);
     }
 
@@ -56,4 +55,12 @@ public class StudentReviewService {
         studentReview.setClassStudents(classStudents);
         return studentReviewRepository.save(studentReview);
     }
+
+    public List<StudentReview> findReviewByUserId(Long id) {
+        return studentReviewRepository.findStudentReviewsByClassStudents_UserCS_Id(id);
+    }
+
+//    public List<StudentReview> findReviewByMannerTemperature(float temperature) {
+//        return studentReviewRepository.findStudentReviewsByMannerTemperatureGreaterThan(temperature);
+//    }
 }

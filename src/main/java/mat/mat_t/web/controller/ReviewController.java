@@ -82,19 +82,19 @@ public class ReviewController {
     @ApiOperation(value = "학생 리뷰저장")
     @PostMapping("studentReview")
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
+        studentReviewService.averageTemperature(studentReview,form.getMannerTemperature());
         studentReviewService.saveReview(studentReview);
 
         ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
         studentReview = studentReviewService.updateClassStudents(student, studentReview);
-
         return ResponseEntity.ok().body(studentReview);
     }
 
     @ApiOperation(value = "학생 리뷰수정")
     @PatchMapping("studentReview")
     public ResponseEntity<StudentReview> updateStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
         studentReviewService.updateStudentReview(studentReview, id);
         return ResponseEntity.ok().body(studentReview);
     }
@@ -102,7 +102,7 @@ public class ReviewController {
     @ApiOperation(value = "학생 리뷰삭제")
     @DeleteMapping("studentReview")
     public ResponseEntity<StudentReview> deleteStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature(), form.getReviewContent());
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
         studentReviewService.deleteReview(id);
         return ResponseEntity.ok().body(studentReview);
     }
@@ -128,4 +128,77 @@ public class ReviewController {
         list.add(data);
         return ResponseEntity.ok().body(list);
     }
+
+    /**
+     * 클래스 이름으로 리뷰 조회하는거
+     */
+
+    @ApiOperation(value="classId로 리뷰 조회")
+    @GetMapping("/instructorReview/{id}}")
+    public ResponseEntity<List<InstructorReviewForm>> findInstructorReviewByClassId(@PathVariable Long id) {
+        List<InstructorReview> instructorReviews = new ArrayList<>();
+        List<InstructorReviewForm> list = new ArrayList<>();
+
+        instructorReviews = instructorReviewService.findReviewByClassId(id);
+        instructorReviews.forEach(el -> {
+            InstructorReviewForm data = new InstructorReviewForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
+     * 입력점수 이상의 리뷰들이 나오게함
+     * 만약 50을 입력하면 50점이상들이 나오게함
+     */
+
+    @ApiOperation(value="점수로 리뷰 조회")
+    @GetMapping("/instructorReviews/{score}}")
+    public ResponseEntity<List<InstructorReviewForm>> findInstructorReviewByScore(@PathVariable float score) {
+        List<InstructorReview> instructorReviews = new ArrayList<>();
+        List<InstructorReviewForm> list = new ArrayList<>();
+
+        instructorReviews = instructorReviewService.findReviewByScore(score);
+        instructorReviews.forEach(el -> {
+            InstructorReviewForm data = new InstructorReviewForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
+     *  닉네임으로 학생 리뷰 조회하는거
+     */
+
+    @ApiOperation(value="UserId 로 리뷰 조회")
+    @GetMapping("/studentReview/{id}}")
+    public ResponseEntity<List<StudentReviewForm>> findStudentReviewByUserId(@PathVariable Long id) {
+        List<StudentReview> studentReviews = new ArrayList<>();
+        List<StudentReviewForm> list = new ArrayList<>();
+
+        studentReviews = studentReviewService.findReviewByUserId(id);
+        studentReviews.forEach(el -> {
+            StudentReviewForm data = new StudentReviewForm(el);
+            list.add(data);
+        });
+
+        return ResponseEntity.ok().body(list);
+    }
+
+//    @ApiOperation(value="온도로 리뷰 조회")
+//    @GetMapping("/studentReviews/{temperature}}")
+//    public ResponseEntity<List<StudentReviewForm>> findStudentReviewByTemperature(@PathVariable float temperature) {
+//        List<StudentReview> studentReviews = new ArrayList<>();
+//        List<StudentReviewForm> list = new ArrayList<>();
+//
+//        studentReviews = studentReviewService.findReviewByMannerTemperature(temperature);
+//        studentReviews.forEach(el -> {
+//            StudentReviewForm data = new StudentReviewForm(el);
+//            list.add(data);
+//        });
+//
+//        return ResponseEntity.ok().body(list);
+//    }
 }

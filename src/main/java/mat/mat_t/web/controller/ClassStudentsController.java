@@ -2,10 +2,12 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.form.ClassStudentsForm;
+import mat.mat_t.form.StudentReviewForm;
 import mat.mat_t.web.service.ClassStudentsService;
 import mat.mat_t.web.service.InstructorReviewService;
 import mat.mat_t.web.service.StudentReviewService;
@@ -34,12 +36,13 @@ public class ClassStudentsController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(classStudents);
         }
+
         classStudentsService.saveClassStudents(classStudents);
         return ResponseEntity.ok().body(classStudents);
     }
 
     @ApiOperation(value="클래스스튜던트 수정")
-    @PatchMapping("classStudents/update")
+    @PatchMapping("classStudents")
     public ResponseEntity<ClassStudents> updateClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id) {
         ClassStudents classStudents=new ClassStudents(form.getStatus());
         classStudentsService.updateClassStudents(classStudents, cs_Id);
@@ -47,7 +50,7 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value="클래스스튜던트 삭제")
-    @DeleteMapping("classStudents/delete")
+    @DeleteMapping("classStudents")
     public ResponseEntity<ClassStudents> deleteClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id,Long insRe_id,Long stRe_id) {
         ClassStudents classStudents=new ClassStudents();
 
@@ -88,6 +91,25 @@ public class ClassStudentsController {
 
         ClassStudentsForm data = new ClassStudentsForm(classStudents);
         list.add(data);
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
+     *  DOING,FINISHED 로 학생구분하는거
+     */
+
+    @ApiOperation(value="상태로 classStudents 조회")
+    @GetMapping("/classStudents/{status}}")
+    public ResponseEntity<List<ClassStudentsForm>> findClassStudentsBystatus(@PathVariable ClassStatus status) {
+        List<ClassStudents> classStudents = new ArrayList<>();
+        List<ClassStudentsForm> list = new ArrayList<>();
+
+        classStudents = classStudentsService.findClassStudentsByStatus(status);
+        classStudents.forEach(el -> {
+            ClassStudentsForm data = new ClassStudentsForm(el);
+            list.add(data);
+        });
+
         return ResponseEntity.ok().body(list);
     }
 }

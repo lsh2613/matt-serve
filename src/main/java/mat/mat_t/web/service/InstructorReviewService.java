@@ -55,4 +55,13 @@
             instructorReview.setClassStudents(classStudents);
             return instructorReviewRepository.save(instructorReview);
         }
+
+        public List<InstructorReview> findReviewByClassId(Long id) {
+            return instructorReviewRepository.findInstructorReviewsByClassStudents_ClassesCS_ClassId(id);
+        }
+
+        public List<InstructorReview> findReviewByScore(float score){
+            return instructorReviewRepository.findInstructorReviewsByScoreGreaterThan(score);
+        }
+
     }

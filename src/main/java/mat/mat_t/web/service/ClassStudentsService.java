@@ -1,6 +1,7 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.ClassStudentsRepository;
@@ -42,5 +43,9 @@ public class ClassStudentsService {
     public ClassStudents findByUserIdAndClassId(Long userId, Long classId) {
         ClassStudents students = classStudentsRepository.findByUserCS_IdAndClassesCS_ClassId(userId, classId);
         return students;
+    }
+
+    public List<ClassStudents> findClassStudentsByStatus(ClassStatus classStatus){
+        return classStudentsRepository.findClassStudentsByStatusIs(classStatus);
     }
 }
