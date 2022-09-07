@@ -24,7 +24,7 @@ public class ClassTagController {
      **/
 
     @ApiOperation(value = "클래스 태그 생성")
-    @PostMapping("/classTag")
+    @PostMapping("/classTag/new")
     public ResponseEntity<ClassTag> createClassTag(@Valid @RequestBody ClassTagForm form) {
         ClassTag classTag = new ClassTag(form);
 
@@ -94,7 +94,7 @@ public class ClassTagController {
      **/
 
     @ApiOperation(value = "클래스태그 태그정보 아이디리스트로 조회")
-    @GetMapping(value = "/classTag/tagInfoId/")
+    @GetMapping(value = "/classTag/tagInfoIdList")
     public ResponseEntity<List<ClassTagForm>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
         List<ClassTagForm> list = new ArrayList<>();

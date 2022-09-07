@@ -16,7 +16,7 @@ public class ClassTagService {
     private final ClassTagRepository classTagRepository;
 
     /**
-     * 클래스 태그 정보 생성
+     * 클래스 태그 생성
      **/
 
     public void createClassTag(ClassTag classTag) {
