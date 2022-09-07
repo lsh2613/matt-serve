@@ -16,6 +16,7 @@ public class InstructorForm {
     private String phoneNumber;
     private String email;
     private Gender gender;
+    private double score;
 
     public InstructorForm() {
     }
@@ -29,5 +30,17 @@ public class InstructorForm {
         this.phoneNumber = instructor.getUserIn().getPhoneNumber();
         this.email = instructor.getUserIn().getEmail();
         this.gender = instructor.getUserIn().getGender();
+    }
+
+    public InstructorForm(Long instructorId, String major, String name, String nickname, String birthDate, String phoneNumber, String email, Gender gender, double score) {
+        this.instructorId = instructorId;
+        this.major = major;
+        this.name = name;
+        this.nickname = nickname;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.gender = gender;
+        this.score = score;
     }
 }
