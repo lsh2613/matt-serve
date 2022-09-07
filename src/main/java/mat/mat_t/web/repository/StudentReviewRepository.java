@@ -12,6 +12,11 @@ public interface StudentReviewRepository extends JpaRepository<StudentReview,Lon
     StudentReview findByStReId(Long Id);
 
     List<StudentReview> findStudentReviewsByClassStudents_UserCS_Id(Long id);
+<<<<<<< HEAD
 //    List<StudentReview> findStudentReviewsByMannerTemperatureGreaterThan(float temperature);
 
 }
+=======
+    int countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(Long classId,Long userId);
+}
+>>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f

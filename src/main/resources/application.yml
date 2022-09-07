@@ -23,7 +23,11 @@ server:
   servlet:
     session:
       tracking-modes: cookie
+<<<<<<< HEAD
   port: 8999
 
 
 
+=======
+  port: 8999
+>>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f

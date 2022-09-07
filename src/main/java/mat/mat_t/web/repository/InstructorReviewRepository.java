@@ -12,4 +12,9 @@ public interface InstructorReviewRepository extends JpaRepository<InstructorRevi
     InstructorReview findByInsReviewId(Long Id);
     List <InstructorReview> findInstructorReviewsByClassStudents_ClassesCS_ClassId(Long id);
     List <InstructorReview> findInstructorReviewsByScoreGreaterThan(float score);
+<<<<<<< HEAD
 }
+=======
+    int countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(Long classId,Long userId);
+}
+>>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f

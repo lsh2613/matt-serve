@@ -11,10 +11,17 @@ import java.util.List;
 
 @Repository
 public interface ClassStudentsRepository extends JpaRepository<ClassStudents, Long> {
+<<<<<<< HEAD
   // userid와 classid를 이용한 where 조건 쿼리를 만들기 위함
   // jpa는 이렇게 메소드를 생성해주는 것으로 쿼리를 자동 생성해줌
     ClassStudents findByUserCS_IdAndClassesCS_ClassId(Long userId, Long classId);
     List<ClassStudents>  findClassStudentsByStatusIs(ClassStatus status);
 
 
+=======
+    int countByClassesCS_ClassIdAndUserCS_Id(Long classId,Long userId);
+    ClassStudents findByUserCS_IdAndClassesCS_ClassId(Long userId, Long classId);
+    List<ClassStudents> findClassStudentsByUserCS_IdAndStatusIs(Long userId, ClassStatus status);
+    List<ClassStudents> findAll();
+>>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f
 }
