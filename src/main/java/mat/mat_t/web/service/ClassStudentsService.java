@@ -3,7 +3,7 @@ package mat.mat_t.web.service;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
-import mat.mat_t.domain.review.StudentReview;
+import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.web.repository.ClassStudentsRepository;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +45,16 @@ public class ClassStudentsService {
         return students;
     }
 
-    public List<ClassStudents> findClassStudentsByStatus(ClassStatus classStatus){
-        return classStudentsRepository.findClassStudentsByStatusIs(classStatus);
+    public List<ClassStudents> findClassStudentsByUserIdAndStatus(Long userId,ClassStatus classStatus){
+        return classStudentsRepository.findClassStudentsByUserCS_IdAndStatusIs(userId,classStatus);
+    }
+
+    public List<Classes> finddd(Long userId,ClassStatus classStatus){
+        List<ClassStudents> classStudents = classStudentsRepository.findClassStudentsByUserCS_IdAndStatusIs(userId, classStatus);
+
+    }
+
+    public int countClassStudents(Long classId,Long userId){
+        return classStudentsRepository.countByClassesCS_ClassIdAndUserCS_Id(classId,userId);
     }
 }

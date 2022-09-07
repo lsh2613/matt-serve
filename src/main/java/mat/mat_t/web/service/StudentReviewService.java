@@ -32,6 +32,18 @@ public class StudentReviewService {
         studentReviewRepository.deleteById(id);
     }
 
+    public float averageTemperature(Long id){
+        List<StudentReview> studentReviews=studentReviewRepository.findStudentReviewsByClassStudents_UserCS_Id(id);
+
+        float sumOfTemperature=0;
+
+        for (StudentReview studentReview : studentReviews) {
+            sumOfTemperature += studentReview.getMannerTemperature();
+        }
+
+        return sumOfTemperature/studentReviews.size();
+    }
+
     public List<StudentReview> checkAll() {
         return studentReviewRepository.findAll();
     }
@@ -60,7 +72,7 @@ public class StudentReviewService {
         return studentReviewRepository.findStudentReviewsByClassStudents_UserCS_Id(id);
     }
 
-//    public List<StudentReview> findReviewByMannerTemperature(float temperature) {
-//        return studentReviewRepository.findStudentReviewsByMannerTemperatureGreaterThan(temperature);
-//    }
+    public int countStudentReviews(Long classId,Long userId){
+        return studentReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId,userId);
+    }
 }

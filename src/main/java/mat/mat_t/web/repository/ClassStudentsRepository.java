@@ -11,7 +11,8 @@ import java.util.List;
 
 @Repository
 public interface ClassStudentsRepository extends JpaRepository<ClassStudents, Long> {
+    int countByClassesCS_ClassIdAndUserCS_Id(Long classId,Long userId);
     ClassStudents findByUserCS_IdAndClassesCS_ClassId(Long userId, Long classId);
-    List<ClassStudents>  findClassStudentsByStatusIs(ClassStatus status);
-
+    List<ClassStudents> findClassStudentsByUserCS_IdAndStatusIs(Long userId, ClassStatus status);
+    List<ClassStudents> findAll();
 }

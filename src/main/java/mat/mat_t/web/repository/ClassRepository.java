@@ -47,4 +47,5 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
             " where c.classId = ct.classesCT.classId and ct.tagInfo.tagName like :tagName")
     List<Classes> findByClassTags(@Param("tagName") String tagName);
 
+
 }
