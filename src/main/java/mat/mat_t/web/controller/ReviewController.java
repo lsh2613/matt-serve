@@ -83,11 +83,12 @@ public class ReviewController {
     @PostMapping("studentReview")
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature());
-        studentReviewService.averageTemperature(studentReview,form.getMannerTemperature());
+       // studentReviewService.averageTemperature(studentReview,form.getMannerTemperature());
         studentReviewService.saveReview(studentReview);
 
         ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
         studentReview = studentReviewService.updateClassStudents(student, studentReview);
+
         return ResponseEntity.ok().body(studentReview);
     }
 

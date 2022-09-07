@@ -45,7 +45,9 @@ public class ClassStudentsService {
         return students;
     }
 
+
     public List<ClassStudents> findClassStudentsByStatus(ClassStatus classStatus){
         return classStudentsRepository.findClassStudentsByStatusIs(classStatus);
     }
+
 }

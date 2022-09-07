@@ -42,7 +42,7 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value="클래스스튜던트 수정")
-    @PatchMapping("classStudents")
+    @PatchMapping("classStudents/update")
     public ResponseEntity<ClassStudents> updateClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id) {
         ClassStudents classStudents=new ClassStudents(form.getStatus());
         classStudentsService.updateClassStudents(classStudents, cs_Id);
@@ -50,7 +50,7 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value="클래스스튜던트 삭제")
-    @DeleteMapping("classStudents")
+    @DeleteMapping("classStudents/delete")
     public ResponseEntity<ClassStudents> deleteClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id,Long insRe_id,Long stRe_id) {
         ClassStudents classStudents=new ClassStudents();
 
@@ -94,6 +94,7 @@ public class ClassStudentsController {
         return ResponseEntity.ok().body(list);
     }
 
+
     /**
      *  DOING,FINISHED 로 학생구분하는거
      */
@@ -112,4 +113,5 @@ public class ClassStudentsController {
 
         return ResponseEntity.ok().body(list);
     }
+
 }
