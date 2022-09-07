@@ -40,11 +40,8 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value="클래스스튜던트 수정")
-<<<<<<< HEAD
     @PatchMapping("classStudents/update")
-=======
-    @PatchMapping("class/students")
->>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f
+
     public ResponseEntity<ClassStudents> updateClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id) {
         ClassStudents classStudents=new ClassStudents(form.getStatus());
         classStudentsService.updateClassStudents(classStudents, cs_Id);
@@ -52,11 +49,7 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value="클래스스튜던트 삭제")
-<<<<<<< HEAD
     @DeleteMapping("classStudents/delete")
-=======
-    @DeleteMapping("class/students")
->>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f
     public ResponseEntity<ClassStudents> deleteClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id,Long insRe_id,Long stRe_id) {
         ClassStudents classStudents=new ClassStudents();
 
@@ -111,8 +104,8 @@ public class ClassStudentsController {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassStudentsForm> list = new ArrayList<>();
 
-        List<Classes> classes = new ArrayList<>();
-        List<ClassForm> list =  new ArrayList<>();
+        // List<Classes> classes = new ArrayList<>();
+        // List<ClassForm> list =  new ArrayList<>();
 
         classStudents = classStudentsService.findClassStudentsByUserIdAndStatus(userId,status);
         classStudents.forEach(el -> {

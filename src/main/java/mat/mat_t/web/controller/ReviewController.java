@@ -88,18 +88,13 @@ public class ReviewController {
     @PostMapping("student/review")
     public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
         StudentReview studentReview = new StudentReview(form.getMannerTemperature());
-<<<<<<< HEAD
-       // studentReviewService.averageTemperature(studentReview,form.getMannerTemperature());
-=======
         if(studentReviewService.countStudentReviews(form.getClassId(),form.getStudentId())==1){
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
->>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f
         studentReviewService.saveReview(studentReview);
 
         ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
         studentReview = studentReviewService.updateClassStudents(student, studentReview);
-
         return ResponseEntity.ok().body(studentReview);
     }
 

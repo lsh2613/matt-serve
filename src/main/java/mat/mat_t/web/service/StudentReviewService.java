@@ -27,7 +27,7 @@ public class StudentReviewService {
     public StudentReview updateStudentReview(StudentReview studentReview, Long id) {
         StudentReview review = studentReviewRepository.findById(id).get();
 
-        review.setReview(studentReview.getMannerTemperature(),studentReview.getReviewContent());
+        //review.setReview(studentReview.getMannerTemperature(),studentReview.getReviewContent());
 
         return studentReviewRepository.save(review);
     }

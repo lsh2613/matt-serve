@@ -64,11 +64,8 @@ public class InstructorReviewService {
         return instructorReviewRepository.findInstructorReviewsByScoreGreaterThan(score);
     }
 
-<<<<<<< HEAD
-    }
-=======
+
     public int countInstructorReviews(Long classId, Long userId) {
         return instructorReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId, userId);
     }
 }
->>>>>>> 2ede074a8aff9506dc9daa03fb65bec51b12935f
