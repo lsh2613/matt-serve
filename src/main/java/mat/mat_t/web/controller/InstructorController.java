@@ -67,11 +67,7 @@ public class InstructorController {
         List<InstructorForm> list = new ArrayList<>();
         List<Instructor> instructors = new ArrayList<>();
 
-        instructors = instructorService.findAllInstructor();
-        instructors.forEach(el -> {
-            InstructorForm data = new InstructorForm(el);
-            list.add(data);
-        });
+        list = instructorService.findInstructorWithScore();
         return ResponseEntity.ok().body(list);
     }
 
@@ -79,12 +75,10 @@ public class InstructorController {
     @ApiOperation(value="강사 아이디로 조회")
     @GetMapping("/instructor/{instructorId}")
     public ResponseEntity<List<InstructorForm>> findInstructorById( @PathVariable Long instructorId) {
-        Instructor instructor = new Instructor();
         List<InstructorForm> list = new ArrayList<>();
+        List<Instructor> instructors = new ArrayList<>();
 
-        instructor = instructorService.findById(instructorId);
-        InstructorForm data = new InstructorForm(instructor);
-        list.add(data);
+        list = instructorService.findById(instructorId);
         return ResponseEntity.ok().body(list);
     }
 

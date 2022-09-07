@@ -1,8 +1,8 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
-import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.domain.user.Instructor;
+import mat.mat_t.form.InstructorForm;
 import mat.mat_t.web.repository.InstructorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,12 +33,13 @@ public class InstructorService {
     }
 
     //전체 강사 조회
-    public List<Instructor> findAllInstructor() {
-        return instructorRepository.findAll();
+    public List<InstructorForm> findInstructorWithScore(){
+        return instructorRepository.findAllByInstructorIdAndClassList();
     }
 
     //강사 단건 조회
-    public Instructor findById(Long instructorId) {
-        return instructorRepository.findById(instructorId).orElse(null);
+    public List<InstructorForm> findById(Long instructorId) {
+        return instructorRepository.findByInstructorIdAndAndClassList(instructorId);
     }
+
 }
