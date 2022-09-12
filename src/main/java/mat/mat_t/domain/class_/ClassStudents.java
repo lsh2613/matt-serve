@@ -18,11 +18,11 @@ public class ClassStudents {
     @Column(name = "cs_id")
     private Long classStudentId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private User userCS;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
     private Classes classesCS;
 

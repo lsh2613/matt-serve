@@ -1,5 +1,6 @@
 package mat.mat_t.domain.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
@@ -19,6 +20,7 @@ public class StudentReview {
     private float mannerTemperature;  // 평가내용
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private ClassStudents classStudents;
 
     public StudentReview(){}

@@ -1,0 +1,43 @@
+package mat.mat_t.domain.class_.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import mat.mat_t.domain.class_.ClassStudents;
+
+import java.util.Date;
+@Getter
+@Setter
+public class ClassDto {
+
+    protected Long classId;
+
+    protected String title;
+    protected Long numberOfStudents;
+    protected String descriptions;
+    protected String place;
+    protected String startTime; // 시작시간
+    protected String endTime; // 종료시간\
+    protected String category;
+
+    protected Date startDate; // 시작날짜
+
+    protected Date endDate;   //종료날짜
+
+    public ClassDto() {
+    }
+
+    public ClassDto(ClassStudents classStudents) {
+
+        this.classId = classStudents.getClassesCS().getClassId();
+        this.title = classStudents.getClassesCS().getTitle();
+        this.numberOfStudents = classStudents.getClassesCS().getNumberOfStudents();
+        this.descriptions = classStudents.getClassesCS().getDescriptions();
+        this.place = classStudents.getClassesCS().getPlace();
+        this.startTime = classStudents.getClassesCS().getStartTime();
+        this.endTime = classStudents.getClassesCS().getEndTime();
+        this.category = classStudents.getClassesCS().getCategory();
+        this.startDate = classStudents.getClassesCS().getStartDate();
+        this.endDate = classStudents.getClassesCS().getEndDate();
+    }
+}

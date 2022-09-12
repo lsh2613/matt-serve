@@ -68,4 +68,12 @@ public class InstructorReviewService {
     public int countInstructorReviews(Long classId, Long userId) {
         return instructorReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId, userId);
     }
+
+    public int countClassId(Long classId){
+        return instructorReviewRepository.countByClassStudents_ClassesCS_ClassId(classId);
+    }
+
+    public int countUserId(Long userId){
+        return instructorReviewRepository.countByClassStudents_UserCS_Id(userId);
+    }
 }
