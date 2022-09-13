@@ -29,10 +29,10 @@ public class WaitingStudentController {
     private final ClassStudentsService classStudentsService;
 
     @ApiOperation("클래스 신청한 학생 DB에 저장")
-    @PostMapping("/waitingStudent/add/{classId}")
+    @PostMapping("/waitingStudent/{classId}")
     public ResponseEntity add(@PathVariable Long classId,
-                              @RequestParam String content,
-                              HttpServletRequest request) {
+            @RequestBody String content,
+            HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
@@ -48,7 +48,7 @@ public class WaitingStudentController {
     }
 
     @ApiOperation("해당 클래스에 신청한 학생들 조회")
-    @GetMapping("/waitingStudent/list/{classId}")
+    @GetMapping("/waitingStudent/{classId}")
     public ResponseEntity listStudents(@PathVariable Long classId) {
         List<WaitingStudent> classStudents = waitingStudentsService.findStudentsByClassId(classId);
 
@@ -59,17 +59,16 @@ public class WaitingStudentController {
         return ResponseEntity.ok(classStudentsDto);
     }
 
-
     @ApiOperation("클래스 신청 수정")
-    @PatchMapping("/waitingStudent/edit/{wsId}")
+    @PatchMapping("/waitingStudent/{wsId}")
     public ResponseEntity editWs(@PathVariable Long wsId,
-                                 @RequestParam String content) {
+            @RequestBody String content) {
         WaitingStudent updateStudent = waitingStudentsService.update(wsId, content);
         return ResponseEntity.ok(updateStudent);
     }
 
     @ApiOperation("클래스 신청 삭제")
-    @DeleteMapping("/waitingStudent/delete/{wsId}")
+    @DeleteMapping("/waitingStudent/{wsId}")
     public void deleteWs(@PathVariable Long wsId) {
         waitingStudentsService.delete(wsId);
     }
@@ -91,6 +90,7 @@ public class WaitingStudentController {
         String content;
 
         String date;
+
         public WsDto(WaitingStudent waitingStudent) {
             id = waitingStudent.getWaitingId();
             name = waitingStudent.getUserWS().getName();

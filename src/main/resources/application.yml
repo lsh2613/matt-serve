@@ -24,6 +24,3 @@ server:
     session:
       tracking-modes: cookie
   port: 8999
-
-
-

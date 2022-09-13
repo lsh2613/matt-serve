@@ -44,8 +44,11 @@ public class LoginController {
 
     @ApiOperation(value = "로그인 시 세션에 loginUser객체 저장")
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody LoginForm form, BindingResult bindingResult,
-                                HttpServletRequest request, HttpServletResponse response) {
+
+    public ResponseEntity<?> login(@Valid @RequestBody LoginForm form, BindingResult bindingResult,
+
+            HttpServletRequest request) {
+
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(null);

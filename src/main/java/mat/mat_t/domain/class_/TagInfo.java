@@ -2,8 +2,6 @@ package mat.mat_t.domain.class_;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import mat.mat_t.form.TagInfoForm;
 
 import javax.persistence.*;
@@ -25,6 +23,10 @@ public class TagInfo {
     public TagInfo(Long tagInfoId, String tagName) {
         this.tagInfoId = tagInfoId;
         this.tagName = tagName;
+    }
+
+    public TagInfo(Long tagInfoId) {
+        this.tagInfoId = tagInfoId;
     }
 
     public TagInfo() {

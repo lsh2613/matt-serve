@@ -8,6 +8,9 @@ import mat.mat_t.domain.class_.WaitingStudent;
 import mat.mat_t.form.UserForm;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +36,10 @@ public class User {
     private Gender gender;
 
     // 강사 매핑
+    @JsonIgnore
+
     @OneToOne
     @JoinColumn(name = "instructor_id")
-    @JsonIgnore
     private Instructor instructor;
 
     // 클래스 수강생 매핑
@@ -46,7 +50,7 @@ public class User {
     // 클래스 수강희망생 매핑
     @OneToMany(mappedBy = "userWS")
     @JsonIgnore
-    private List<WaitingStudent> waitingStudents= new ArrayList<>();
+    private List<WaitingStudent> waitingStudents = new ArrayList<>();
 
     public User() {
     }

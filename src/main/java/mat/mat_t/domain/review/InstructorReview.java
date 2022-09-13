@@ -20,7 +20,6 @@ public class InstructorReview {
     private float score;
     private String reviewContent;
 
-    //클래스 스튜던트 매핑
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private ClassStudents classStudents;
@@ -31,9 +30,9 @@ public class InstructorReview {
         this.score = score;
     }
 
-    public void setReview(String reviewContent,float score){
-        this.reviewContent=reviewContent;
-        this.score=score;
+    public void setReview(String reviewContent, float score) {
+        this.reviewContent = reviewContent;
+        this.score = score;
     }
 
     public InstructorReview() {
