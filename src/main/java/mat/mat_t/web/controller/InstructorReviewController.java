@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -74,6 +75,8 @@ public class InstructorReviewController {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
+        Collections.reverse(instructorReviewDtoList);
+
         return ResponseEntity.ok().body(instructorReviewDtoList);
     }
 
@@ -103,6 +106,8 @@ public class InstructorReviewController {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
+        Collections.reverse(instructorReviewDtoList);
+
         return ResponseEntity.ok().body(instructorReviewDtoList);
     }
 
@@ -122,6 +127,8 @@ public class InstructorReviewController {
         for (int i = 0; i < instructorReviews.size(); i++) {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
+
+        Collections.reverse(instructorReviewDtoList);
 
         return ResponseEntity.ok().body(instructorReviewDtoList);
     }

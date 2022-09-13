@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -82,12 +83,15 @@ public class ClassStudentsController {
     @GetMapping("class/students/all")
     public ResponseEntity<List<ClassStudentsForm>> checkAllClassStudents() {
         List<ClassStudents> classStudents = classStudentsService.checkAll();
-        ;
         List<ClassStudentsForm> list = new ArrayList<>();
+
         classStudents.forEach(el -> {
             ClassStudentsForm classStudentsForm = new ClassStudentsForm(el);
             list.add(classStudentsForm);
         });
+
+        Collections.reverse(list);
+
         return ResponseEntity.ok().body(list);
     }
 
@@ -111,12 +115,15 @@ public class ClassStudentsController {
     @GetMapping("/class/students/{status}/{userId}}")
     public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId, ClassStatus status) {
         List<ClassStudents> classStudents = new ArrayList<>();
-        List<ClassDto> classDtos = new ArrayList<>();
+        List<ClassDto> classDtoList = new ArrayList<>();
         classStudents = classStudentsService.findByUserCS_IdAndStatusIs(userId, status);
 
         for(int i=0;i<classStudents.size();i++){
-          classDtos.add(new ClassDto(classStudents.get(i)));
+          classDtoList.add(new ClassDto(classStudents.get(i)));
         }
-        return ResponseEntity.ok().body(classDtos);
+
+        Collections.reverse(classDtoList);
+
+        return ResponseEntity.ok().body(classDtoList);
     }
 }

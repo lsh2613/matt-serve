@@ -7,7 +7,6 @@ import mat.mat_t.domain.class_.dto.StudentReviewDto;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.form.StudentReviewForm;
 import mat.mat_t.web.service.ClassStudentsService;
-import mat.mat_t.web.service.InstructorReviewService;
 import mat.mat_t.web.service.StudentReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -32,11 +32,11 @@ public class StudentReviewController {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
 
-        if(studentReviewService.countClassId(form.getClassId())!=1){
+        if (studentReviewService.countClassId(form.getClassId()) != 1) {
             throw new IllegalStateException("수강등록된 클래스가 아닙니다.");
         }
 
-        if(studentReviewService.countUserId(form.getStudentId())!=1){
+        if (studentReviewService.countUserId(form.getStudentId()) != 1) {
             throw new IllegalStateException("수강등록된 학생이 아닙니다.");
         }
 
@@ -79,9 +79,11 @@ public class StudentReviewController {
         List<StudentReview> studentReviews = studentReviewService.checkAll();
         List<StudentReviewDto> studentReviewDtoList = new ArrayList<>();
 
-        for(int i=0;i<studentReviews.size();i++){
+        for (int i = 0; i < studentReviews.size(); i++) {
             studentReviewDtoList.add(new StudentReviewDto(studentReviews.get(i)));
         }
+
+        Collections.reverse(studentReviewDtoList);
 
         return ResponseEntity.ok().body(studentReviewDtoList);
     }
@@ -90,7 +92,7 @@ public class StudentReviewController {
     @GetMapping("student/review/{reviewId}")
     public ResponseEntity<StudentReviewDto> checkStudentReview(@PathVariable Long reviewId) {
         StudentReview studentReview = studentReviewService.check(reviewId);
-        StudentReviewDto studentReviewDto=new StudentReviewDto(studentReview);
+        StudentReviewDto studentReviewDto = new StudentReviewDto(studentReview);
 
         return ResponseEntity.ok().body(studentReviewDto);
     }
@@ -103,13 +105,15 @@ public class StudentReviewController {
     @GetMapping("/student/review/{userId}}")
     public ResponseEntity<List<StudentReviewDto>> findStudentReviewByUserId(@PathVariable Long userId) {
         List<StudentReview> studentReviews = new ArrayList<>();
-        List<StudentReviewDto> studentReviewDtoList=new ArrayList<>();
+        List<StudentReviewDto> studentReviewDtoList = new ArrayList<>();
 
         studentReviews = studentReviewService.findReviewByUserId(userId);
 
-        for(int i=0;i<studentReviews.size();i++){
+        for (int i = 0; i < studentReviews.size(); i++) {
             studentReviewDtoList.add(new StudentReviewDto(studentReviews.get(i)));
         }
+
+        Collections.reverse(studentReviewDtoList);
 
         return ResponseEntity.ok().body(studentReviewDtoList);
     }
