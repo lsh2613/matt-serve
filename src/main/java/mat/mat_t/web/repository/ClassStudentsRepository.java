@@ -1,7 +1,9 @@
 package mat.mat_t.web.repository;
 
+import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 
+import mat.mat_t.domain.class_.dto.ClassDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +11,10 @@ import java.util.List;
 
 @Repository
 public interface ClassStudentsRepository extends JpaRepository<ClassStudents, Long> {
-
-
-  // userid와 classid를 이용한 where 조건 쿼리를 만들기 위함
-  // jpa는 이렇게 메소드를 생성해주는 것으로 쿼리를 자동 생성해줌
-  ClassStudents findByUserCS_IdAndClassesCS_ClassId(Long userId, Long classId);
+    int countByClassesCS_ClassIdAndUserCS_Id(Long classId,Long userId);
+    int countByClassesCS_ClassId(Long classId);
+    int countByUserCS_Id(Long userId);
+    ClassStudents findByUserCS_IdAndClassesCS_ClassId(Long userId, Long classId);
+    List<ClassStudents> findClassStudentsByUserCS_IdAndStatusIs(Long userId, ClassStatus status);
+    List<ClassStudents> findClassDtoByUserCS_IdAndStatusIs(Long userId, ClassStatus status);
 }

@@ -1,5 +1,6 @@
 package mat.mat_t.domain.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
@@ -18,20 +19,17 @@ public class StudentReview {
 
     private float mannerTemperature;  // 평가내용
 
-    private String reviewContent;
-
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private ClassStudents classStudents;
 
     public StudentReview(){}
 
-    public StudentReview(float mannerTemperature,String reviewContent){
+    public StudentReview(float mannerTemperature){
         this.mannerTemperature=mannerTemperature;
-        this.reviewContent=reviewContent;
     }
 
-    public void setReview(float mannerTemperature,String reviewContent){
+    public void setReview(float mannerTemperature){
         this.mannerTemperature=mannerTemperature;
-        this.reviewContent=reviewContent;
     }
 }

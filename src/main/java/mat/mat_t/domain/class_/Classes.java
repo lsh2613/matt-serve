@@ -58,6 +58,10 @@ public class Classes implements Serializable {
     @OneToMany(mappedBy = "classesD")
     private List<ClassDay> classDays = new ArrayList<>();
 
+    public Classes(String title){
+        this.title=title;
+    }
+
     @Builder
     public Classes(Long classId, String title, Long numberOfStudents, String descriptions, String place,
             String startTime, String endTime, String category, Date startDate, Date endDate) {

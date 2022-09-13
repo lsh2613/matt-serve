@@ -2,7 +2,7 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
-import mat.mat_t.domain.review.InstructorReview;
+
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.StudentReviewRepository;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,25 @@ public class StudentReviewService {
 
     public StudentReview updateStudentReview(StudentReview studentReview, Long id) {
         StudentReview review = studentReviewRepository.findById(id).get();
-        review.setReview(studentReview.getMannerTemperature(),studentReview.getReviewContent());
+        review.setReview(studentReview.getMannerTemperature());
         return studentReviewRepository.save(review);
     }
 
     //삭제
     public void deleteReview(Long id) {
         studentReviewRepository.deleteById(id);
+    }
+
+    public float averageTemperature(Long id){
+        List<StudentReview> studentReviews=studentReviewRepository.findStudentReviewsByClassStudents_UserCS_Id(id);
+
+        float sumOfTemperature=0;
+
+        for (StudentReview studentReview : studentReviews) {
+            sumOfTemperature += studentReview.getMannerTemperature();
+        }
+
+        return sumOfTemperature/studentReviews.size();
     }
 
     public List<StudentReview> checkAll() {
@@ -56,4 +68,20 @@ public class StudentReviewService {
         studentReview.setClassStudents(classStudents);
         return studentReviewRepository.save(studentReview);
     }
+
+    public List<StudentReview> findReviewByUserId(Long id) {
+        return studentReviewRepository.findStudentReviewsByClassStudents_UserCS_Id(id);
+    }
+
+    public int countStudentReviews(Long classId,Long userId){
+        return studentReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId,userId);
+    }
+
+    public int countClassId(Long classId){
+        return studentReviewRepository.countByClassStudents_ClassesCS_ClassId(classId);
+    }
+    public int countUserId(Long userId){
+        return studentReviewRepository.countByClassStudents_UserCS_Id(userId);
+    }
 }
+

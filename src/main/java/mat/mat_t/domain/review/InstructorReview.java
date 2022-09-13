@@ -1,5 +1,6 @@
 package mat.mat_t.domain.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
@@ -19,9 +20,8 @@ public class InstructorReview {
     private float score;
     private String reviewContent;
 
-    // 클래스 스튜던트 매핑
-
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private ClassStudents classStudents;
 
     public InstructorReview(String reviewContent, float score) {

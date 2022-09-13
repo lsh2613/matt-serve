@@ -22,7 +22,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -47,6 +49,7 @@ public class LoginController {
 
             HttpServletRequest request) {
 
+
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -60,6 +63,8 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute("loginUser", loginUser);
+        Cookie cookie = new Cookie("JSESSIONID",session.getId());
+        response.addCookie(cookie);
 
         LoginUserDto loginUserDto = new LoginUserDto(loginUser);
 
