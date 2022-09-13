@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -22,7 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @ApiOperation(value="신규 회원가입")
+    @ApiOperation(value = "신규 회원가입")
     @GetMapping("/user/new")
     public String createForm(Model model) {
         model.addAttribute("userForm", new UserForm());
@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("user/new")
     public ResponseEntity<User> create(@Valid @RequestBody UserForm form, BindingResult bindingResult) {
 
-        User user = new User(form.getLoginId(), form.getPassword(),form.getName(), form.getNickname(),
+        User user = new User(form.getLoginId(), form.getPassword(), form.getName(), form.getNickname(),
                 form.getBirthDate(), form.getPhoneNumber(), form.getEmail(), form.getGender());
 
         if (bindingResult.hasErrors()) {
@@ -42,5 +42,35 @@ public class UserController {
         userService.join(user);
 
         return ResponseEntity.ok().body(user);
+    }
+
+    @ApiOperation(value = "비밀번호 수정")
+    @PatchMapping("user/editPwd")
+    public ResponseEntity editPwd(HttpServletRequest request, @RequestParam("pwd") String pwd) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        User updatedUser = userService.updatePwd(loginUser.getId(), pwd);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @ApiOperation(value = "닉네임 수정")
+    @PatchMapping("user/editNickname")
+    public ResponseEntity editNickname(HttpServletRequest request, @RequestParam("nickname") String nickname) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        User updatedUser = userService.updateNickname(loginUser.getId(), nickname);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @ApiOperation(value = "회원 탈퇴")
+    @DeleteMapping("/user/delete")
+    public ResponseEntity deleteUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        userService.deleteUser(loginUser.getId());
+        return ResponseEntity.ok(null);
     }
 }

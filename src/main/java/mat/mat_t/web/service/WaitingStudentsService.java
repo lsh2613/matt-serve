@@ -19,7 +19,7 @@ public class WaitingStudentsService {
 
     public void add(WaitingStudent student) {
 
-//        hasDuplicate(student);
+        hasDuplicate(student);
         waitingStudentsRepository.save(student);
     }
 

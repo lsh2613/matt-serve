@@ -44,4 +44,21 @@ public class UserService {
             throw new IllegalStateException("이미 존재하는 아이디 입니다");
         }
     }
+
+    public User updatePwd(Long id, String pwd) {
+        User user = userRepository.findById(id);
+        user.setPassword(pwd);
+        return user;
+    }
+
+    public User updateNickname(Long id, String nickname) {
+        User user = userRepository.findById(id);
+        user.setNickname(nickname);
+        return user;
+    }
+
+    public void deleteUser(Long id) {
+        User findUser = userRepository.findById(id);
+        userRepository.remove(findUser);
+    }
 }
