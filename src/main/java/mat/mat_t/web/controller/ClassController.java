@@ -55,45 +55,30 @@ public class ClassController {
     @ApiOperation(value = "전체 클래스 조회")
     @GetMapping(value = "/class")
     public ResponseEntity<List<ClassForm>> findAll() {
-        List<Classes> classes = new ArrayList<>();
-        List<ClassForm> list = new ArrayList<>();
+        List<ClassForm> classForms = new ArrayList<>();
 
-        classes = classService.findAllClass();
-        classes.forEach(el -> {
-            ClassForm data = new ClassForm(el);
-            list.add(data);
-        });
-
-        return ResponseEntity.ok().body(list);
+        classForms = classService.findAllClass();
+        return ResponseEntity.ok().body(classForms);
     }
 
     /** 클래스 아이디 조회 **/
     @ApiOperation(value = "클래스 아이디로 조회")
     @GetMapping("/class/{classId}")
-    public ResponseEntity<List<ClassForm>> findClassById(@PathVariable Long classId) {
-        Classes classes = new Classes();
-        List<ClassForm> list = new ArrayList<>();
+    public ResponseEntity<ClassForm> findClassById(@PathVariable Long classId) {
+        ClassForm classForm = new ClassForm();
 
-        classes = classService.findById(classId);
-        ClassForm data = new ClassForm(classes);
-        list.add(data);
-        return ResponseEntity.ok().body(list);
+        classForm = classService.findByClassId(classId);
+        return ResponseEntity.ok().body(classForm);
     }
 
     /** 강사 아이디로 클래스 조회 **/
     @ApiOperation(value = "클래스 강사아이디로 조회")
     @GetMapping("/class/instructor/{instructorId}")
     public ResponseEntity<List<ClassForm>> findClassByInstructorId(@PathVariable Long instructorId) {
-        List<Classes> classes = new ArrayList<>();
-        List<ClassForm> list = new ArrayList<>();
+        List<ClassForm> classForms = new ArrayList<>();
 
-        classes = classService.findByInstructorId(instructorId);
-        classes.forEach(el -> {
-            ClassForm data = new ClassForm(el);
-            list.add(data);
-        });
-
-        return ResponseEntity.ok().body(list);
+        classForms = classService.findByInstructorId(instructorId);
+        return ResponseEntity.ok().body(classForms);
     }
 
     /** 클래스 삭제 **/
@@ -110,47 +95,42 @@ public class ClassController {
     /** 시작 전 강의 **/
     @ApiOperation(value = "진행 전 클래스 조회")
     @GetMapping(value = "/class/before")
-    public ResponseEntity<List<Classes>> findBeforeDo() {
-        List<Classes> classes = new ArrayList<>();
-        classes = classService.findBefore();
+    public ResponseEntity<List<ClassForm>> findBeforeDo() {
+        List<ClassForm> classForms = new ArrayList<>();
+        classForms = classService.findBefore();
 
-        return ResponseEntity.ok().body(classes);
+        return ResponseEntity.ok().body(classForms);
     }
 
     /** 진행 중인 강의 **/
     @ApiOperation(value = "진행 중인 클래스 조회")
     @GetMapping(value = "/class/doing")
-    public ResponseEntity<List<Classes>> findDoingNow() {
-        List<Classes> classes = new ArrayList<>();
-        classes = classService.findNow();
+    public ResponseEntity<List<ClassForm>> findDoingNow() {
+        List<ClassForm> classForms = new ArrayList<>();
+        classForms = classService.findNow();
 
-        return ResponseEntity.ok().body(classes);
+        return ResponseEntity.ok().body(classForms);
     }
 
     /** 진행 완료 강의 **/
     @ApiOperation(value = "진행 완료인 클래스 조회")
     @GetMapping(value = "/class/finished")
-    public ResponseEntity<List<Classes>> findAfterDo() {
-        List<Classes> classes = new ArrayList<>();
-        classes = classService.findAfter();
+    public ResponseEntity<List<ClassForm>> findAfterDo() {
+        List<ClassForm> classForms = new ArrayList<>();
+        classForms = classService.findAfter();
 
-        return ResponseEntity.ok().body(classes);
+        return ResponseEntity.ok().body(classForms);
     }
 
     /** 요일 검색으로 해당 클래스들 조회 **/
     @ApiOperation(value = "요일 검색으로 해당 클래스들 조회")
     @GetMapping("/class/dayName/{dayName}/classesView")
     public ResponseEntity<List<ClassForm>> findClassByDayName(@PathVariable String dayName) {
-        List<Classes> classes = new ArrayList<>();
-        List<ClassForm> list = new ArrayList<>();
+        List<ClassForm> classForms = new ArrayList<>();
 
-        classes = classService.findByDayName(dayName);
-        classes.forEach(el -> {
-            ClassForm data = new ClassForm(el);
-            list.add(data);
-        });
+        classForms = classService.findByDayName(dayName);
 
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(classForms);
     }
 
     /**
@@ -160,15 +140,9 @@ public class ClassController {
     @ApiOperation(value = "키워드 검색으로 해당 클래스들 조회")
     @GetMapping("/class/keyword/{keyword}/classesView")
     public ResponseEntity<List<ClassForm>> findClassByKeyword(@PathVariable String keyword) {
-        List<Classes> classes = new ArrayList<>();
-        List<ClassForm> list = new ArrayList<>();
+        List<ClassForm> classForms = new ArrayList<>();
 
-        classes = classService.findByKeyword(keyword);
-        classes.forEach(el -> {
-            ClassForm data = new ClassForm(el);
-            list.add(data);
-        });
-
-        return ResponseEntity.ok().body(list);
+        classForms = classService.findByKeyword(keyword);
+        return ResponseEntity.ok().body(classForms);
     }
 }
