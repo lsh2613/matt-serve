@@ -49,7 +49,6 @@ public class LoginController {
 
             HttpServletRequest request) {
 
-
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -63,13 +62,10 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute("loginUser", loginUser);
-        Cookie cookie = new Cookie("JSESSIONID",session.getId());
-        response.addCookie(cookie);
 
         LoginUserDto loginUserDto = new LoginUserDto(loginUser);
 
         return ResponseEntity.ok().body(loginUserDto);
-
 
     }
 
@@ -97,7 +93,6 @@ public class LoginController {
         private Gender gender;
         private Long instructorId;
 
-
         public LoginUserDto(User loginUser) {
             studentId = loginUser.getId();
             loginId = loginUser.getLoginId();
@@ -109,12 +104,11 @@ public class LoginController {
             email = loginUser.getEmail();
             gender = loginUser.getGender();
 
-            if (loginUser.getInstructor()==null){
+            if (loginUser.getInstructor() == null) {
                 instructorId = null;
-            }else {
+            } else {
                 instructorId = loginUser.getInstructor().getInstructorId();
             }
-
 
         }
     }
