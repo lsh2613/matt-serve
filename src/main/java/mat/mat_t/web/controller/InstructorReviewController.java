@@ -33,11 +33,11 @@ public class InstructorReviewController {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
 
-        if(instructorReviewService.countClassId(form.getClassId())!=1){
+        if (instructorReviewService.countClassId(form.getClassId()) != 1) {
             throw new IllegalStateException("수강등록된 클래스가 아닙니다.");
         }
 
-        if(instructorReviewService.countUserId(form.getStudentId())!=1){
+        if (instructorReviewService.countUserId(form.getStudentId()) != 1) {
             throw new IllegalStateException("수강등록된 학생이 아닙니다.");
         }
 
@@ -50,7 +50,8 @@ public class InstructorReviewController {
 
     @ApiOperation(value = "수업 리뷰수정")
     @PatchMapping("instructor/review")
-    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form, Long id) {
+    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
+            Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.updateInstructorReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
@@ -59,7 +60,7 @@ public class InstructorReviewController {
     @ApiOperation(value = "수업 리뷰삭제")
     @DeleteMapping("instructor/review")
     public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
-                                                                   Long id) {
+            Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
@@ -69,9 +70,9 @@ public class InstructorReviewController {
     @GetMapping("instructor/review/all")
     public ResponseEntity<List<InstructorReviewDto>> checkAllInstructorReviews() {
         List<InstructorReview> instructorReviews = instructorReviewService.checkAll();
-        List<InstructorReviewDto> instructorReviewDtoList=new ArrayList<>();
+        List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
 
-        for(int i=0;i<instructorReviews.size();i++){
+        for (int i = 0; i < instructorReviews.size(); i++) {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
@@ -85,7 +86,7 @@ public class InstructorReviewController {
     public ResponseEntity<InstructorReviewDto> checkInstructorReview(@PathVariable Long reviewId) {
 
         InstructorReview instructorReview = instructorReviewService.check(reviewId);
-        InstructorReviewDto instructorReviewDto=new InstructorReviewDto(instructorReview);
+        InstructorReviewDto instructorReviewDto = new InstructorReviewDto(instructorReview);
 
         return ResponseEntity.ok().body(instructorReviewDto);
     }
@@ -95,7 +96,7 @@ public class InstructorReviewController {
      */
 
     @ApiOperation(value = "classId로 리뷰 조회")
-    @GetMapping("/instructor/review/classId/{classId}}")
+    @GetMapping("/instructor/review/classId/{classId}")
     public ResponseEntity<List<InstructorReviewDto>> findInstructorReviewByClassId(@PathVariable Long classId) {
         List<InstructorReview> instructorReviews = new ArrayList<>();
         List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
