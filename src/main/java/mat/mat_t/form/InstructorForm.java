@@ -9,6 +9,7 @@ public class InstructorForm {
 
     private Long instructorId;
     private String major;
+    private String introduction;
 
     private String name;
     private String nickname;
@@ -30,11 +31,13 @@ public class InstructorForm {
         this.phoneNumber = instructor.getUserIn().getPhoneNumber();
         this.email = instructor.getUserIn().getEmail();
         this.gender = instructor.getUserIn().getGender();
+        this.introduction = instructor.getIntroduction();
     }
 
-    public InstructorForm(Long instructorId, String major, String name, String nickname, String birthDate, String phoneNumber, String email, Gender gender, double score) {
+    public InstructorForm(Long instructorId, String major, String introduction, String name, String nickname, String birthDate, String phoneNumber, String email, Gender gender, double score) {
         this.instructorId = instructorId;
         this.major = major;
+        this.introduction = introduction;
         this.name = name;
         this.nickname = nickname;
         this.birthDate = birthDate;
