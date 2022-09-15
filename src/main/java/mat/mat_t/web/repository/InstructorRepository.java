@@ -13,7 +13,7 @@ import java.util.List;
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
 
     //전체 강사 정보 조회(강사테이블 + 유저 테이블 + 리뷰 score)
-    @Query("select new mat.mat_t.form.InstructorForm(i.instructorId, i.major,u.name, u.nickname, u.birthDate,u.phoneNumber, u.email, u.gender, coalesce(avg(ir.score), -1))" +
+    @Query("select new mat.mat_t.form.InstructorForm(i.instructorId, i.major,i.introduction, u.name, u.nickname, u.birthDate,u.phoneNumber, u.email, u.gender, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -23,7 +23,7 @@ public interface InstructorRepository extends JpaRepository<Instructor, Long> {
 
 
     //선택 강사 정보 조회(강사아이디로 조회)->(강사테이블 + 유저 테이블 + 리뷰 score)
-    @Query("select new mat.mat_t.form.InstructorForm(i.instructorId, i.major,u.name, u.nickname, u.birthDate,u.phoneNumber, u.email, u.gender, coalesce(avg(ir.score), -1))" +
+    @Query("select new mat.mat_t.form.InstructorForm(i.instructorId, i.major,i.introduction, u.name, u.nickname, u.birthDate,u.phoneNumber, u.email, u.gender, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
