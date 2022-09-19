@@ -44,25 +44,12 @@ public class ClassStudentsService {
         return students;
     }
 
-
-    public List<ClassStudents> findClassStudentsByUserIdAndStatus(Long userId,ClassStatus classStatus){
-        return classStudentsRepository.findClassStudentsByUserCS_IdAndStatusIs(userId,classStatus);
-    }
-
     public List<ClassStudents> findByUserCS_IdAndStatusIs(Long userId, ClassStatus classStatus){
-        return classStudentsRepository.findClassDtoByUserCS_IdAndStatusIs(userId,classStatus);
+        return classStudentsRepository.findClassDtoByUserCS_IdAndStatusIsOrderByClassStudentIdDesc(userId,classStatus);
     }
 
     public int countClassStudents(Long classId,Long userId){
         return classStudentsRepository.countByClassesCS_ClassIdAndUserCS_Id(classId,userId);
-    }
-
-    public int countClassId(Long classId){
-        return classStudentsRepository.countByClassesCS_ClassId(classId);
-    }
-
-    public int countUserId(Long userId){
-        return classStudentsRepository.countByUserCS_Id(userId);
     }
 
 }

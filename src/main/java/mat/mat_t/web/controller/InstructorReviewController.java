@@ -33,14 +33,6 @@ public class InstructorReviewController {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
 
-        if(instructorReviewService.countClassId(form.getClassId())!=1){
-            throw new IllegalStateException("수강등록된 클래스가 아닙니다.");
-        }
-
-        if(instructorReviewService.countUserId(form.getStudentId())!=1){
-            throw new IllegalStateException("수강등록된 학생이 아닙니다.");
-        }
-
         instructorReviewService.saveReview(instructorReview);
 
         ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
@@ -95,7 +87,7 @@ public class InstructorReviewController {
      */
 
     @ApiOperation(value = "classId로 리뷰 조회")
-    @GetMapping("/instructor/review/classId/{classId}}")
+    @GetMapping("/instructor/review/classId/{classId}")
     public ResponseEntity<List<InstructorReviewDto>> findInstructorReviewByClassId(@PathVariable Long classId) {
         List<InstructorReview> instructorReviews = new ArrayList<>();
         List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
@@ -106,8 +98,6 @@ public class InstructorReviewController {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
-        Collections.reverse(instructorReviewDtoList);
-
         return ResponseEntity.ok().body(instructorReviewDtoList);
     }
 
@@ -117,7 +107,7 @@ public class InstructorReviewController {
      */
 
     @ApiOperation(value = "점수로 리뷰 조회")
-    @GetMapping("/instructor/review/score/{score}}")
+    @GetMapping("/instructor/review/score/{score}")
     public ResponseEntity<List<InstructorReviewDto>> findInstructorReviewByScore(@PathVariable float score) {
         List<InstructorReview> instructorReviews = new ArrayList<>();
         List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
@@ -128,8 +118,25 @@ public class InstructorReviewController {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
-        Collections.reverse(instructorReviewDtoList);
+        return ResponseEntity.ok().body(instructorReviewDtoList);
+    }
+
+    /**
+     *  강사 id로 검색하면 review 뜨게 하는거
+     */
+    @ApiOperation(value = "강사 ID로 조회")
+    @GetMapping("/instructor/review/instructor/{id}")
+    public ResponseEntity<List<InstructorReviewDto>> findInstructorReviewByInstructorId(@PathVariable Long id) {
+        List<InstructorReview> instructorReviews = new ArrayList<>();
+        List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
+
+        instructorReviews = instructorReviewService.findReviewByInstructorId(id);
+
+        for (int i = 0; i < instructorReviews.size(); i++) {
+            instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
+        }
 
         return ResponseEntity.ok().body(instructorReviewDtoList);
     }
+
 }

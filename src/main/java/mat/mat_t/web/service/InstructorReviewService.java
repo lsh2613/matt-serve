@@ -57,23 +57,19 @@ public class InstructorReviewService {
     }
 
     public List<InstructorReview> findReviewByClassId(Long id) {
-        return instructorReviewRepository.findInstructorReviewsByClassStudents_ClassesCS_ClassId(id);
+        return instructorReviewRepository.findInstructorReviewsByClassStudents_ClassesCS_ClassIdOrderByInsReviewIdDesc(id);
     }
 
     public List<InstructorReview> findReviewByScore(float score) {
-        return instructorReviewRepository.findInstructorReviewsByScoreGreaterThan(score);
+        return instructorReviewRepository.findInstructorReviewsByScoreGreaterThanOrderByInsReviewIdDesc(score);
     }
 
+    public List<InstructorReview> findReviewByInstructorId(Long id){
+        return instructorReviewRepository.findInstructorReviewsByClassStudents_ClassesCS_InstructorC_InstructorIdOrderByInsReviewIdDesc(id);
+    }
 
     public int countInstructorReviews(Long classId, Long userId) {
         return instructorReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId, userId);
     }
 
-    public int countClassId(Long classId){
-        return instructorReviewRepository.countByClassStudents_ClassesCS_ClassId(classId);
-    }
-
-    public int countUserId(Long userId){
-        return instructorReviewRepository.countByClassStudents_UserCS_Id(userId);
-    }
 }

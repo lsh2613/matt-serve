@@ -2,7 +2,6 @@ package mat.mat_t.domain.class_;
 
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.ClassStudentsForm;
 

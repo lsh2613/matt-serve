@@ -70,18 +70,11 @@ public class StudentReviewService {
     }
 
     public List<StudentReview> findReviewByUserId(Long id) {
-        return studentReviewRepository.findStudentReviewsByClassStudents_UserCS_Id(id);
+        return studentReviewRepository.findStudentReviewsByClassStudents_UserCS_IdOrderByStReIdDesc(id);
     }
 
     public int countStudentReviews(Long classId,Long userId){
         return studentReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId,userId);
-    }
-
-    public int countClassId(Long classId){
-        return studentReviewRepository.countByClassStudents_ClassesCS_ClassId(classId);
-    }
-    public int countUserId(Long userId){
-        return studentReviewRepository.countByClassStudents_UserCS_Id(userId);
     }
 }
 
