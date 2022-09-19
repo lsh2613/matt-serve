@@ -18,6 +18,11 @@ public class ClassForm {
     private String category;
     private Date startDate; // 시작날짜
     private Date endDate;   //종료날짜
+    private Long countWS; //수강신청한 학생 수
+
+    private String instructorName;  //강사 이름
+    private String instructorMajor;     //강사 전공
+    private double instructorScore; //강사 평점
 
     public ClassForm(){}
 
@@ -35,4 +40,21 @@ public class ClassForm {
         this.endDate = classes.getEndDate();
     }
 
+    public ClassForm(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String category, Date startDate, Date endDate, Long countWS, String instructorName, String instructorMajor, double instructorScore) {
+        this.classId = classId;
+        this.instructorId = instructorId;
+        this.title = title;
+        this.numberOfStudents = numberOfStudents;
+        this.descriptions = descriptions;
+        this.place = place;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.category = category;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.countWS = countWS;
+        this.instructorName = instructorName;
+        this.instructorMajor = instructorMajor;
+        this.instructorScore = instructorScore;
+    }
 }
