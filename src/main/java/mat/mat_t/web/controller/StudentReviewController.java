@@ -32,14 +32,6 @@ public class StudentReviewController {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
 
-        if (studentReviewService.countClassId(form.getClassId()) != 1) {
-            throw new IllegalStateException("수강등록된 클래스가 아닙니다.");
-        }
-
-        if (studentReviewService.countUserId(form.getStudentId()) != 1) {
-            throw new IllegalStateException("수강등록된 학생이 아닙니다.");
-        }
-
         studentReviewService.saveReview(studentReview);
 
         ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
@@ -112,8 +104,6 @@ public class StudentReviewController {
         for (int i = 0; i < studentReviews.size(); i++) {
             studentReviewDtoList.add(new StudentReviewDto(studentReviews.get(i)));
         }
-
-        Collections.reverse(studentReviewDtoList);
 
         return ResponseEntity.ok().body(studentReviewDtoList);
     }

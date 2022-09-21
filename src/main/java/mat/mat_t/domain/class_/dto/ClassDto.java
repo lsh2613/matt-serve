@@ -1,6 +1,5 @@
 package mat.mat_t.domain.class_.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
@@ -28,7 +27,6 @@ public class ClassDto {
     }
 
     public ClassDto(ClassStudents classStudents) {
-
         this.classId = classStudents.getClassesCS().getClassId();
         this.title = classStudents.getClassesCS().getTitle();
         this.numberOfStudents = classStudents.getClassesCS().getNumberOfStudents();

@@ -8,9 +8,7 @@ import mat.mat_t.domain.class_.dto.ClassDto;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.form.ClassStudentsForm;
-import mat.mat_t.web.service.ClassStudentsService;
-import mat.mat_t.web.service.InstructorReviewService;
-import mat.mat_t.web.service.StudentReviewService;
+import mat.mat_t.web.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +25,8 @@ public class ClassStudentsController {
     private final ClassStudentsService classStudentsService;
     private final InstructorReviewService instructorReviewService;
     private final StudentReviewService studentReviewService;
+    private final ClassService classService;
+    private final UserService userService;
 
     @ApiOperation(value = "클래스스튜던트 저장")
     @PostMapping(value = "class/students")
@@ -34,14 +34,6 @@ public class ClassStudentsController {
         ClassStudents classStudents = new ClassStudents(form);
         if (classStudentsService.countClassStudents(form.getClassId(), form.getStudentId()) == 1) {
             throw new IllegalStateException("이미 등록되어 있습니다.");
-        }
-
-        if(classStudentsService.countClassId(form.getClassId())!=1){
-            throw new IllegalStateException("수강등록된 클래스가 아닙니다.");
-        }
-
-        if(classStudentsService.countUserId(form.getStudentId())!=1){
-            throw new IllegalStateException("수강등록된 학생이 아닙니다.");
         }
 
         classStudentsService.saveClassStudents(classStudents);
@@ -112,17 +104,15 @@ public class ClassStudentsController {
      */
 
     @ApiOperation(value = "userId랑 status 검색하면 클래스 정보 나오는거")
-    @GetMapping("/class/students/{status}/{userId}}")
+    @GetMapping("/class/students/{status}/{userId}")
     public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId, ClassStatus status) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
         classStudents = classStudentsService.findByUserCS_IdAndStatusIs(userId, status);
 
-        for(int i=0;i<classStudents.size();i++){
-          classDtoList.add(new ClassDto(classStudents.get(i)));
+        for (int i = 0; i < classStudents.size(); i++) {
+            classDtoList.add(new ClassDto(classStudents.get(i)));
         }
-
-        Collections.reverse(classDtoList);
 
         return ResponseEntity.ok().body(classDtoList);
     }
