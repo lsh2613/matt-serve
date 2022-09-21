@@ -11,8 +11,7 @@ import java.util.List;
 public interface StudentReviewRepository extends JpaRepository<StudentReview,Long>{
     StudentReview findByStReId(Long Id);
     List<StudentReview> findStudentReviewsByClassStudents_UserCS_Id(Long id);
-    List<StudentReview> findStudentReviewsByMannerTemperatureGreaterThan(float temperature);
+    List<StudentReview> findStudentReviewsByClassStudents_UserCS_IdOrderByStReIdDesc(Long id);
     int countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(Long classId,Long userId);
-    int countByClassStudents_ClassesCS_ClassId(Long classId);
-    int countByClassStudents_UserCS_Id(Long userId);
+
 }
