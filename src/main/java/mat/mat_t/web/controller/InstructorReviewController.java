@@ -42,7 +42,8 @@ public class InstructorReviewController {
 
     @ApiOperation(value = "수업 리뷰수정")
     @PatchMapping("instructor/review")
-    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form, Long id) {
+    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form,
+            Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.updateInstructorReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
@@ -51,7 +52,7 @@ public class InstructorReviewController {
     @ApiOperation(value = "수업 리뷰삭제")
     @DeleteMapping("instructor/review")
     public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
-                                                                   Long id) {
+            Long id) {
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
@@ -61,9 +62,9 @@ public class InstructorReviewController {
     @GetMapping("instructor/review/all")
     public ResponseEntity<List<InstructorReviewDto>> checkAllInstructorReviews() {
         List<InstructorReview> instructorReviews = instructorReviewService.checkAll();
-        List<InstructorReviewDto> instructorReviewDtoList=new ArrayList<>();
+        List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
 
-        for(int i=0;i<instructorReviews.size();i++){
+        for (int i = 0; i < instructorReviews.size(); i++) {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
@@ -77,7 +78,7 @@ public class InstructorReviewController {
     public ResponseEntity<InstructorReviewDto> checkInstructorReview(@PathVariable Long reviewId) {
 
         InstructorReview instructorReview = instructorReviewService.check(reviewId);
-        InstructorReviewDto instructorReviewDto=new InstructorReviewDto(instructorReview);
+        InstructorReviewDto instructorReviewDto = new InstructorReviewDto(instructorReview);
 
         return ResponseEntity.ok().body(instructorReviewDto);
     }
@@ -122,7 +123,7 @@ public class InstructorReviewController {
     }
 
     /**
-     *  강사 id로 검색하면 review 뜨게 하는거
+     * 강사 id로 검색하면 review 뜨게 하는거
      */
     @ApiOperation(value = "강사 ID로 조회")
     @GetMapping("/instructor/review/instructor/{id}")
