@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.web.repository.InstructorReviewRepository;
+import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,12 +65,29 @@ public class InstructorReviewService {
         return instructorReviewRepository.findInstructorReviewsByScoreGreaterThanOrderByInsReviewIdDesc(score);
     }
 
-    public List<InstructorReview> findReviewByInstructorId(Long id){
+    public List<InstructorReview> findReviewByInstructorId(Long id) {
         return instructorReviewRepository.findInstructorReviewsByClassStudents_ClassesCS_InstructorC_InstructorIdOrderByInsReviewIdDesc(id);
     }
 
     public int countInstructorReviews(Long classId, Long userId) {
         return instructorReviewRepository.countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(classId, userId);
+    }
+
+    public List<InstructorReview> findReviewByUserCS_id(Long id) {
+        return instructorReviewRepository.findInstructorReviewsByClassStudents_UserCS_Id(id);
+    }
+
+    public List<InstructorReview> findReviewByClassStudents_id(Long id){
+        return instructorReviewRepository.findInstructorReviewsByClassStudents_ClassStudentId(id);
+    }
+
+    public boolean hasReview(List<InstructorReview> instructorReviews, Long classId) {
+        for (InstructorReview instructorReview : instructorReviews) {
+            if (instructorReview.getClassStudents().getClassesCS().getClassId().equals(classId)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
