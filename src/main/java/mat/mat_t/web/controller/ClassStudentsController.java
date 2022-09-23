@@ -51,10 +51,11 @@ public class ClassStudentsController {
 
     @ApiOperation(value = "클래스스튜던트 삭제")
     @DeleteMapping("class/students")
-    public ResponseEntity<ClassStudents> deleteClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id, Long insRe_id, Long stRe_id) {
+    public ResponseEntity<ClassStudents> deleteClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id,
+            Long insRe_id, Long stRe_id) {
         ClassStudents classStudents = new ClassStudents();
 
-        //review 값들 매핑정보 null 값으로 만드는거
+        // review 값들 매핑정보 null 값으로 만드는거
         if (insRe_id != null) {
             InstructorReview instructorReview = instructorReviewService.findByInsReviewId(insRe_id);
             instructorReview = instructorReviewService.deleteClassStudents(new ClassStudents(), instructorReview);
@@ -98,14 +99,14 @@ public class ClassStudentsController {
         return ResponseEntity.ok().body(list);
     }
 
-
     /**
-     * stduentid 로 검색했을때,  cs에서 status가 doing인 아이템을 클래스 정보랑 매핑해서 리턴하는 api 하나
+     * stduentid 로 검색했을때, cs에서 status가 doing인 아이템을 클래스 정보랑 매핑해서 리턴하는 api 하나
      */
 
     @ApiOperation(value = "userId랑 status 검색하면 클래스 정보 나오는거")
-    @GetMapping("/class/students/{status}/{userId}")
-    public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId, ClassStatus status) {
+    @GetMapping("/class/students/{userId}/{status}")
+    public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId,
+            @PathVariable ClassStatus status) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
         classStudents = classStudentsService.findByUserCS_IdAndStatusIs(userId, status);
