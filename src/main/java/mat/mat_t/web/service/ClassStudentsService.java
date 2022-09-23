@@ -3,6 +3,8 @@ package mat.mat_t.web.service;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
+import mat.mat_t.domain.class_.dto.ClassDto;
+import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.web.repository.ClassStudentsRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,9 @@ public class ClassStudentsService {
     }
 
     // 수정
-    public ClassStudents updateClassStudents(ClassStudents classStudents, Long id) {
+    public ClassStudents finishClass(Long id) {
         ClassStudents students = classStudentsRepository.findById(id).get();
-        students.setStatus(classStudents.getStatus());
+        students.setStatus(ClassStatus.FINISHED);
         return classStudentsRepository.save(students);
     }
 
@@ -44,12 +46,26 @@ public class ClassStudentsService {
         return students;
     }
 
-    public List<ClassStudents> findByUserCS_IdAndStatusIs(Long userId, ClassStatus classStatus){
-        return classStudentsRepository.findClassDtoByUserCS_IdAndStatusIsOrderByClassStudentIdDesc(userId,classStatus);
+    public List<ClassStudents> findByUserCS_IdAndStatusIs(Long userId, ClassStatus classStatus) {
+        return classStudentsRepository.findClassDtoByUserCS_IdAndStatusIsOrderByClassStudentIdDesc(userId, classStatus);
     }
 
-    public int countClassStudents(Long classId,Long userId){
-        return classStudentsRepository.countByClassesCS_ClassIdAndUserCS_Id(classId,userId);
+    public int countClassStudents(Long classId, Long userId) {
+        return classStudentsRepository.countByClassesCS_ClassIdAndUserCS_Id(classId, userId);
     }
 
+    public List<ClassStudents> findByUserCS(Long userId) {
+        return classStudentsRepository.findByUserCS_IdOrderByClassStudentIdDesc(userId);
+    }
+
+    public Boolean checkNotReview(ClassStudents classStudent,
+                      InstructorReviewService instructorReviewService, List<InstructorReview> instructorReviews) {
+            return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
+    }
+
+    public Boolean checkReviews(ClassStudents classStudent, InstructorReviewService instructorReviewService,Long classId) {
+        List<InstructorReview> instructorReviews;
+        instructorReviews=instructorReviewService.findReviewByClassId(classId);
+        return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
+    }
 }

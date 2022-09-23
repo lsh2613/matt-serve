@@ -40,12 +40,11 @@ public class ClassStudentsController {
         return ResponseEntity.ok().body(classStudents);
     }
 
-    @ApiOperation(value = "클래스스튜던트 수정")
-    @PatchMapping("class/students")
-
-    public ResponseEntity<ClassStudents> updateClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id) {
-        ClassStudents classStudents = new ClassStudents(form.getStatus());
-        classStudentsService.updateClassStudents(classStudents, cs_Id);
+    @ApiOperation(value = "클래스스튜던트 상태정보 수정")
+    @PatchMapping("class/students/modify/{classStudentId}")
+    public ResponseEntity<ClassStudents> updateClassStudents(@PathVariable Long classStudentId) {
+        ClassStudents classStudents = new ClassStudents();
+        classStudentsService.finishClass(classStudentId);
         return ResponseEntity.ok().body(classStudents);
     }
 
@@ -100,7 +99,7 @@ public class ClassStudentsController {
 
 
     /**
-     * stduentid 로 검색했을때,  cs에서 status가 doing인 아이템을 클래스 정보랑 매핑해서 리턴하는 api 하나
+     * userId랑 status 정보 검색하면 그에 맞는 클래스 dto 출력
      */
 
     @ApiOperation(value = "userId랑 status 검색하면 클래스 정보 나오는거")
@@ -111,7 +110,30 @@ public class ClassStudentsController {
         classStudents = classStudentsService.findByUserCS_IdAndStatusIs(userId, status);
 
         for (int i = 0; i < classStudents.size(); i++) {
-            classDtoList.add(new ClassDto(classStudents.get(i)));
+            classDtoList.add(new ClassDto(classStudents.get(i),classStudentsService,instructorReviewService));
+        }
+
+        return ResponseEntity.ok().body(classDtoList);
+    }
+
+    /**
+     *  userId입력하면 user가 듣는 강의중 review가 없는 클래스들 출력
+     */
+
+    @ApiOperation(value = "Review가 없는 강의들")
+    @GetMapping("/class/students/NotReviews/{userId}")
+    public ResponseEntity<List<ClassDto>> findClassStudentsNotReviews(@PathVariable Long userId) {
+        List<ClassStudents> classStudents = new ArrayList<>();
+        List<ClassDto> classDtoList = new ArrayList<>();
+        List<InstructorReview> instructorReviews=new ArrayList<>();
+
+        classStudents = classStudentsService.findByUserCS(userId);
+        instructorReviews=instructorReviewService.findReviewByUserCS_id(userId);
+
+        for (int i = 0; i < classStudents.size(); i++) {
+            if(classStudentsService.checkNotReview(classStudents.get(i),instructorReviewService,instructorReviews)) {
+                classDtoList.add(new ClassDto(classStudents.get(i)));
+            }
         }
 
         return ResponseEntity.ok().body(classDtoList);
