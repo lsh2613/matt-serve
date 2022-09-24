@@ -41,18 +41,17 @@ public class InstructorReviewController {
     }
 
     @ApiOperation(value = "수업 리뷰수정")
-    @PatchMapping("instructor/review")
-    public ResponseEntity<InstructorReview> updateInstructorReview(@Valid @RequestBody InstructorReviewForm form, Long id) {
-        InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
+    @PatchMapping("instructor/review/{id}")
+    public ResponseEntity<InstructorReview> updateInstructorReview(@PathVariable Long id,String content,float score) {
+        InstructorReview instructorReview = new InstructorReview(content,score);
         instructorReviewService.updateInstructorReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
     }
 
     @ApiOperation(value = "수업 리뷰삭제")
-    @DeleteMapping("instructor/review")
-    public ResponseEntity<InstructorReview> deleteInstructorReview(@Valid @RequestBody InstructorReviewForm form,
-                                                                   Long id) {
-        InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
+    @DeleteMapping("instructor/review/{id}")
+    public ResponseEntity<InstructorReview> deleteInstructorReview(@PathVariable Long id) {
+        InstructorReview instructorReview = new InstructorReview();
         instructorReviewService.deleteReview(id);
         return ResponseEntity.ok().body(instructorReview);
     }

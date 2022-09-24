@@ -20,12 +20,4 @@ public class InstructorReviewForm {
 
     @NotNull
     private Long classId;
-
-    public InstructorReviewForm() {
-    }
-
-    public InstructorReviewForm(InstructorReview instructorReview) {
-        this.reviewContent = instructorReview.getReviewContent();
-        this.score = instructorReview.getScore();
-    }
 }

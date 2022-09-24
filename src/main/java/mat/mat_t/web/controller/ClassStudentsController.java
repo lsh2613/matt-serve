@@ -25,8 +25,6 @@ public class ClassStudentsController {
     private final ClassStudentsService classStudentsService;
     private final InstructorReviewService instructorReviewService;
     private final StudentReviewService studentReviewService;
-    private final ClassService classService;
-    private final UserService userService;
 
     @ApiOperation(value = "클래스스튜던트 저장")
     @PostMapping(value = "class/students")
@@ -49,8 +47,8 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value = "클래스스튜던트 삭제")
-    @DeleteMapping("class/students")
-    public ResponseEntity<ClassStudents> deleteClassStudents(@Valid @RequestBody ClassStudentsForm form, Long cs_Id, Long insRe_id, Long stRe_id) {
+    @DeleteMapping("class/students/{cs_Id}")
+    public ResponseEntity<ClassStudents> deleteClassStudents(@PathVariable Long cs_Id, Long insRe_id, Long stRe_id) {
         ClassStudents classStudents = new ClassStudents();
 
         //review 값들 매핑정보 null 값으로 만드는거
@@ -87,7 +85,7 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value = "클레스스튜던트 하나만 조회")
-    @GetMapping("class/students/{classStudentId}")
+    @GetMapping("class/student/{classStudentId}")
     public ResponseEntity<List<ClassStudentsForm>> checkClassStudents(@PathVariable Long classStudentId) {
         ClassStudents classStudents = classStudentsService.check(classStudentId);
         List<ClassStudentsForm> list = new ArrayList<>();
