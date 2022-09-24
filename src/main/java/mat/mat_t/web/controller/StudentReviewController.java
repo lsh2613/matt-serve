@@ -50,17 +50,17 @@ public class StudentReviewController {
     }
 
     @ApiOperation(value = "학생 리뷰수정")
-    @PatchMapping("student/review")
-    public ResponseEntity<StudentReview> updateStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
+    @PatchMapping("student/review/{id}")
+    public ResponseEntity<StudentReview> updateStudentReview(@PathVariable Long id,float mannerTemperature) {
+        StudentReview studentReview = new StudentReview(mannerTemperature);
         studentReviewService.updateStudentReview(studentReview, id);
         return ResponseEntity.ok().body(studentReview);
     }
 
     @ApiOperation(value = "학생 리뷰삭제")
-    @DeleteMapping("student/review")
-    public ResponseEntity<StudentReview> deleteStudentReview(@Valid @RequestBody StudentReviewForm form, Long id) {
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
+    @DeleteMapping("student/review/{id}")
+    public ResponseEntity<StudentReview> deleteStudentReview(@PathVariable Long id) {
+        StudentReview studentReview = new StudentReview();
         studentReviewService.deleteReview(id);
         return ResponseEntity.ok().body(studentReview);
     }
