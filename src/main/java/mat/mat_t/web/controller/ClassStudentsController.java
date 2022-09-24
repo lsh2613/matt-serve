@@ -51,7 +51,7 @@ public class ClassStudentsController {
     public ResponseEntity<ClassStudents> deleteClassStudents(@PathVariable Long cs_Id, Long insRe_id, Long stRe_id) {
         ClassStudents classStudents = new ClassStudents();
 
-        //review 값들 매핑정보 null 값으로 만드는거
+        // review 값들 매핑정보 null 값으로 만드는거
         if (insRe_id != null) {
             InstructorReview instructorReview = instructorReviewService.findByInsReviewId(insRe_id);
             instructorReview = instructorReviewService.deleteClassStudents(new ClassStudents(), instructorReview);
@@ -95,27 +95,28 @@ public class ClassStudentsController {
         return ResponseEntity.ok().body(list);
     }
 
-
     /**
+     * stduentid 로 검색했을때, cs에서 status가 doing인 아이템을 클래스 정보랑 매핑해서 리턴하는 api 하나
      * userId랑 status 정보 검색하면 그에 맞는 클래스 dto 출력
      */
 
     @ApiOperation(value = "userId랑 status 검색하면 클래스 정보 나오는거")
-    @GetMapping("/class/students/{status}/{userId}")
-    public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId, ClassStatus status) {
+    @GetMapping("/class/students/{userId}/{status}")
+    public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId,
+            @PathVariable ClassStatus status) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
         classStudents = classStudentsService.findByUserCS_IdAndStatusIs(userId, status);
 
         for (int i = 0; i < classStudents.size(); i++) {
-            classDtoList.add(new ClassDto(classStudents.get(i),classStudentsService,instructorReviewService));
+            classDtoList.add(new ClassDto(classStudents.get(i), classStudentsService, instructorReviewService));
         }
 
         return ResponseEntity.ok().body(classDtoList);
     }
 
     /**
-     *  userId입력하면 user가 듣는 강의중 review가 없는 클래스들 출력
+     * userId입력하면 user가 듣는 강의중 review가 없는 클래스들 출력
      */
 
     @ApiOperation(value = "Review가 없는 강의들")
@@ -123,13 +124,13 @@ public class ClassStudentsController {
     public ResponseEntity<List<ClassDto>> findClassStudentsNotReviews(@PathVariable Long userId) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
-        List<InstructorReview> instructorReviews=new ArrayList<>();
+        List<InstructorReview> instructorReviews = new ArrayList<>();
 
         classStudents = classStudentsService.findByUserCS(userId);
-        instructorReviews=instructorReviewService.findReviewByUserCS_id(userId);
+        instructorReviews = instructorReviewService.findReviewByUserCS_id(userId);
 
         for (int i = 0; i < classStudents.size(); i++) {
-            if(classStudentsService.checkNotReview(classStudents.get(i),instructorReviewService,instructorReviews)) {
+            if (classStudentsService.checkNotReview(classStudents.get(i), instructorReviewService, instructorReviews)) {
                 classDtoList.add(new ClassDto(classStudents.get(i)));
             }
         }
