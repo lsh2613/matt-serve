@@ -34,10 +34,16 @@ public class CommentService {
         return dto.getCommentId();
     }
 
-    /* 조회 */
+    /* 해당 커뮤 댓글 전체 조회 */
     @Transactional(readOnly = true)
     public List<CommentForm> Listcomments(long communityId) {
         return commentRepository.getCommentsOfPost(communityId);
+    }
+
+    /* 한개 조회 */
+    @Transactional(readOnly = true)
+    public CommentForm readComment(long commentId) {
+        return commentRepository.getCommentByCommentId(commentId);
     }
 
     /* 수정 */

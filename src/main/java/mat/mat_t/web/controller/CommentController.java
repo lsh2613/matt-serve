@@ -33,12 +33,21 @@ public class CommentController {
         return ResponseEntity.ok().body(dto);
     }
 
-    /** 댓글 조회 **/
-    @ApiOperation(value = "댓글 조회")
+    /** 댓글 전체 조회 **/
+    @ApiOperation(value = "댓글 전체 조회")
     @GetMapping("/community/{communityId}/comments")
     public ResponseEntity<List<CommentForm>> readComment(@PathVariable Long communityId){
         List<CommentForm> commentForm = new ArrayList<>();
         commentForm = commentService.Listcomments(communityId);
+        return ResponseEntity.ok().body(commentForm);
+    }
+
+    /** 댓글아이디로 조회 **/
+    @ApiOperation(value = "댓글아이디로 조회")
+    @GetMapping("/community/comments/{commentId}")
+    public ResponseEntity<CommentForm> readCommentById(@PathVariable Long commentId){
+        CommentForm commentForm = new CommentForm();
+        commentForm = commentService.readComment(commentId);
         return ResponseEntity.ok().body(commentForm);
     }
 
