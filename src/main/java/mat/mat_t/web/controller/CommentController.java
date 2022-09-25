@@ -29,8 +29,7 @@ public class CommentController {
     public ResponseEntity createComment(@PathVariable Long communityId, @RequestBody CommentReDto dto, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
-        commentService.createComments(loginUser.getLoginId(), communityId, dto);
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(commentService.createComments(loginUser.getLoginId(), communityId, dto));
     }
 
     /** 댓글 전체 조회 **/
