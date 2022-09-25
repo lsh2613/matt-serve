@@ -31,4 +31,8 @@ public class UserRepository {
     public void remove(User user) {
         em.remove(user);
     }
+
+    public User findByWriter(String loginId) {
+        return em.find(User.class, loginId);
+    }
 }
