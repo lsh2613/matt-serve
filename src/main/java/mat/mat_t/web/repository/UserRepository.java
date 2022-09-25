@@ -32,7 +32,9 @@ public class UserRepository {
         em.remove(user);
     }
 
-    public User findByWriter(String loginId) {
-        return em.find(User.class, loginId);
+    public User findByWriter(String name) {
+        return em.createQuery("select u from User u where u.loginId = :name", User.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
 }
