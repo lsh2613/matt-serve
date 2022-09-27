@@ -97,7 +97,7 @@ public class StudentReviewController {
      */
 
     @ApiOperation(value = "UserId 로 리뷰 조회")
-    @GetMapping("/student/review/{userId}}")
+    @GetMapping("/student/review/{userId}")
     public ResponseEntity<List<StudentReviewDto>> findStudentReviewByUserId(@PathVariable Long userId) {
         List<StudentReview> studentReviews = new ArrayList<>();
         List<StudentReviewDto> studentReviewDtoList = new ArrayList<>();

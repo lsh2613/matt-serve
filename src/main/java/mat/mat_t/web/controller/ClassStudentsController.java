@@ -56,7 +56,7 @@ public class ClassStudentsController {
     public ResponseEntity<ClassStudents> deleteClassStudents(@PathVariable Long cs_Id, Long insRe_id, Long stRe_id) {
         ClassStudents classStudents = new ClassStudents();
 
-        //review 값들 매핑정보 null 값으로 만드는거
+        // review 값들 매핑정보 null 값으로 만드는거
         if (insRe_id != null) {
             InstructorReview instructorReview = instructorReviewService.findByInsReviewId(insRe_id);
             instructorReview = instructorReviewService.deleteClassStudents(new ClassStudents(), instructorReview);
@@ -100,8 +100,8 @@ public class ClassStudentsController {
         return ResponseEntity.ok().body(list);
     }
 
-
     /**
+
      * status를 선택하면 그에 맞는 class정보들이 나옴
      */
 
@@ -118,7 +118,7 @@ public class ClassStudentsController {
         classStudents = classStudentsService.findByUserCS_IdAndStatusIs(loginUser.getId(), status);
 
         for (int i = 0; i < classStudents.size(); i++) {
-            classDtoList.add(new ClassDto(classStudents.get(i),classStudentsService,instructorReviewService));
+            classDtoList.add(new ClassDto(classStudents.get(i), classStudentsService, instructorReviewService));
         }
 
         return ResponseEntity.ok().body(classDtoList);
@@ -133,7 +133,7 @@ public class ClassStudentsController {
     public ResponseEntity<List<ClassDto>> findClassStudentsNotReviews(HttpServletRequest request) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
-        List<InstructorReview> instructorReviews=new ArrayList<>();
+        List<InstructorReview> instructorReviews = new ArrayList<>();
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
@@ -142,7 +142,7 @@ public class ClassStudentsController {
         instructorReviews=instructorReviewService.findReviewByUserCS_id(loginUser.getId());
 
         for (int i = 0; i < classStudents.size(); i++) {
-            if(classStudentsService.checkNotReview(classStudents.get(i),instructorReviewService,instructorReviews)) {
+            if (classStudentsService.checkNotReview(classStudents.get(i), instructorReviewService, instructorReviews)) {
                 classDtoList.add(new ClassDto(classStudents.get(i)));
             }
         }

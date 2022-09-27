@@ -31,7 +31,7 @@ public class WaitingStudentController {
     @ApiOperation("클래스 신청한 학생 DB에 저장")
     @PostMapping("/waitingStudent/{classId}")
     public ResponseEntity add(@PathVariable Long classId,
-            @RequestBody String content,
+            @RequestParam String content,
             HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
