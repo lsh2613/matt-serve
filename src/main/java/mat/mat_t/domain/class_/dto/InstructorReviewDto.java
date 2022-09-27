@@ -14,6 +14,7 @@ public class InstructorReviewDto {
     protected String reviewContent;
     protected String nickname;
     protected String title;
+    protected String date;
 
     public InstructorReviewDto() {
     }
@@ -26,6 +27,6 @@ public class InstructorReviewDto {
         this.nickname = instructorReview.getClassStudents().getUserCS().getNickname();
         this.score = instructorReview.getScore();
         this.reviewContent = instructorReview.getReviewContent();
-
+        this.date=instructorReview.getDate();
     }
 }
