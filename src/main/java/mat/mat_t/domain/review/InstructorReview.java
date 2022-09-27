@@ -19,6 +19,7 @@ public class InstructorReview {
 
     private float score;
     private String reviewContent;
+    private String date;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore

@@ -3,11 +3,14 @@ package mat.mat_t.web.service;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
 
+import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.StudentReviewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -20,6 +23,10 @@ public class StudentReviewService {
     //저장
     public void saveReview(StudentReview studentReview) {
         studentReviewRepository.save(studentReview);
+    }
+
+    public void createDate(StudentReview studentReview){
+        studentReview.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
     }
 
     public StudentReview updateStudentReview(StudentReview studentReview, Long id) {

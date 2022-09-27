@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.dto.InstructorReviewDto;
 import mat.mat_t.domain.review.InstructorReview;
+import mat.mat_t.domain.user.User;
 import mat.mat_t.form.InstructorReviewForm;
 import mat.mat_t.web.service.ClassStudentsService;
 import mat.mat_t.web.service.InstructorReviewService;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,16 +29,22 @@ public class InstructorReviewController {
 
     @ApiOperation(value = "수업 리뷰저장")
     @PostMapping("instructor/review")
-    public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form) {
+    public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form
+            , HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
 
         InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
-        if (instructorReviewService.countInstructorReviews(form.getClassId(), form.getStudentId()) == 1) {
+        instructorReviewService.createDate(instructorReview);
+
+        if (instructorReviewService.countInstructorReviews(form.getClassId(), loginUser.getId()) == 1) {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
 
         instructorReviewService.saveReview(instructorReview);
 
-        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
+        ClassStudents student = classStudentsService.findByUserIdAndClassId(loginUser.getId(), form.getClassId());
         instructorReview = instructorReviewService.updateClassStudents(student, instructorReview);
         return ResponseEntity.ok().body(instructorReview);
     }

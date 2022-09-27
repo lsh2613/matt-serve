@@ -11,6 +11,7 @@ public class StudentReviewDto {
 
     protected float mannerTemperature;
     protected String nickname;
+    protected String date;
 
     public  StudentReviewDto(){}
 
@@ -18,5 +19,6 @@ public class StudentReviewDto {
     public StudentReviewDto(StudentReview studentReview){
             this.mannerTemperature=studentReview.getMannerTemperature();
             this.nickname=studentReview.getClassStudents().getUserCS().getNickname();
+            this.date=studentReview.getDate();
     }
 }

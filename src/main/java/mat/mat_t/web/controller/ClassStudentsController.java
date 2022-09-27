@@ -5,14 +5,19 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.dto.ClassDto;
+import mat.mat_t.domain.class_.dto.UserDto;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
+import mat.mat_t.domain.user.User;
 import mat.mat_t.form.ClassStudentsForm;
 import mat.mat_t.web.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,17 +31,17 @@ public class ClassStudentsController {
     private final InstructorReviewService instructorReviewService;
     private final StudentReviewService studentReviewService;
 
-    @ApiOperation(value = "클래스스튜던트 저장")
-    @PostMapping(value = "class/students")
-    public ResponseEntity<ClassStudents> createClassStudents(@Valid @RequestBody ClassStudentsForm form) {
-        ClassStudents classStudents = new ClassStudents(form);
-        if (classStudentsService.countClassStudents(form.getClassId(), form.getStudentId()) == 1) {
-            throw new IllegalStateException("이미 등록되어 있습니다.");
-        }
-
-        classStudentsService.saveClassStudents(classStudents);
-        return ResponseEntity.ok().body(classStudents);
-    }
+//    @ApiOperation(value = "클래스스튜던트 저장")
+//    @PostMapping(value = "class/students")
+//    public ResponseEntity<ClassStudents> createClassStudents(@Valid @RequestBody ClassStudentsForm form) {
+//        ClassStudents classStudents = new ClassStudents(form);
+//        if (classStudentsService.countClassStudents(form.getClassId(), form.getStudentId()) == 1) {
+//            throw new IllegalStateException("이미 등록되어 있습니다.");
+//        }
+//
+//        classStudentsService.saveClassStudents(classStudents);
+//        return ResponseEntity.ok().body(classStudents);
+//    }
 
     @ApiOperation(value = "클래스스튜던트 상태정보 수정")
     @PatchMapping("class/students/modify/{classStudentId}")
@@ -96,17 +101,21 @@ public class ClassStudentsController {
     }
 
     /**
-     * stduentid 로 검색했을때, cs에서 status가 doing인 아이템을 클래스 정보랑 매핑해서 리턴하는 api 하나
-     * userId랑 status 정보 검색하면 그에 맞는 클래스 dto 출력
+
+     * status를 선택하면 그에 맞는 class정보들이 나옴
      */
 
-    @ApiOperation(value = "userId랑 status 검색하면 클래스 정보 나오는거")
-    @GetMapping("/class/students/{userId}/{status}")
-    public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable Long userId,
-            @PathVariable ClassStatus status) {
+    @ApiOperation(value = " status 검색하면 클래스 정보 나오는거")
+    @GetMapping("/class/students/userid/{status}")
+    public ResponseEntity<List<ClassDto>> findClassStudentsByUserIdAndStatus(@PathVariable ClassStatus status
+    , HttpServletRequest request) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
-        classStudents = classStudentsService.findByUserCS_IdAndStatusIs(userId, status);
+
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        classStudents = classStudentsService.findByUserCS_IdAndStatusIs(loginUser.getId(), status);
 
         for (int i = 0; i < classStudents.size(); i++) {
             classDtoList.add(new ClassDto(classStudents.get(i), classStudentsService, instructorReviewService));
@@ -116,18 +125,21 @@ public class ClassStudentsController {
     }
 
     /**
-     * userId입력하면 user가 듣는 강의중 review가 없는 클래스들 출력
+     *  review가 없는 클래스들 출력
      */
 
     @ApiOperation(value = "Review가 없는 강의들")
-    @GetMapping("/class/students/NotReviews/{userId}")
-    public ResponseEntity<List<ClassDto>> findClassStudentsNotReviews(@PathVariable Long userId) {
+    @GetMapping("/class/students/NotReviews")
+    public ResponseEntity<List<ClassDto>> findClassStudentsNotReviews(HttpServletRequest request) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<ClassDto> classDtoList = new ArrayList<>();
         List<InstructorReview> instructorReviews = new ArrayList<>();
 
-        classStudents = classStudentsService.findByUserCS(userId);
-        instructorReviews = instructorReviewService.findReviewByUserCS_id(userId);
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        classStudents = classStudentsService.findByUserCS(loginUser.getId());
+        instructorReviews=instructorReviewService.findReviewByUserCS_id(loginUser.getId());
 
         for (int i = 0; i < classStudents.size(); i++) {
             if (classStudentsService.checkNotReview(classStudents.get(i), instructorReviewService, instructorReviews)) {
@@ -136,5 +148,19 @@ public class ClassStudentsController {
         }
 
         return ResponseEntity.ok().body(classDtoList);
+    }
+
+    @ApiOperation(value = "classId로 할때 doing인 cs들 : 현재 수업을 듣는 학생들")
+    @GetMapping("/class/students/{classId}")
+    public ResponseEntity<List<UserDto>> findClassStudentsByClassIdAndStatus(@PathVariable Long classId) {
+        List<ClassStudents> classStudents = new ArrayList<>();
+        List<UserDto> userDtoList = new ArrayList<>();
+        classStudents = classStudentsService.findByClassIdAndStatus(classId);
+
+        for (int i = 0; i < classStudents.size(); i++) {
+            userDtoList.add(new UserDto(classStudents.get(i)));
+        }
+
+        return ResponseEntity.ok().body(userDtoList);
     }
 }
