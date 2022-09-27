@@ -106,12 +106,16 @@ public class WaitingStudentController {
         ClassStatus status;
         Long class_id;
         Long student_id;
+        String contents;
+        String date;
 
         public void setCsDto(ClassStudents classStudents) {
             this.cs_id = classStudents.getClassStudentId();
             this.status = classStudents.getStatus();
+            this.contents=classStudents.getContents();
             this.class_id = classStudents.getClassesCS().getClassId();
             this.student_id = classStudents.getUserCS().getId();
+            this.date=classStudents.getDate();
         }
     }
 

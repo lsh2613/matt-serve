@@ -58,6 +58,10 @@ public class ClassStudentsService {
         return classStudentsRepository.findByUserCS_IdOrderByClassStudentIdDesc(userId);
     }
 
+    public List<ClassStudents> findByClassIdAndStatus(Long classId){
+        return classStudentsRepository.findByClassesCS_ClassIdAndStatusIsLikeOrderByClassStudentIdDesc(classId,ClassStatus.DOING);
+    }
+
     public Boolean checkNotReview(ClassStudents classStudent,
                       InstructorReviewService instructorReviewService, List<InstructorReview> instructorReviews) {
             return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());

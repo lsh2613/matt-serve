@@ -18,6 +18,7 @@ public class StudentReview {
     private Long stReId;
 
     private float mannerTemperature;  // 평가내용
+    private String date;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore

@@ -8,6 +8,8 @@ import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -35,6 +37,10 @@ public class InstructorReviewService {
     //삭제
     public void deleteReview(Long id) {
         instructorReviewRepository.deleteById(id);
+    }
+
+    public void createDate(InstructorReview instructorReview){
+        instructorReview.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
     }
 
     //클래스 단건 조회
