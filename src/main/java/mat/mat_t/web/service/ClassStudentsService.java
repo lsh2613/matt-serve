@@ -8,6 +8,7 @@ import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.web.repository.ClassStudentsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,18 +59,32 @@ public class ClassStudentsService {
         return classStudentsRepository.findByUserCS_IdOrderByClassStudentIdDesc(userId);
     }
 
-    public List<ClassStudents> findByClassIdAndStatus(Long classId){
-        return classStudentsRepository.findByClassesCS_ClassIdAndStatusIsLikeOrderByClassStudentIdDesc(classId,ClassStatus.DOING);
+    public List<ClassStudents> findByClassIdAndStatus(Long classId) {
+        return classStudentsRepository.findByClassesCS_ClassIdAndStatusIsLikeOrderByClassStudentIdDesc(classId, ClassStatus.DOING);
+    }
+
+    public List<ClassStudents> findClassStudentsByClassId(Long classId) {
+        return classStudentsRepository.findClassStudentsByClassesCS_ClassId(classId);
+    }
+
+    public void finishedClass(List<ClassStudents> classStudents) {
+        ClassStudents student;
+
+        for (ClassStudents classStudent : classStudents) {
+            student = classStudent;
+            student.setStatus(ClassStatus.FINISHED);
+            classStudentsRepository.save(student);
+        }
     }
 
     public Boolean checkNotReview(ClassStudents classStudent,
-                      InstructorReviewService instructorReviewService, List<InstructorReview> instructorReviews) {
-            return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
+                                  InstructorReviewService instructorReviewService, List<InstructorReview> instructorReviews) {
+        return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
     }
 
-    public Boolean checkReviews(ClassStudents classStudent, InstructorReviewService instructorReviewService,Long classId) {
+    public Boolean checkReviews(ClassStudents classStudent, InstructorReviewService instructorReviewService, Long classId) {
         List<InstructorReview> instructorReviews;
-        instructorReviews=instructorReviewService.findReviewByClassId(classId);
+        instructorReviews = instructorReviewService.findReviewByClassId(classId);
         return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
     }
 }
