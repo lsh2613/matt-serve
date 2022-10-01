@@ -22,7 +22,7 @@ public class Community {
     private Long id;
     private String title;
     private String content;
-    private int like=0;
+    private int likes=0;
     private String Date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
 //    @ManyToOne(fetch = FetchType.LAZY)
