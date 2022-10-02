@@ -3,6 +3,7 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassTag;
+import mat.mat_t.domain.class_.dto.ClassInfoDto;
 import mat.mat_t.domain.class_.dto.ClassTagDto;
 import mat.mat_t.form.ClassTagForm;
 import mat.mat_t.web.service.ClassTagService;
@@ -58,16 +59,16 @@ public class ClassTagController {
 
     @ApiOperation(value = "클래스태그 클래스 아이디로 조회")
     @GetMapping(value = "/classTag/classId/{classId}")
-    public ResponseEntity<List<ClassTagForm>> findClassTagByClassId(@PathVariable Long classId) {
+    public ResponseEntity<List<ClassTagDto>> findClassTagByClassId(@PathVariable Long classId) {
         List<ClassTag> classTags = new ArrayList<>();
-        List<ClassTagForm> list = new ArrayList<>();
+        List<ClassTagDto> ClassTagDtoList = new ArrayList<>();
 
         classTags = classTagService.findClassTagByClassId(classId);
         classTags.forEach(el -> {
-            ClassTagForm data = new ClassTagForm(el);
-            list.add(data);
+            ClassTagDto data = new ClassTagDto(el);
+            ClassTagDtoList.add(data);
         });
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(ClassTagDtoList);
     }
 
     /**
@@ -76,16 +77,17 @@ public class ClassTagController {
 
     @ApiOperation(value = "클래스정보 태그정보 아이디 한개로 조회")
     @GetMapping(value = "/classTag/tagInfoId/{tagInfoId}")
-    public ResponseEntity<List<ClassTagDto>> findClassTagByTagInfoId(@PathVariable Long tagInfoId) {
+    public ResponseEntity<List<ClassInfoDto>> findClassTagByTagInfoId(@PathVariable Long tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
-        List<ClassTagDto> classTagDtos = new ArrayList<>();
+        List<ClassInfoDto> classInfoDtoList = new ArrayList<>();
         classTags = classTagService.findClassTagByTagInfoId(tagInfoId);
 
-        for (int i = 0; i < classTags.size(); i++) {
-            classTagDtos.add(new ClassTagDto(classTags.get(i)));
-        }
+        classTags.forEach(el -> {
+            ClassInfoDto data = new ClassInfoDto(el);
+            classInfoDtoList.add(data);
+        });
 
-        return ResponseEntity.ok().body(classTagDtos);
+        return ResponseEntity.ok().body(classInfoDtoList);
     }
 
     /**
@@ -94,15 +96,16 @@ public class ClassTagController {
 
     @ApiOperation(value = "클래스정보 태그정보 아이디 리스트로 조회")
     @GetMapping(value = "/classTag/tagInfoIdList")
-    public ResponseEntity<List<ClassTagDto>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
+    public ResponseEntity<List<ClassInfoDto>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
-        List<ClassTagDto> classTagDtos = new ArrayList<>();
+        List<ClassInfoDto> classInfoDtoList = new ArrayList<>();
         classTags = classTagService.findClassTagByTagInfoIdList(tagInfoId);
 
-        for (int i = 0; i < classTags.size(); i++) {
-            classTagDtos.add(new ClassTagDto(classTags.get(i)));
-        }
+        classTags.forEach(el -> {
+            ClassInfoDto data = new ClassInfoDto(el);
+            classInfoDtoList.add(data);
+        });
 
-        return ResponseEntity.ok().body(classTagDtos);
+        return ResponseEntity.ok().body(classInfoDtoList);
     }
 }

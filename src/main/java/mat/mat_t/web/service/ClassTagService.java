@@ -41,7 +41,7 @@ public class ClassTagService {
      * 클래스 태그 클래스 아이디로 조회
      **/
     public List<ClassTag> findClassTagByClassId(Long classId) {
-        return classTagRepository.findClassTagByClassesCT_ClassId(classId);
+        return classTagRepository.findDistinctClassTagByClassesCT_ClassId(classId);
     }
 
     /**

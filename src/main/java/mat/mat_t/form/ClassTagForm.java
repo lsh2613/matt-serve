@@ -12,12 +12,4 @@ public class ClassTagForm {
 
     private Long classesCT; // 클래스 매핑
 
-    public ClassTagForm() {
-    }
-
-    public ClassTagForm(ClassTag classTag) {
-        this.tagClId = classTag.getTagClId();
-        this.tagInfo = classTag.getTagInfo().getTagInfoId();
-        this.classesCT = classTag.getClassesCT().getClassId();
-    }
 }
