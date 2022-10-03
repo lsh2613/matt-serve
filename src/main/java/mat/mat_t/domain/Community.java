@@ -7,6 +7,7 @@ import mat.mat_t.domain.user.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Community {
     private String title;
     private String content;
     private int likes=0;
-    private String Date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+    private String Date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh시 mm분 ss초"));
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,14 +92,41 @@ public class CommunityController {
         int numOfLikes;
         int numOfComments;
 
-        String pastTime; //몇 분 이전에 작성됐는지
+        String pastTime;
 
         public CommunityDto(Community community) {
             this.userId = community.getUserCom().getId();
             this.userName = community.getUserCom().getName();
             this.title = community.getTitle();
             this.content = community.getContent();
-            this.pastTime = community.getContent();
+
+            String communityDate = community.getDate();
+            int comYear = Integer.parseInt(communityDate.substring(0, 4));
+            int comMonth = Integer.parseInt(communityDate.substring(5, 7));
+            int comDay = Integer.parseInt(communityDate.substring(8, 10));
+            int comHour = Integer.parseInt(communityDate.substring(11, 13));
+            int comMinute = Integer.parseInt(communityDate.substring(15, 17));
+
+            LocalDateTime now = LocalDateTime.now();
+            int nowYear = now.getYear();
+            int nowMonthValue = now.getMonthValue();
+            int nowDayOfMonth = now.getDayOfMonth();
+            int nowHour = now.getHour();
+            int nowMinute = now.getMinute();
+
+            if (comYear > nowYear)
+                this.pastTime = Integer.toString(comYear - nowYear).concat("년 전");
+            else if (comMonth > nowMonthValue)
+                this.pastTime = Integer.toString(comMonth - nowMonthValue).concat("개월 전");
+            else if (comDay > nowDayOfMonth)
+                this.pastTime = Integer.toString(comDay - nowDayOfMonth).concat("일 전");
+            else if (comHour > nowHour)
+                this.pastTime = Integer.toString(comHour - nowHour).concat("시간 전");
+            else if (comMinute > nowMinute)
+                this.pastTime = Integer.toString(comMinute - nowMinute).concat("분 전");
+            else
+                this.pastTime = "1분 전";
+
         }
     }
 
