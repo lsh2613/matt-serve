@@ -5,6 +5,8 @@ import mat.mat_t.domain.review.ReviewLike;
 import mat.mat_t.web.repository.ReviewLikeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewLikeService {
@@ -21,5 +23,10 @@ public class ReviewLikeService {
 
     public boolean existsByUserIdAndInstructorReviewId(Long userId,Long insId){
         return reviewLikeRepository.existsReviewLikeByUserCS_IdAndInstructorReview_InsReviewId(userId,insId);
+    }
+
+    public void deleteLikesByInsId(Long insId){
+        List<ReviewLike> reviewLikes=reviewLikeRepository.findReviewLikesByInstructorReview_InsReviewId(insId);
+        reviewLikeRepository.deleteAll(reviewLikes);
     }
 }
