@@ -15,6 +15,6 @@ public class CommunityForm {
     @Size(max = 20, message = "제목은 20자 이하로 입력해주세요.")
     String title;
 
-    @NotBlank
+    @NotBlank(message = "내용을 입력해주세요.")
     String content;
 }

@@ -1,5 +1,6 @@
 package mat.mat_t.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.user.User;
@@ -25,9 +26,10 @@ public class Community {
     private int likes=0;
     private String Date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "student_id")
-//    private User userCom;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    @JsonIgnore
+    private User userCom;
 
 
     public Community() {

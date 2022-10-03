@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@RequiredArgsConstructor()
+@RequiredArgsConstructor
 public class CommunityService {
 
-    private CommunityRepository communityRepository;
+    private final CommunityRepository communityRepository;
 
     public void saveCommunity(Community community) {
         communityRepository.save(community);
@@ -28,8 +28,8 @@ public class CommunityService {
     public Community clickLike(Long id) {
         Optional<Community> optionalCommunity = communityRepository.findById(id);
         Community findCom = optionalCommunity.get();
-        int findLike = findCom.getLike();
-        findCom.setLike(++findLike);
+        int findLike = findCom.getLikes();
+        findCom.setLikes(++findLike);
         return findCom;
     }
 
@@ -39,5 +39,11 @@ public class CommunityService {
         com.setTitle(title);
         com.setContent(content);
         return com;
+    }
+
+    public void remove(Long id) {
+        Optional<Community> findCom = communityRepository.findById(id);
+        Community com = findCom.get();
+        communityRepository.delete(com);
     }
 }
