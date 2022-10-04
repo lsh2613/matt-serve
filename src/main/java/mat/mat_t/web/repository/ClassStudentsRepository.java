@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface ClassStudentsRepository extends JpaRepository<ClassStudents, Long> {
     ClassStudents findByUserCS_IdAndClassesCS_ClassId(Long userId, Long classId);
+    List<ClassStudents> findClassStudentsByClassesCS_ClassId(Long classId);
     List<ClassStudents> findClassDtoByUserCS_IdAndStatusIsOrderByClassStudentIdDesc(Long userId, ClassStatus status);
     List<ClassStudents> findByUserCS_IdOrderByClassStudentIdDesc(Long userId);
     int countByClassesCS_ClassIdAndUserCS_Id(Long classId,Long userId);
