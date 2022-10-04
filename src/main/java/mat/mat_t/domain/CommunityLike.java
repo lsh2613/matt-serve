@@ -1,9 +1,8 @@
-package mat.mat_t.domain.review;
+package mat.mat_t.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.CommunityLike;
 import mat.mat_t.domain.user.User;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class ReviewLike {
+public class CommunityLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,18 +25,13 @@ public class ReviewLike {
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "community_id")
-    private CommunityLike communityLike;
+    private Community community;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "review_id")
-    private InstructorReview instructorReview;
-
-    public ReviewLike() {
+    public CommunityLike() {
     }
 
-    public ReviewLike(InstructorReview instructorReview,User user) {
-        this.setInstructorReview(instructorReview);
+    public CommunityLike(User user,Community community){
         this.setUserCS(user);
+        this.setCommunity(community);
     }
 }

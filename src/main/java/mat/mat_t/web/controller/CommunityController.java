@@ -7,6 +7,7 @@ import lombok.Setter;
 import mat.mat_t.domain.Community;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.CommunityForm;
+import mat.mat_t.web.service.CommunityLikeService;
 import mat.mat_t.web.service.CommunityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,8 +26,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommunityController {
 
-
     private final CommunityService communityService;
+    private final CommunityLikeService communityLikeService;
 
     @ApiOperation("커뮤니티 생성")
     @PostMapping("/community/add")
@@ -68,16 +69,9 @@ public class CommunityController {
     @ApiOperation("커뮤니티 삭제")
     @PatchMapping("/community/delete")
     public ResponseEntity deleteCommunity(@RequestParam Long communityId) {
+        communityLikeService.deleteByCommunity(communityId);
         communityService.remove(communityId);
         return ResponseEntity.ok("커뮤니티 삭제 완료");
-    }
-
-    //todo 좋아요 테이블 유저id, 커뮤니티id, 좋아요 누름 여부 flag 생성 후 flag 체크 생성
-    @ApiOperation("좋아요 클릭")
-    @PostMapping("/community/clickLike")
-    public ResponseEntity plusLike(@RequestParam Long communityId) {
-        Community community = communityService.clickLike(communityId);
-        return ResponseEntity.ok(community);
     }
 
     @Getter
@@ -99,6 +93,7 @@ public class CommunityController {
             this.userName = community.getUserCom().getName();
             this.title = community.getTitle();
             this.content = community.getContent();
+            this.numOfLikes=community.getLikes();
 
             String communityDate = community.getDate();
             int comYear = Integer.parseInt(communityDate.substring(0, 4));
@@ -114,16 +109,16 @@ public class CommunityController {
             int nowHour = now.getHour();
             int nowMinute = now.getMinute();
 
-            if (comYear > nowYear)
-                this.pastTime = Integer.toString(comYear - nowYear).concat("년 전");
-            else if (comMonth > nowMonthValue)
-                this.pastTime = Integer.toString(comMonth - nowMonthValue).concat("개월 전");
-            else if (comDay > nowDayOfMonth)
-                this.pastTime = Integer.toString(comDay - nowDayOfMonth).concat("일 전");
-            else if (comHour > nowHour)
-                this.pastTime = Integer.toString(comHour - nowHour).concat("시간 전");
-            else if (comMinute > nowMinute)
-                this.pastTime = Integer.toString(comMinute - nowMinute).concat("분 전");
+            if (comYear < nowYear)
+                this.pastTime = Integer.toString(nowYear - comYear ).concat("년 전");
+            else if (comMonth < nowMonthValue)
+                this.pastTime = Integer.toString(nowMonthValue - comMonth ).concat("개월 전");
+            else if (comDay < nowDayOfMonth)
+                this.pastTime = Integer.toString(nowDayOfMonth - comDay ).concat("일 전");
+            else if (comHour < nowHour)
+                this.pastTime = Integer.toString(nowHour - comHour).concat("시간 전");
+            else if (comMinute < nowMinute)
+                this.pastTime = Integer.toString(nowMinute - comMinute ).concat("분 전");
             else
                 this.pastTime = "1분 전";
 
