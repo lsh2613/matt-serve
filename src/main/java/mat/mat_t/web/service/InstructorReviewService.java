@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.web.repository.InstructorReviewRepository;
-import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,8 @@ public class InstructorReviewService {
 
     //저장
     public void saveReview(InstructorReview instructorReview) {
+        instructorReview.setLikes(0);
+        instructorReview.setHates(0);
         instructorReviewRepository.save(instructorReview);
     }
 
@@ -41,6 +42,30 @@ public class InstructorReviewService {
 
     public void createDate(InstructorReview instructorReview){
         instructorReview.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+    }
+
+    public void pressLikes(InstructorReview instructorReview){
+        int likes=instructorReview.getLikes();
+        likes+=1;
+        instructorReview.setLikes(likes);
+    }
+
+    public void cancelLikes(InstructorReview instructorReview){
+        int likes=instructorReview.getLikes();
+        likes-=1;
+        instructorReview.setLikes(likes);
+    }
+
+    public void pressHates(InstructorReview instructorReview){
+        int hates=instructorReview.getHates();
+        hates+=1;
+        instructorReview.setHates(hates);
+    }
+
+    public void cancelHates(InstructorReview instructorReview){
+        int hates=instructorReview.getHates();
+        hates-=1;
+        instructorReview.setHates(hates);
     }
 
     //클래스 단건 조회

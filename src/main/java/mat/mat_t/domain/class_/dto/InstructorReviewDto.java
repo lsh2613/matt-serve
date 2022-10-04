@@ -15,6 +15,8 @@ public class InstructorReviewDto {
     protected String nickname;
     protected String title;
     protected String date;
+    protected int likes;
+    protected int hates;
 
     public InstructorReviewDto() {
     }
@@ -28,5 +30,7 @@ public class InstructorReviewDto {
         this.score = instructorReview.getScore();
         this.reviewContent = instructorReview.getReviewContent();
         this.date=instructorReview.getDate();
+        this.likes=instructorReview.getLikes();
+        this.hates=instructorReview.getHates();
     }
 }

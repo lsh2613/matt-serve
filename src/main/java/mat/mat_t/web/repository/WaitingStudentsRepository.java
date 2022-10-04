@@ -43,4 +43,9 @@ public class WaitingStudentsRepository {
                 .getResultList();
     }
 
+    public List<WaitingStudent> findListByUserId(Long userId){
+        return em.createQuery("select w from WaitingStudent w join w.userWS u where u.id=:userId",WaitingStudent.class)
+                .setParameter("userId",userId)
+                .getResultList();
+    }
 }

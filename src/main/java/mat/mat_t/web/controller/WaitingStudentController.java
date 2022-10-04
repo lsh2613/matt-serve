@@ -10,6 +10,7 @@ import mat.mat_t.domain.user.User;
 import mat.mat_t.web.service.ClassService;
 import mat.mat_t.web.service.ClassStudentsService;
 import mat.mat_t.web.service.WaitingStudentsService;
+import mat.mat_t.web.service.WishService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +29,13 @@ public class WaitingStudentController {
     private final WaitingStudentsService waitingStudentsService;
     private final ClassService classService;
     private final ClassStudentsService classStudentsService;
+    private final WishService wishService;
 
     @ApiOperation("클래스 신청한 학생 DB에 저장")
     @PostMapping("/waitingStudent/{classId}")
     public ResponseEntity add(@PathVariable Long classId,
-            @RequestParam String content,
-            HttpServletRequest request) {
+                              @RequestParam String content,
+                              HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
@@ -62,7 +65,7 @@ public class WaitingStudentController {
     @ApiOperation("클래스 신청 수정")
     @PatchMapping("/waitingStudent/{wsId}")
     public ResponseEntity editWs(@PathVariable Long wsId,
-            @RequestBody String content) {
+                                 @RequestBody String content) {
         WaitingStudent updateStudent = waitingStudentsService.update(wsId, content);
         return ResponseEntity.ok(updateStudent);
     }
@@ -80,7 +83,46 @@ public class WaitingStudentController {
         classStudentsService.saveClassStudents(classStudent);
         CsDto csDto = new CsDto();
         csDto.setCsDto(classStudent);
+        if (wishService.duplicate(classStudent.getClassesCS().getClassId(), classStudent.getUserCS().getId())) {
+            wishService.deleteByClassIdAndUserId(classStudent.getClassesCS().getClassId(), classStudent.getUserCS().getId());
+        }
         return ResponseEntity.ok().body(csDto);
+    }
+
+    @ApiOperation("자기꺼 아직 waiting중인 클래스들 보기")
+    @GetMapping("/waitingStudent/class")
+    public ResponseEntity WaitingClassByUserId(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        List<WaitingStudent> waitingStudents=new ArrayList<>();
+        List<ClassWsDto> classWsDtos=new ArrayList<>();
+
+        waitingStudents=waitingStudentsService.findClassByUserId(loginUser.getId());
+
+        for(int i=0;i<waitingStudents.size();i++){
+            classWsDtos.add(new ClassWsDto(waitingStudents.get(i)));
+        }
+
+        return ResponseEntity.ok().body(classWsDtos);
+    }
+
+    @Getter
+    static class ClassWsDto{
+         Long classId;
+
+         String title;
+         Long numberOfStudents;
+         String descriptions;
+         String category;
+
+         public ClassWsDto(WaitingStudent waitingStudent){
+             this.classId=waitingStudent.getClassesWS().getClassId();
+             this.title=waitingStudent.getClassesWS().getTitle();
+             this.numberOfStudents=waitingStudent.getClassesWS().getNumberOfStudents();
+             this.descriptions=waitingStudent.getClassesWS().getDescriptions();
+             this.category=waitingStudent.getClassesWS().getCategory();
+         }
     }
 
     @Getter
@@ -112,10 +154,10 @@ public class WaitingStudentController {
         public void setCsDto(ClassStudents classStudents) {
             this.cs_id = classStudents.getClassStudentId();
             this.status = classStudents.getStatus();
-            this.contents=classStudents.getContents();
+            this.contents = classStudents.getContents();
             this.class_id = classStudents.getClassesCS().getClassId();
             this.student_id = classStudents.getUserCS().getId();
-            this.date=classStudents.getDate();
+            this.date = classStudents.getDate();
         }
     }
 

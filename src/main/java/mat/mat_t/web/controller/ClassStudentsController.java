@@ -163,4 +163,15 @@ public class ClassStudentsController {
 
         return ResponseEntity.ok().body(userDtoList);
     }
+
+    @ApiOperation(value = "classId입력 하면 다 수업을 듣는 cs들 다 finsihed 상태로 만드는 거")
+    @PostMapping("/class/students/status/{classId}")
+    public ResponseEntity finishedClass(@PathVariable Long classId) {
+        List<ClassStudents> classStudents = new ArrayList<>();
+        classStudents = classStudentsService.findClassStudentsByClassId(classId);
+
+        classStudentsService.finishedClass(classStudents);
+
+        return null;
+    }
 }
