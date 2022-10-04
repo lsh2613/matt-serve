@@ -1,11 +1,11 @@
 package mat.mat_t.web.repository;
 
 import mat.mat_t.domain.class_.Classes;
+import mat.mat_t.form.ClassForm;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.Date;
 import java.util.List;
 
@@ -14,37 +14,101 @@ import java.util.List;
 public interface ClassRepository extends JpaRepository<Classes, Long> {
 
     //강사 아이디로 조회
-    List findByInstructorC_InstructorId(@Param(value = "instructor_id") Long instructorId);
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " where c.instructorC.instructorId =:instructorId" +
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+     List<ClassForm> findAllByInstructorC_InstructorId(@Param(value = "instructorId") Long instructorId);
 
     //진행 전 강의 조회
-    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate) from Classes c where c.startDate > :NOW")
-    List<Classes> findAllByStartDateBefore(@Param("NOW") Date NOW);
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " where c.startDate >:NOW" +
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+    List<ClassForm> findAllByStartDateBefore(@Param("NOW") Date NOW);
 
     //진행 중 강의 조회
-    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate) from Classes c where c.startDate <= :NOW and c.endDate >= :NOW")
-    List<Classes> findAllByStartDateAfterAndEndDateBefore(@Param("NOW") Date NOW);
+    @Query(value ="select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " where c.startDate <= :NOW and c.endDate >= :NOW" +
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+    List<ClassForm> findAllByStartDateAfterAndEndDateBefore(@Param("NOW") Date NOW);
 
     //진행 완료 강의 조회
-    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate) from Classes c where c.endDate < :NOW")
-    List<Classes> findAllByEndDateAfter(@Param("NOW") Date NOW);
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " where c.endDate <:NOW" +
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+     List<ClassForm> findAllByEndDateAfter(@Param("NOW") Date NOW);
 
     //해당 요일 클래스 조회
-    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate)"+
-            " from Classes c join c.classDays d" +
-            " where d.days.dayName like :dayName")
-    List<Classes> findAllByClassDays(@Param("dayName")String dayName);
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " join c.classDays d" +
+            " where d.days.dayName like :dayName" +
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+    List<ClassForm> findAllByClassDays(@Param("dayName")String dayName);
 
     //키워드로 클래스 조회(title, category, description, place 에서 검색)
-    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate)"+
-            " from Classes c where c.title like %:keyword% or c.category like %:keyword% or c.descriptions like %:keyword% or c.place like %:keyword%")
-    List<Classes> findAllByTitleOrCategoryOrDescriptionsOrPlace(@Param("keyword")String keyword);
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " where c.title like %:keyword% or c.category like %:keyword% or c.descriptions like %:keyword% or c.place like %:keyword%" +
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+    List<ClassForm> findAllByTitleOrCategoryOrDescriptionsOrPlace(@Param("keyword")String keyword);
 
-    //태그로 클래스 검색
-    @Query("select new mat.mat_t.domain.class_.Classes(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate)" +
-            " from Classes c" +
-            " join c.classTags ct" +
-            " join ct.tagInfo ti" +
-            " where c.classId = ct.classesCT.classId and ct.tagInfo.tagName like :tagName")
-    List<Classes> findByClassTags(@Param("tagName") String tagName);
+    //전체 클래스 조회
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+            " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+            " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+            " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+            " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+            " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+            " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+    List<ClassForm> findAllByWaitingStudents();
 
+    //클래스 아이디로 조회 waitingStudent 포함
+    @Query(value =
+            "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+                    " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
+                    " left join Classes c on i.instructorId = c.instructorC.instructorId" +
+                    " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
+                    " left join InstructorReview ir on cs.classStudentId = ir.classStudents.classStudentId" +
+                    " join  Classes c2 on i.instructorId = c2.instructorC.instructorId" +
+                    " left join WaitingStudent ws on c.classId = ws.classesWS.classId"+
+                    " where c.classId =:classId" +
+                    " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
+     ClassForm findAllByClassId(@Param("classId") Long classId);
+
+    public Classes findByClassId(Long classId);
 }

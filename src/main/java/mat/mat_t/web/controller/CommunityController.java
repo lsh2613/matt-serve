@@ -1,13 +1,13 @@
 package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mat.mat_t.domain.Community;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.CommunityForm;
+import mat.mat_t.web.service.CommunityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

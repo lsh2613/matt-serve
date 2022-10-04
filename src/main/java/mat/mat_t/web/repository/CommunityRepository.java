@@ -6,6 +6,4 @@ import org.yaml.snakeyaml.events.Event;
 
 public interface CommunityRepository extends JpaRepository<Community, Long> {
 
-
-
 }

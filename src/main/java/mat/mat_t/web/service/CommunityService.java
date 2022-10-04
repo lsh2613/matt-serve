@@ -1,4 +1,4 @@
-package mat.mat_t.web.controller;
+package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.Community;
@@ -40,7 +40,6 @@ public class CommunityService {
         com.setContent(content);
         return com;
     }
-
     public void remove(Long id) {
         Optional<Community> findCom = communityRepository.findById(id);
         Community com = findCom.get();

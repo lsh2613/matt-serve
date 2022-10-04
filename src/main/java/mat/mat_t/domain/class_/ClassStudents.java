@@ -2,11 +2,12 @@ package mat.mat_t.domain.class_;
 
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.ClassStudentsForm;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -18,11 +19,14 @@ public class ClassStudents {
     @Column(name = "cs_id")
     private Long classStudentId;
 
-    @ManyToOne
+    private String contents;
+    private String date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private User userCS;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
     private Classes classesCS;
 
@@ -47,6 +51,8 @@ public class ClassStudents {
         this.status = ClassStatus.DOING;
         this.setClassesCS(findWs.getClassesWS());
         this.setUserCS(findWs.getUserWS());
+        this.contents=findWs.getContent();
+        this.date=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
     }
 
     public ClassStudents(Long id) {

@@ -22,7 +22,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -55,7 +57,7 @@ public class LoginController {
 
         if (loginUser == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body("아이디 또는 비밀번호가 맞지 않습니다");
         }
 
         HttpSession session = request.getSession();
@@ -64,7 +66,6 @@ public class LoginController {
         LoginUserDto loginUserDto = new LoginUserDto(loginUser);
 
         return ResponseEntity.ok().body(loginUserDto);
-
 
     }
 
@@ -92,7 +93,6 @@ public class LoginController {
         private Gender gender;
         private Long instructorId;
 
-
         public LoginUserDto(User loginUser) {
             studentId = loginUser.getId();
             loginId = loginUser.getLoginId();
@@ -104,12 +104,11 @@ public class LoginController {
             email = loginUser.getEmail();
             gender = loginUser.getGender();
 
-            if (loginUser.getInstructor()==null){
+            if (loginUser.getInstructor() == null) {
                 instructorId = null;
-            }else {
+            } else {
                 instructorId = loginUser.getInstructor().getInstructorId();
             }
-
 
         }
     }

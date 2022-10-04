@@ -18,13 +18,4 @@ public class StudentReviewForm {
     @NotNull
     private Long classId;
 
-    @NotEmpty
-    private String reviewContent;
-
-    public StudentReviewForm() {
-    }
-
-    public StudentReviewForm(StudentReview studentReview) {
-        this.mannerTemperature = studentReview.getMannerTemperature();
-    }
 }

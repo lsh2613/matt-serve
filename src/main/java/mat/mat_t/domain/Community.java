@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,9 @@ public class Community {
     @JsonIgnore
     private User userCom;
 
+    @OneToMany(mappedBy = "community", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
 
     public Community() {
     }
@@ -41,4 +45,7 @@ public class Community {
         this.content = content;
     }
 
+    public Community(Long communityId) {
+        this.id = communityId;
+    }
 }

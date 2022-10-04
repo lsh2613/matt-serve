@@ -3,6 +3,7 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassTag;
+import mat.mat_t.domain.class_.dto.ClassTagDto;
 import mat.mat_t.form.ClassTagForm;
 import mat.mat_t.web.service.ClassTagService;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,6 @@ public class ClassTagController {
 
         return ResponseEntity.ok().body(classTag);
     }
-
 
     /**
      * 태그 정보 삭제
@@ -74,38 +74,35 @@ public class ClassTagController {
      * 태그 정보 아이디로 클래스 태그 정보 조회
      **/
 
-    @ApiOperation(value = "클래스태그 태그정보 아이디로 조회")
+    @ApiOperation(value = "클래스정보 태그정보 아이디 한개로 조회")
     @GetMapping(value = "/classTag/tagInfoId/{tagInfoId}")
-    public ResponseEntity<List<ClassTagForm>> findClassTagByTagInfoId(@PathVariable Long tagInfoId) {
+    public ResponseEntity<List<ClassTagDto>> findClassTagByTagInfoId(@PathVariable Long tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
-        List<ClassTagForm> list = new ArrayList<>();
-
+        List<ClassTagDto> classTagDtos = new ArrayList<>();
         classTags = classTagService.findClassTagByTagInfoId(tagInfoId);
-        classTags.forEach(el -> {
-            ClassTagForm data = new ClassTagForm(el);
-            list.add(data);
-        });
 
-        return ResponseEntity.ok().body(list);
+        for (int i = 0; i < classTags.size(); i++) {
+            classTagDtos.add(new ClassTagDto(classTags.get(i)));
+        }
+
+        return ResponseEntity.ok().body(classTagDtos);
     }
 
     /**
      * 태그 정보 아이디 리스트로 클래스 태그 정보 조회
      **/
 
-    @ApiOperation(value = "클래스태그 태그정보 아이디리스트로 조회")
+    @ApiOperation(value = "클래스정보 태그정보 아이디 리스트로 조회")
     @GetMapping(value = "/classTag/tagInfoIdList")
-    public ResponseEntity<List<ClassTagForm>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
+    public ResponseEntity<List<ClassTagDto>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
-        List<ClassTagForm> list = new ArrayList<>();
-
+        List<ClassTagDto> classTagDtos = new ArrayList<>();
         classTags = classTagService.findClassTagByTagInfoIdList(tagInfoId);
-        classTags.forEach(el -> {
-            ClassTagForm data = new ClassTagForm(el);
-            list.add(data);
-        });
 
-        return ResponseEntity.ok().body(list);
+        for (int i = 0; i < classTags.size(); i++) {
+            classTagDtos.add(new ClassTagDto(classTags.get(i)));
+        }
+
+        return ResponseEntity.ok().body(classTagDtos);
     }
-
 }

@@ -3,6 +3,7 @@ package mat.mat_t.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import mat.mat_t.domain.Comment;
 import mat.mat_t.domain.Community;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.WaitingStudent;
@@ -55,6 +56,9 @@ public class User {
 
 //    @OneToMany(mappedBy = "userCom")
 //    private List<Community> communities;
+
+    @OneToMany(mappedBy = "userComment")
+    private List<Comment> comments = new ArrayList<>();
 
     public User() {
     }

@@ -16,16 +16,5 @@ public class InstructorReviewForm {
     private String reviewContent;
 
     @NotNull
-    private Long studentId;
-
-    @NotNull
     private Long classId;
-
-    public InstructorReviewForm() {
-    }
-
-    public InstructorReviewForm(InstructorReview instructorReview) {
-        this.reviewContent = instructorReview.getReviewContent();
-        this.score = instructorReview.getScore();
-    }
 }
