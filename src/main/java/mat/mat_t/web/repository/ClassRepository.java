@@ -110,5 +110,5 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
                     " group by c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate,  i.userIn.name, i.major")
      ClassForm findAllByClassId(@Param("classId") Long classId);
 
-    public Classes findByClassId(Long classId);
+    Classes findByClassId(Long classId);
 }
