@@ -46,27 +46,27 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 수정")
     @PatchMapping("user/editPwd")
-    public ResponseEntity editPwd(HttpServletRequest request, @RequestParam("pwd") String pwd) {
+    public ResponseEntity<User> editPwd(HttpServletRequest request, @RequestParam("pwd") String pwd) {
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
 
         User updatedUser = userService.updatePwd(loginUser.getId(), pwd);
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok().body(updatedUser);
     }
 
     @ApiOperation(value = "닉네임 수정")
     @PatchMapping("user/editNickname")
-    public ResponseEntity editNickname(HttpServletRequest request, @RequestParam("nickname") String nickname) {
+    public ResponseEntity<User> editNickname(HttpServletRequest request, @RequestParam("nickname") String nickname) {
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
 
         User updatedUser = userService.updateNickname(loginUser.getId(), nickname);
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok().body(updatedUser);
     }
 
     @ApiOperation(value = "회원 탈퇴")
     @DeleteMapping("/user/delete")
-    public ResponseEntity deleteUser(HttpServletRequest request) {
+    public ResponseEntity<User> deleteUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
 
