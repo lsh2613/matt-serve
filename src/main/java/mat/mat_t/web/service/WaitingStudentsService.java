@@ -54,4 +54,8 @@ public class WaitingStudentsService {
         delete(findWs.getWaitingId());
         return cs;
     }
+
+    public List<WaitingStudent> findClassByUserId(Long userId){
+        return waitingStudentsRepository.findListByUserId(userId);
+    }
 }

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,42 @@ public class WaitingStudentController {
         CsDto csDto = new CsDto();
         csDto.setCsDto(classStudent);
         return ResponseEntity.ok().body(csDto);
+    }
+
+    @ApiOperation("자기꺼 아직 waiting중인 클래스들 보기")
+    @GetMapping("/waitingStudent/class")
+    public ResponseEntity WaitingClassByUserId(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        List<WaitingStudent> waitingStudents=new ArrayList<>();
+        List<ClassWsDto> classWsDtos=new ArrayList<>();
+
+        waitingStudents=waitingStudentsService.findClassByUserId(loginUser.getId());
+
+        for(int i=0;i<waitingStudents.size();i++){
+            classWsDtos.add(new ClassWsDto(waitingStudents.get(i)));
+        }
+
+        return ResponseEntity.ok().body(classWsDtos);
+    }
+
+    @Getter
+    static class ClassWsDto{
+         Long classId;
+
+         String title;
+         Long numberOfStudents;
+         String descriptions;
+         String category;
+
+         public ClassWsDto(WaitingStudent waitingStudent){
+             this.classId=waitingStudent.getClassesWS().getClassId();
+             this.title=waitingStudent.getClassesWS().getTitle();
+             this.numberOfStudents=waitingStudent.getClassesWS().getNumberOfStudents();
+             this.descriptions=waitingStudent.getClassesWS().getDescriptions();
+             this.category=waitingStudent.getClassesWS().getCategory();
+         }
     }
 
     @Getter

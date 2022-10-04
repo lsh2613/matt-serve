@@ -20,6 +20,8 @@ public class InstructorReview {
     private float score;
     private String reviewContent;
     private String date;
+    private int likes;
+    private int hates;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
