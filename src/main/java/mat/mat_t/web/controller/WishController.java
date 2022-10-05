@@ -29,17 +29,16 @@ public class WishController {
 
     @ApiOperation(value = "찜하기")
     @PostMapping("wish/{classId}")
-    public ResponseEntity putWishClass(@PathVariable Long classId
-            , HttpServletRequest request) {
+    public ResponseEntity putWishClass(@PathVariable Long classId, HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
 
-        Classes classes=classService.findClassByClassId(classId);
+        Classes classes = classService.findClassByClassId(classId);
 
-        Wish wish=new Wish(classes,loginUser);
+        Wish wish = new Wish(classes, loginUser);
 
-        if(wishService.duplicate(classId,loginUser.getId())){
+        if (wishService.duplicate(classId, loginUser.getId())) {
             throw new IllegalStateException("이미 찜했습니다.");
         }
 
@@ -57,17 +56,17 @@ public class WishController {
 
     @ApiOperation(value = "찜한 목록보기")
     @GetMapping("wish")
-    public ResponseEntity myWishView(HttpServletRequest request){
+    public ResponseEntity myWishView(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
 
-        List<Wish> wishList=new ArrayList<>();
-        List<WishDto> wishDtoList=new ArrayList<>();
+        List<Wish> wishList = new ArrayList<>();
+        List<WishDto> wishDtoList = new ArrayList<>();
 
-        wishList=wishService.findByUserId(loginUser.getId());
+        wishList = wishService.findByUserId(loginUser.getId());
 
-        for(int i=0;i<wishList.size();i++){
+        for (int i = 0; i < wishList.size(); i++) {
             wishDtoList.add(new WishDto(wishList.get(i)));
         }
 
