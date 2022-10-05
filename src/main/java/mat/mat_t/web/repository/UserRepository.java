@@ -28,6 +28,10 @@ public class UserRepository {
                 .getResultList();
     }
 
+    public User findByUserId(String userId) {
+        return em.find(User.class, userId);
+    }
+
     public void remove(User user) {
         em.remove(user);
     }

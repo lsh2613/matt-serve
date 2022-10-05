@@ -4,6 +4,14 @@ spring:
     username: admin
     password: admin0810
     driver-class-name: com.mysql.cj.jdbc.Driver
+    mail:
+      host: smtp.naver.com
+      port: 465
+      username: 아이디@naver.com
+      password: 이메일 비번
+      properties:
+        mail.smtp.auth: true
+        mail.smtp.ssl.enable: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

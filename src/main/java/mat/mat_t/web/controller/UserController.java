@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -72,5 +73,28 @@ public class UserController {
 
         userService.deleteUser(loginUser.getId());
         return ResponseEntity.ok(null);
+    }
+
+    @ApiOperation(value = "비밀번호 찾기")
+    @PostMapping("/user/findPwd")
+    public ResponseEntity findPasswordById(@RequestParam("loginId") String loginId, @RequestParam("email") String email) {
+        User findUser = userService.findUserByLoginId(loginId);
+        boolean getEmail = userService.userEmailCheck(findUser.getLoginId(), email);
+
+        if (getEmail) {
+
+        } else {
+
+        }
+        return ResponseEntity.ok().body(null);
+    }
+
+    @ApiOperation(value = "인증번호 확인후 비밀번호 수정")
+    @PatchMapping("user/findPwd/editPwd")
+    public ResponseEntity editPwdById(@RequestParam("id") Long id, @RequestParam("pwd") String pwd) {
+        User findUser = userService.findById(id);
+
+        User updatedUser = userService.updatePwd(findUser.getId(), pwd);
+        return ResponseEntity.ok(updatedUser);
     }
 }
