@@ -2,9 +2,7 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.CommunityLike;
-import mat.mat_t.domain.review.ReviewLike;
 import mat.mat_t.web.repository.CommunityLikeRepository;
-import mat.mat_t.web.repository.ReviewLikeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
