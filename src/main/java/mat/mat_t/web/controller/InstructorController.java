@@ -54,7 +54,7 @@ public class InstructorController {
     /**강사 수정**/
     @ApiOperation(value="강사 수정")
     @PatchMapping("/instructor/{instructorId}/edit")
-    public ResponseEntity<Instructor> updateInstructor(@Valid @RequestBody InstructorForm form, Long instructorId) {
+    public ResponseEntity<Instructor> updateInstructor(@Valid @RequestBody InstructorForm form, @PathVariable Long instructorId) {
         Instructor instructor = new Instructor(form.getInstructorId(), form.getMajor(), form.getIntroduction());
         instructorService.updateInstructor(instructor, instructorId);
         return ResponseEntity.ok().body(instructor);
