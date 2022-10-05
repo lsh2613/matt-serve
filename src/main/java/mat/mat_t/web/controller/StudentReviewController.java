@@ -30,7 +30,7 @@ public class StudentReviewController {
 
         StudentReview studentReview = new StudentReview(form.getMannerTemperature());
         studentReviewService.createDate(studentReview);
-        
+
         if (studentReviewService.countStudentReviews(form.getClassId(), form.getStudentId()) == 1) {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
