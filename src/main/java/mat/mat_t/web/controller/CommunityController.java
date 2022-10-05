@@ -2,10 +2,17 @@ package mat.mat_t.web.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import mat.mat_t.domain.Comment;
 import mat.mat_t.domain.Community;
+import mat.mat_t.domain.class_.dto.CommunityDto;
+import mat.mat_t.domain.user.Category;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.CommentForm;
 import mat.mat_t.form.CommunityForm;
+import mat.mat_t.web.service.CommentService;
+import mat.mat_t.web.service.CommunityLikeService;
 import mat.mat_t.web.service.CommunityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,13 +22,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
+@RequiredArgsConstructor
 public class CommunityController {
-
-
-    private CommunityService communityService;
+    private final CommentService commentService;
+    private final CommunityService communityService;
+    private final CommunityLikeService communityLikeService;
 
     @ApiOperation("커뮤니티 생성")
     @PostMapping("/community/add")
@@ -30,17 +41,52 @@ public class CommunityController {
                                        HttpServletRequest request) {
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
-        Community community = new Community(form.getTitle(), form.getContent());
-
+        Community community = new Community(form.getTitle(), form.getContent(), form.getCategory());
+        community.setUserCom(loginUser);
         communityService.saveCommunity(community);
-        return ResponseEntity.ok(community);
+
+        CommunityDto communityDto = new CommunityDto(community);
+
+        return ResponseEntity.ok(communityDto);
+    }
+
+    @ApiOperation("커뮤니티 하나 조회")
+    @GetMapping("/community/{communityId}")
+    public ResponseEntity findCommunity(@PathVariable Long communityId) {
+        Community community = communityService.findByCommunityId(communityId);
+        CommunityDto communityDto = new CommunityDto(community);
+        List<CommentForm> listcomments = commentService.Listcomments(communityId);
+        communityDto.setCommentList(listcomments);
+        return ResponseEntity.ok(communityDto);
     }
 
     @ApiOperation("커뮤니티 전체 조회")
     @GetMapping("/community")
     public ResponseEntity findAllCommunity() {
-        List<Community> all = communityService.findAll();
-        return ResponseEntity.ok(all);
+        List<Community> communityList = communityService.findAll();
+
+        List<CommunityDto> communityDto = communityList.stream()
+                .map(c -> getCommunityDto(c))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(communityDto);
+    }
+
+    @ApiOperation("커뮤니티 카테고리로 조회")
+    @GetMapping("/community/comByCategory")
+    public ResponseEntity findCommunitiesByCategory(@RequestParam Category category) {
+        List<Community> communityList = communityService.findByCategory(category);
+
+        List<CommunityDto> communityDto = communityList.stream()
+                .map(c -> getCommunityDto(c))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(communityDto);
+    }
+
+    private CommunityDto getCommunityDto(Community c) {
+        CommunityDto communityDto = new CommunityDto(c);
+        communityDto.setNumOfComments(commentService.Listcomments(c.getId()).size());
+        return communityDto;
     }
 
     @ApiOperation("커뮤니티 수정")
@@ -48,28 +94,18 @@ public class CommunityController {
     public ResponseEntity editCommunity(@RequestParam Long communityId,
                                         @Valid @RequestBody CommunityForm form) {
         Community editCom = communityService.edit(communityId, form.getTitle(), form.getContent());
-        return ResponseEntity.ok(editCom);
+        CommunityDto communityDto = new CommunityDto(editCom);
+        return ResponseEntity.ok(communityDto);
     }
 
-    //todo 좋아요 테이블 유저id, 커뮤니티id, 좋아요 누름 여부 flag 생성 후 flag 체크 생성
-    @ApiOperation("좋아요 클릭")
-    @PostMapping("/community/clickLike")
-    public ResponseEntity plusLike(@RequestParam Long communityId) {
-        Community community = communityService.clickLike(communityId);
-        return ResponseEntity.ok(community);
+    @ApiOperation("커뮤니티 삭제")
+    @PatchMapping("/community/delete")
+    public ResponseEntity deleteCommunity(@RequestParam Long communityId) {
+        communityLikeService.deleteByCommunity(communityId);
+        communityService.remove(communityId);
+        return ResponseEntity.ok("커뮤니티 삭제 완료");
     }
 
-    @Getter
-    @Setter
-    static class CommunityDto {
-        Long userId;
-        String userName;
 
-        String title;
-        String content;
-        String pastTime; //몇 분 이전에 작성됐는지
-
-
-    }
 
 }

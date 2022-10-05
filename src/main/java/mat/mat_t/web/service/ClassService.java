@@ -82,4 +82,7 @@ public class ClassService {
         return classRepository.findAllByTitleOrCategoryOrDescriptionsOrPlace(keyword);
     }
 
+    public Classes findClassByClassId(Long classId){
+        return classRepository.findByClassId(classId);
+    }
 }

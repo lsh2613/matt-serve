@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike,Long> {
+
     @Transactional
     void deleteReviewLikeByInstructorReview_InsReviewIdAndUserCS_Id(Long insId,Long userId);
     boolean existsReviewLikeByUserCS_IdAndInstructorReview_InsReviewId(Long userId,Long insId);
