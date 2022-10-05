@@ -8,12 +8,12 @@ import java.util.Date;
 
 @Getter
 public class ClassTagDto {
-    protected Long classId;
+    protected Long tagId;
     protected String tagName;
 
     public ClassTagDto(ClassTag classTag) {
         {
-            this.classId = classTag.getClassesCT().getClassId();
+            this.tagId = classTag.getTagInfo().getTagInfoId();
             this.tagName = classTag.getTagInfo().getTagName();
         }
     }
