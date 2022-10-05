@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class ReviewLike {
+public class InstructorReviewHates {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "like_id")
-    private Long likeId;
+    @Column(name = "hate_id")
+    private Long hateId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -27,10 +27,10 @@ public class ReviewLike {
     @JoinColumn(name = "review_id")
     private InstructorReview instructorReview;
 
-    public ReviewLike() {
+    public InstructorReviewHates() {
     }
 
-    public ReviewLike(InstructorReview instructorReview,User user) {
+    public InstructorReviewHates(InstructorReview instructorReview, User user) {
         this.setInstructorReview(instructorReview);
         this.setUserCS(user);
     }
