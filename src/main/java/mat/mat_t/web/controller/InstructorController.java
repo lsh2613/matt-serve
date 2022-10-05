@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.InstructorEditForm;
 import mat.mat_t.form.InstructorForm;
 import mat.mat_t.web.service.InstructorService;
 import mat.mat_t.web.service.UserService;
@@ -54,8 +55,8 @@ public class InstructorController {
     /**강사 수정**/
     @ApiOperation(value="강사 수정")
     @PatchMapping("/instructor/{instructorId}/edit")
-    public ResponseEntity<Instructor> updateInstructor(@Valid @RequestBody InstructorForm form, @PathVariable Long instructorId) {
-        Instructor instructor = new Instructor(form.getInstructorId(), form.getMajor(), form.getIntroduction());
+    public ResponseEntity<Instructor> updateInstructor(@Valid @RequestBody InstructorEditForm form, @PathVariable Long instructorId) {
+        Instructor instructor = new Instructor(form.getInstructorId(),form.getMajor(), form.getIntroduction());
         instructorService.updateInstructor(instructor, instructorId);
         return ResponseEntity.ok().body(instructor);
     }
