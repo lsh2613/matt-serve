@@ -8,9 +8,9 @@ import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.InstructorReviewForm;
 import mat.mat_t.web.service.ClassStudentsService;
+import mat.mat_t.web.service.InstructorReviewHatesService;
+import mat.mat_t.web.service.InstructorReviewLikesService;
 import mat.mat_t.web.service.InstructorReviewService;
-import mat.mat_t.web.service.ReviewHateService;
-import mat.mat_t.web.service.ReviewLikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,8 @@ public class InstructorReviewController {
 
     private final InstructorReviewService instructorReviewService;
     private final ClassStudentsService classStudentsService;
-    private final ReviewLikeService reviewLikeService;
-    private final ReviewHateService reviewHateService;
+    private final InstructorReviewLikesService instructorReviewLikesService;
+    private final InstructorReviewHatesService instructorReviewHatesService;
 
     @ApiOperation(value = "수업 리뷰저장")
     @PostMapping("instructor/review")
@@ -67,11 +67,11 @@ public class InstructorReviewController {
         InstructorReview instructorReview=instructorReviewService.findByInsReviewId(id);
 
         if(instructorReview.getLikes()>0){
-            reviewLikeService.deleteLikesByInsId(id);
+            instructorReviewLikesService.deleteLikesByInsId(id);
         }
 
         if(instructorReview.getHates()>0){
-            reviewHateService.deleteHatesByInsId(id);
+            instructorReviewHatesService.deleteHatesByInsId(id);
         }
 
         instructorReviewService.deleteReview(id);
