@@ -1,6 +1,5 @@
 package mat.mat_t.web.repository;
 
-import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,6 +11,5 @@ public interface StudentReviewRepository extends JpaRepository<StudentReview,Lon
     StudentReview findByStReId(Long Id);
     List<StudentReview> findStudentReviewsByClassStudents_UserCS_Id(Long id);
     List<StudentReview> findStudentReviewsByClassStudents_UserCS_IdOrderByStReIdDesc(Long id);
-    int countByClassStudents_ClassesCS_ClassIdAndClassStudents_UserCS_Id(Long classId,Long userId);
-
+    boolean existsByClassStudents_ClassStudentId(Long classStudentsId);
 }
