@@ -24,14 +24,14 @@ public class CommentService {
 
     /* 생성 */
     @Transactional
-    public Long createComments(String loginId, Long communityId, CommentReDto dto) {
+    public void createComments(String loginId, Long communityId, CommentReDto dto, String content) {
         User user = userRepository.findByWriter(loginId);
         Community community = communityRepository.findById(communityId).orElseThrow(() -> new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + communityId));
         dto.setUser(user);
         dto.setCommunity(community);
+        dto.setContent(content);
         Comment comment = dto.toEntity();
         commentRepository.save(comment);
-        return dto.getCommentId();
     }
 
     /* 해당 커뮤 댓글 전체 조회 */
