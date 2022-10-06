@@ -48,4 +48,10 @@ public class WaitingStudentsRepository {
                 .setParameter("userId",userId)
                 .getResultList();
     }
+
+    public WaitingStudent findByWsId(Long wsId){
+        return em.createQuery("select  w from WaitingStudent  w where w.waitingId=:wsId",WaitingStudent.class)
+                .setParameter("wsId",wsId)
+                .getSingleResult();
+    }
 }

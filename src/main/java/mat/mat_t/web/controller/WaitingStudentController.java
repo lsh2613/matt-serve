@@ -51,7 +51,7 @@ public class WaitingStudentController {
     }
 
     @ApiOperation("해당 클래스에 신청한 학생들 조회")
-    @GetMapping("/waitingStudent/{classId}")
+    @GetMapping("/waitingStudents/{classId}")
     public ResponseEntity listStudents(@PathVariable Long classId) {
         List<WaitingStudent> classStudents = waitingStudentsService.findStudentsByClassId(classId);
 
@@ -60,6 +60,16 @@ public class WaitingStudentController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(classStudentsDto);
+    }
+
+    @ApiOperation("wsId로 waitingStuent 보기")
+    @GetMapping("/waitingStudent/{wsId}")
+    public ResponseEntity waitingStudent(@PathVariable Long wsId) {
+        WaitingStudent waitingStudent=waitingStudentsService.findWaitingStudentByWsId(wsId);
+
+        WsDto wsDto=new WsDto(waitingStudent);
+
+        return ResponseEntity.ok(wsDto);
     }
 
     @ApiOperation("클래스 신청 수정")
@@ -106,6 +116,8 @@ public class WaitingStudentController {
 
         return ResponseEntity.ok().body(classWsDtos);
     }
+
+
 
     @Getter
     static class ClassWsDto{
