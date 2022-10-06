@@ -26,14 +26,6 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
-    @Column(name = "created_date")
-    @CreatedDate
-    private String createdDate;
-
-    @Column(name = "modified_date")
-    @LastModifiedDate
-    private String modifiedDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id")
     @OnDelete(action = OnDeleteAction.CASCADE)

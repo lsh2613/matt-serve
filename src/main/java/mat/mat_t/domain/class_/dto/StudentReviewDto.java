@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 public class StudentReviewDto {
 
+    protected Long StudentReviewId;
     protected float mannerTemperature;
     protected String nickname;
     protected String date;
@@ -17,6 +18,7 @@ public class StudentReviewDto {
 
     @Builder
     public StudentReviewDto(StudentReview studentReview){
+            this.StudentReviewId=studentReview.getStReId();
             this.mannerTemperature=studentReview.getMannerTemperature();
             this.nickname=studentReview.getClassStudents().getUserCS().getNickname();
             this.date=studentReview.getDate();

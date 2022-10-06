@@ -8,6 +8,7 @@ import mat.mat_t.domain.class_.Wish;
 @Setter
 public class WishDto {
 
+    protected Long wishId;
     protected Long classId;
     protected String title;
     protected Long numberOfStudents;
@@ -15,6 +16,7 @@ public class WishDto {
     protected String category;
 
     public WishDto(Wish wish){
+        this.wishId=wish.getWishId();
         this.classId= wish.getClassCs().getClassId();
         this.title=wish.getClassCs().getTitle();
         this.numberOfStudents=wish.getClassCs().getNumberOfStudents();

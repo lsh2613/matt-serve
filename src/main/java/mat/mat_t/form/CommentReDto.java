@@ -18,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 public class CommentReDto {
     private Long commentId;
     private String content;
-    private String createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-    private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     private User user;
     private Community community;
 
@@ -28,8 +26,6 @@ public class CommentReDto {
         Comment comments = Comment.builder()
                 .commentId(commentId)
                 .content(content)
-                .createdDate(createdDate)
-                .modifiedDate(modifiedDate)
                 .userComment(user)
                 .community(community)
                 .build();

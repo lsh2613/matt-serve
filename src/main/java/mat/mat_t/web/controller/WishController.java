@@ -48,9 +48,14 @@ public class WishController {
     }
 
     @ApiOperation(value = "찜삭제하기")
-    @DeleteMapping("wish/{wishId}")
-    public ResponseEntity deleteWishClass(@PathVariable Long wishId) {
-        wishService.delete(wishId);
+    @DeleteMapping("wish/{classId}")
+    public ResponseEntity deleteWishClass(@PathVariable Long classId, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        wishService.deleteByClassIdAndUserId(classId,loginUser.getId());
+
         return null;
     }
 
