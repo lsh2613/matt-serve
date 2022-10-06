@@ -57,9 +57,11 @@ public class CommentController {
     /** 댓글 수정 **/
     @ApiOperation(value = "댓글 수정")
     @PutMapping({"/community/comment/{commentId}"})
-    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentReDto dto) {
-        commentService.updateComments(commentId, dto);
-        return ResponseEntity.ok().body(dto);
+    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestParam String content) {
+        commentService.updateComments(commentId, content);
+        CommentForm commentForm = new CommentForm();
+        commentForm = commentService.readComment(commentId);
+        return ResponseEntity.ok().body(commentForm);
     }
 
     /** 댓글 삭제 **/
