@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 public class InstructorReviewDto {
 
+    protected Long instructorReviewId;
     protected float score;
     protected String instructorName;
     protected String reviewContent;
@@ -24,6 +25,7 @@ public class InstructorReviewDto {
     @Builder
     public InstructorReviewDto(InstructorReview instructorReview) {
 
+        this.instructorReviewId=instructorReview.getInsReviewId();
         this.title = instructorReview.getClassStudents().getClassesCS().getTitle();
         this.instructorName = instructorReview.getClassStudents().getClassesCS().getInstructorC().getUserIn().getName();
         this.nickname = instructorReview.getClassStudents().getUserCS().getNickname();
