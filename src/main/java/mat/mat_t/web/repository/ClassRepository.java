@@ -14,7 +14,7 @@ import java.util.List;
 public interface ClassRepository extends JpaRepository<Classes, Long> {
 
     //강사 아이디로 조회
-    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id) , count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -26,7 +26,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
      List<ClassForm> findAllByInstructorC_InstructorId(@Param(value = "instructorId") Long instructorId);
 
     //진행 전 강의 조회
-    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id),count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -38,7 +38,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
     List<ClassForm> findAllByStartDateBefore(@Param("NOW") Date NOW);
 
     //진행 중 강의 조회
-    @Query(value ="select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value ="select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id),count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -50,7 +50,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
     List<ClassForm> findAllByStartDateAfterAndEndDateBefore(@Param("NOW") Date NOW);
 
     //진행 완료 강의 조회
-    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id),count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -62,7 +62,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
      List<ClassForm> findAllByEndDateAfter(@Param("NOW") Date NOW);
 
     //해당 요일 클래스 조회
-    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id),count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -75,7 +75,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
     List<ClassForm> findAllByClassDays(@Param("dayName")String dayName);
 
     //키워드로 클래스 조회(title, category, description, place 에서 검색)
-    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), count(distinct cs.userCS.id),i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -87,7 +87,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
     List<ClassForm> findAllByTitleOrCategoryOrDescriptionsOrPlace(@Param("keyword")String keyword);
 
     //전체 클래스 조회
-    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+    @Query(value = "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id),count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
             " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
             " left join Classes c on i.instructorId = c.instructorC.instructorId" +
             " left join ClassStudents cs on c.classId = cs.classesCS.classId" +
@@ -99,7 +99,7 @@ public interface ClassRepository extends JpaRepository<Classes, Long> {
 
     //클래스 아이디로 조회 waitingStudent 포함
     @Query(value =
-            "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
+            "select new mat.mat_t.form.ClassForm(c.classId, c.instructorC.instructorId, c.title, c.numberOfStudents, c.descriptions, c.place, c.startTime, c.endTime, c.category, c.startDate, c.endDate, count(distinct ws.userWS.id),count(distinct cs.userCS.id), i.userIn.name, i.major, coalesce(avg(ir.score), -1))" +
                     " from Instructor i join User u on i.instructorId= u.instructor.instructorId" +
                     " left join Classes c on i.instructorId = c.instructorC.instructorId" +
                     " left join ClassStudents cs on c.classId = cs.classesCS.classId" +

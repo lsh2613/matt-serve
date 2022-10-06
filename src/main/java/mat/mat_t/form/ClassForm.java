@@ -19,6 +19,8 @@ public class ClassForm {
     private Date startDate; // 시작날짜
     private Date endDate;   //종료날짜
     private Long countWS; //수강신청한 학생 수
+    private Long countCS; //수강신청 후 수락된 학생 수
+    private Long totalCount; //총 지원자 수
 
     private String instructorName;  //강사 이름
     private String instructorMajor;     //강사 전공
@@ -40,7 +42,7 @@ public class ClassForm {
         this.endDate = classes.getEndDate();
     }
 
-    public ClassForm(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String category, Date startDate, Date endDate, Long countWS, String instructorName, String instructorMajor, double instructorScore) {
+    public ClassForm(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String category, Date startDate, Date endDate, Long countWS, Long countCS, String instructorName, String instructorMajor, double instructorScore) {
         this.classId = classId;
         this.instructorId = instructorId;
         this.title = title;
@@ -53,8 +55,10 @@ public class ClassForm {
         this.startDate = startDate;
         this.endDate = endDate;
         this.countWS = countWS;
+        this.countCS = countCS;
         this.instructorName = instructorName;
         this.instructorMajor = instructorMajor;
         this.instructorScore = instructorScore;
+        this.totalCount = countWS+countCS;
     }
 }
