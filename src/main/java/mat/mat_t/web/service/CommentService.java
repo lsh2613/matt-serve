@@ -48,9 +48,9 @@ public class CommentService {
 
     /* 수정 */
     @Transactional
-    public void updateComments(Long communityId, CommentReDto dto) {
+    public void updateComments(Long communityId, String content) {
         Comment comment = commentRepository.findById(communityId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. " + communityId));
-        comment.update(dto.getContent());
+        comment.update(content);
     }
 
     /* 삭제 */
