@@ -26,7 +26,7 @@ public class InstructorReviewLikesService {
     }
 
     public void deleteLikesByInsId(Long insId){
-        List<InstructorReviewLikes> reviewLikes=instructorReviewLikesRepository.findInstructorReviewLikesByInstructorReview_InsReviewId(insId);
-        instructorReviewLikesRepository.deleteAll(reviewLikes);
+        List<InstructorReviewLikes> instructorReviewLikes=instructorReviewLikesRepository.findInstructorReviewLikesByInstructorReview_InsReviewId(insId);
+        instructorReviewLikesRepository.deleteAll(instructorReviewLikes);
     }
 }

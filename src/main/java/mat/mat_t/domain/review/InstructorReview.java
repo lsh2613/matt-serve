@@ -6,6 +6,8 @@ import lombok.Setter;
 import mat.mat_t.domain.class_.ClassStudents;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Getter
@@ -17,7 +19,9 @@ public class InstructorReview {
     @Column(name = "insRe_id")
     private Long insReviewId;
 
-    private float score;
+    @Max(value = 5)
+    @Min(value = 0)
+    private Float score;
     private String reviewContent;
     private String date;
     private int likes;
