@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.InstructorCreateForm;
 import mat.mat_t.form.InstructorEditForm;
 import mat.mat_t.form.InstructorForm;
 import mat.mat_t.web.service.InstructorService;
@@ -35,7 +36,7 @@ public class InstructorController {
     /**강사 생성**/
     @ApiOperation(value="강사 생성")
     @PostMapping(value = "/instructor/new")
-    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorCreateForm form, BindingResult bindingResult, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
