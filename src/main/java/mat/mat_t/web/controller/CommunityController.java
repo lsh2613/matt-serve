@@ -34,8 +34,8 @@ public class CommunityController {
     @ApiOperation("커뮤니티 생성")
     @PostMapping("/community/add")
     public ResponseEntity addCommunity(@Valid @RequestBody CommunityForm form,
-                                       BindingResult bindingResult,
-                                       HttpServletRequest request) throws IOException {
+            BindingResult bindingResult,
+            HttpServletRequest request) throws IOException {
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
         Community community = new Community(form.getTitle(), form.getContent(), form.getCategory());
@@ -104,7 +104,7 @@ public class CommunityController {
     @ApiOperation("커뮤니티 수정")
     @PatchMapping("/community/edit")
     public ResponseEntity editCommunity(@RequestParam Long communityId,
-                                        @Valid @RequestBody CommunityForm form) {
+            @Valid @RequestBody CommunityForm form) {
         Community editCom = communityService.edit(communityId, form.getTitle(), form.getContent());
         CommunityDto communityDto = new CommunityDto(editCom);
         return ResponseEntity.ok(communityDto);
@@ -119,7 +119,7 @@ public class CommunityController {
     }
 
     @ApiOperation("카테고리 조회")
-    @GetMapping("/category")
+    @GetMapping("/community/category")
     public ResponseEntity allCategory() {
         return ResponseEntity.ok(Category.values());
     }
@@ -130,7 +130,8 @@ public class CommunityController {
         String imageURL;
         if (!multipartFile.isEmpty()) {
             imageURL = communityService.uploadImage(multipartFile);
-        } else imageURL = null;
+        } else
+            imageURL = null;
 
         return ResponseEntity.ok(imageURL);
     }

@@ -12,16 +12,16 @@ import java.util.List;
 @Repository
 public interface ClassTagRepository extends JpaRepository<ClassTag, Long> {
 
-    //클래스아이디로 클래스 태그 조회
+    // 클래스아이디로 클래스 태그 조회
     List findDistinctClassTagByClassesCT_ClassId(@Param(value = "class_id") Long classId);
 
-    //tagInfo 아이디로 클래스 태그 조회
+    // tagInfo 아이디로 클래스 태그 조회
     List findClassTagByTagInfo_TagInfoId(@Param(value = "tagInfo_id") Long tagInfoId);
 
     // tagInfo 아이디 리스트로 클래스 태그 조회
     List findClassTagByTagInfo_TagInfoIdIn(@RequestParam(required = false) List<Long> tagInfoIdList);
 
-    //중복체크
+    // 중복체크
     boolean existsClassTagByClassesCT_ClassIdAndTagInfo_TagInfoId(@Param(value = "class_id") Long classId,
-                                                                  @Param(value = "tagInfo_id") Long tagInfoId);
+            @Param(value = "tagInfo_id") Long tagInfoId);
 }
