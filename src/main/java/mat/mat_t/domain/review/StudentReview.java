@@ -19,6 +19,8 @@ public class StudentReview {
 
     private float mannerTemperature;  // 평가내용
     private String date;
+    private int likes;
+    private int hates;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -28,6 +30,11 @@ public class StudentReview {
 
     public StudentReview(float mannerTemperature){
         this.mannerTemperature=mannerTemperature;
+    }
+
+    public StudentReview(float mannerTemperature,ClassStudents classStudents){
+        this.mannerTemperature=mannerTemperature;
+        this.setClassStudents(classStudents);
     }
 
     public void setReview(float mannerTemperature){

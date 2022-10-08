@@ -5,13 +5,18 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.dto.StudentReviewDto;
 import mat.mat_t.domain.review.StudentReview;
+import mat.mat_t.domain.user.User;
 import mat.mat_t.form.StudentReviewForm;
 import mat.mat_t.web.service.ClassStudentsService;
+import mat.mat_t.web.service.StudentReviewHatesService;
+import mat.mat_t.web.service.StudentReviewLikesService;
 import mat.mat_t.web.service.StudentReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,22 +28,37 @@ public class StudentReviewController {
 
     private final StudentReviewService studentReviewService;
     private final ClassStudentsService classStudentsService;
+    private final StudentReviewLikesService studentReviewLikesService;
+    private final StudentReviewHatesService studentReviewHatesService;
 
     @ApiOperation(value = "학생 리뷰저장")
     @PostMapping("student/review")
-    public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form) {
+    public ResponseEntity<StudentReview> createStudentReview(@Valid @RequestBody StudentReviewForm form,
+                                                             HttpServletRequest request) {
 
-        StudentReview studentReview = new StudentReview(form.getMannerTemperature());
-        studentReviewService.createDate(studentReview);
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute("loginUser");
 
-        if (studentReviewService.countStudentReviews(form.getClassId(), form.getStudentId()) == 1) {
+        ClassStudents classStudents=classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
+
+        StudentReview studentReview = new StudentReview(form.getMannerTemperature(),classStudents);
+
+        if(loginUser.getInstructor()==null){
+            throw new IllegalStateException("Instructor로 등록되어 있지 않습니다.");
+        }
+
+        if(!studentReview.getClassStudents().getClassesCS().getInstructorC().
+                getInstructorId().equals(loginUser.getInstructor().getInstructorId())){
+            throw new IllegalStateException("Instructor가 아니여서 댓글을 달수 없습니다.");
+        }
+
+        if (studentReviewService.existsByClassStudentsId(studentReview.getClassStudents().getClassStudentId())) {
             throw new IllegalStateException("이미 등록되어 있습니다.");
         }
 
+        studentReviewService.createDate(studentReview);
         studentReviewService.saveReview(studentReview);
 
-        ClassStudents student = classStudentsService.findByUserIdAndClassId(form.getStudentId(), form.getClassId());
-        studentReview = studentReviewService.updateClassStudents(student, studentReview);
         return ResponseEntity.ok().body(studentReview);
     }
 
@@ -63,9 +83,18 @@ public class StudentReviewController {
     @ApiOperation(value = "학생 리뷰삭제")
     @DeleteMapping("student/review/{id}")
     public ResponseEntity<StudentReview> deleteStudentReview(@PathVariable Long id) {
-        StudentReview studentReview = new StudentReview();
+        StudentReview studentReview = studentReviewService.findByStReId(id);
+
+        if(studentReview.getLikes()>0){
+            studentReviewLikesService.deleteLikesByStReId(id);
+        }
+
+        if(studentReview.getHates()>0){
+            studentReviewHatesService.deleteHatesByStReId(id);
+        }
+
         studentReviewService.deleteReview(id);
-        return ResponseEntity.ok().body(studentReview);
+        return null;
     }
 
     @ApiOperation(value = "학생 리뷰전체 조회")
@@ -97,7 +126,7 @@ public class StudentReviewController {
      */
 
     @ApiOperation(value = "UserId 로 리뷰 조회")
-    @GetMapping("/student/review/{userId}")
+    @GetMapping("/student/reviews/{userId}")
     public ResponseEntity<List<StudentReviewDto>> findStudentReviewByUserId(@PathVariable Long userId) {
         List<StudentReview> studentReviews = new ArrayList<>();
         List<StudentReviewDto> studentReviewDtoList = new ArrayList<>();
