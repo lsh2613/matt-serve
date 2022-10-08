@@ -25,6 +25,7 @@ public class CommunityDto {
     Long userId;
     String userName;
 
+    Long communityId;
     Category category;
     String title;
     String content;
@@ -41,6 +42,7 @@ public class CommunityDto {
     public CommunityDto(Community community) {
         this.userId = community.getUserCom().getId();
         this.userName = community.getUserCom().getName();
+        this.communityId = community.getId();
         this.title = community.getTitle();
         this.content = community.getContent();
         this.numOfLikes = community.getLikes();
