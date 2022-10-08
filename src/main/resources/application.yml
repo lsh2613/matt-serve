@@ -4,14 +4,24 @@ spring:
     username: admin
     password: admin0810
     driver-class-name: com.mysql.cj.jdbc.Driver
-    mail:
-      host: smtp.naver.com
-      port: 465
-      username: 아이디@naver.com
-      password: 이메일 비번
-      properties:
-        mail.smtp.auth: true
-        mail.smtp.ssl.enable: true
+  mail:
+    host: smtp.naver.com #smtp 서버 주소
+    port: 465 # 메일 인증서버 포트
+    username: vkdnjdjxor #네이버 아이디
+    password: jhs993010! #네이버 비밀번호
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          #            required: true
+          auth: true
+          #          connectiontimeout: 5000
+          #          timeout: 5000
+          #          writetimeout: 5000
+          ssl:
+            #trust: smtp.naver.com
+            enable: true #반드시 필요 -> SSL 필요로 되어있으면
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

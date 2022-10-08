@@ -3,7 +3,9 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.EmailForm;
 import mat.mat_t.form.UserForm;
+import mat.mat_t.web.service.EmailService;
 import mat.mat_t.web.service.UserService;
 
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -21,7 +22,9 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final EmailService emailService;
     private final UserService userService;
+
 
     @ApiOperation(value = "신규 회원가입")
     @GetMapping("/user/new")
@@ -75,26 +78,33 @@ public class UserController {
         return ResponseEntity.ok(null);
     }
 
-    @ApiOperation(value = "비밀번호 찾기")
-    @PostMapping("/user/findPwd")
-    public ResponseEntity findPasswordById(@RequestParam("loginId") String loginId, @RequestParam("email") String email) {
-        User findUser = userService.findUserByLoginId(loginId);
-        boolean getEmail = userService.userEmailCheck(findUser.getLoginId(), email);
+    @ApiOperation(value = "임시 비밀번호 생성")
+    @PatchMapping("/user/findPwd")
+    public ResponseEntity findPasswordById(@RequestBody EmailForm emailForm) {
+        User findUser = userService.findUserByLoginId(emailForm.getLoginId());
+        boolean getEmail = userService.userEmailCheck(findUser.getLoginId(), emailForm.getEmail());
 
         if (getEmail) {
-
+            try {
+                String temPasswd = emailService.sendEmail(emailForm.getEmail()); // 임시 비밀번호 메일 전송
+                userService.updatePwd(findUser.getId(), temPasswd); // 임시 비밀번호로 적용
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         } else {
-
+            throw new IllegalStateException("이메일이 일치하지 않습니다.");
         }
-        return ResponseEntity.ok().body(null);
+        return null;
     }
 
-    @ApiOperation(value = "인증번호 확인후 비밀번호 수정")
+
+    /*@ApiOperation(value = "비밀번호 수정")
     @PatchMapping("user/findPwd/editPwd")
-    public ResponseEntity editPwdById(@RequestParam("id") Long id, @RequestParam("pwd") String pwd) {
+    public ResponseEntity editPwdById(@RequestBody Long id, @RequestBody String pwd) {
         User findUser = userService.findById(id);
-
         User updatedUser = userService.updatePwd(findUser.getId(), pwd);
+
         return ResponseEntity.ok(updatedUser);
-    }
+}*/
+
 }
