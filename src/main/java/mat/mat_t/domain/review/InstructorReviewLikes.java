@@ -3,7 +3,6 @@ package mat.mat_t.domain.review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import mat.mat_t.domain.CommunityLike;
 import mat.mat_t.domain.user.User;
 
 import javax.persistence.*;
@@ -21,11 +20,6 @@ public class InstructorReviewLikes {
     @JsonIgnore
     @JoinColumn(name = "student_id")
     private User userCS;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "community_id")
-    private CommunityLike communityLike;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore

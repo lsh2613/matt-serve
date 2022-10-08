@@ -66,11 +66,11 @@ public class InstructorReviewController {
     public ResponseEntity deleteInstructorReview(@PathVariable Long id) {
         InstructorReview instructorReview=instructorReviewService.findByInsReviewId(id);
 
-        if(instructorReview.getLikes()>0){
+        if(instructorReview.getLikes()!=0){
             instructorReviewLikesService.deleteLikesByInsId(id);
         }
 
-        if(instructorReview.getHates()>0){
+        if(instructorReview.getHates()!=0){
             instructorReviewHatesService.deleteHatesByInsId(id);
         }
 

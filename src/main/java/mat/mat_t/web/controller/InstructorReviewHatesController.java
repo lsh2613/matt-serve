@@ -24,7 +24,7 @@ public class InstructorReviewHatesController {
     private final InstructorReviewService instructorReviewService;
 
     @ApiOperation(value = "싫어요 누르기")
-    @PostMapping("review/Hate/{reviewId}")
+    @PostMapping("instructor/review/Hate/{reviewId}")
     public ResponseEntity pressHateReview(@PathVariable Long reviewId
             , HttpServletRequest request) {
 
@@ -45,7 +45,7 @@ public class InstructorReviewHatesController {
     }
 
     @ApiOperation(value="싫어요 취소하기")
-    @DeleteMapping("review/Hate/{reviewId}")
+    @DeleteMapping("instructor/review/Hate/{reviewId}")
     public ResponseEntity cancelLikeReview(@PathVariable Long reviewId, HttpServletRequest request){
 
         InstructorReview instructorReview=instructorReviewService.findByInsReviewId(reviewId);
