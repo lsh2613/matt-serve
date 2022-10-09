@@ -1,6 +1,7 @@
 package mat.mat_t.web.repository;
 
 import mat.mat_t.domain.user.Instructor;
+import mat.mat_t.domain.user.User;
 import mat.mat_t.form.InstructorForm;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +32,8 @@ public interface InstructorRepository extends JpaRepository<Instructor, Long> {
             " where i.instructorId =:instructorId")
     List<InstructorForm> findByInstructorIdAndAndClassList(@Param("instructorId") Long instructorId);
 
+    @Query("select new mat.mat_t.domain.user.User(u.instructor.instructorId)" +
+            " from User u join Instructor i on u.instructor.instructorId = i.instructorId" +
+            " where u.id =:id")
+    List<User> findByUserIn(@Param("id") Long id);
 }
