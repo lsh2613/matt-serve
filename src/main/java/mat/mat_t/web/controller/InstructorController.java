@@ -86,10 +86,9 @@ public class InstructorController {
 
     /**강사 삭제**/
     @ApiOperation(value = "강사 삭제")
-    @DeleteMapping("/instructor/delete")
-    public ResponseEntity<Instructor> deleteClassInfo(@Valid @RequestBody InstructorForm form, Long instructorId) {
-        Instructor instructor = new Instructor(form);
+    @DeleteMapping("/instructor/delete/{instructorId}")
+    public ResponseEntity deleteClassInfo(@PathVariable Long instructorId) {
         instructorService.deleteInstructor(instructorId);
-        return ResponseEntity.ok().body(instructor);
+        return ResponseEntity.ok().body("댓글 삭제 완료");
     }
 }
