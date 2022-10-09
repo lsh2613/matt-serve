@@ -40,7 +40,7 @@ public class User {
     // 강사 매핑
     @JsonIgnore
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
@@ -81,6 +81,10 @@ public class User {
 
     public User(Long id) {
         this.id = id;
+    }
+
+    public User(Instructor instructor) {
+        this.instructor = instructor;
     }
 
     @Override

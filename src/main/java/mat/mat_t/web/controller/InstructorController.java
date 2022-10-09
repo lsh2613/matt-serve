@@ -43,12 +43,12 @@ public class InstructorController {
 
         Instructor instructor = new Instructor(form);
         User findUser = userService.findById(loginUser.getId());
+        instructorService.hasDuplicateInstructor(loginUser.getId());
         findUser.setInstructor(instructor);
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(instructor);
         }
-
         instructorService.saveInstructor(instructor);
         return ResponseEntity.ok().body(instructor);
     }

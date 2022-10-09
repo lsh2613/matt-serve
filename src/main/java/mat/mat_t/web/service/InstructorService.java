@@ -2,12 +2,15 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.Instructor;
+import mat.mat_t.domain.user.User;
 import mat.mat_t.form.InstructorForm;
 import mat.mat_t.web.repository.InstructorRepository;
+import mat.mat_t.web.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,7 +19,7 @@ public class InstructorService {
 
     private final InstructorRepository instructorRepository;
 
-    //강사 생성{
+    //강사 생성
     public void saveInstructor(Instructor instructor){
         instructorRepository.save(instructor);
     }
@@ -40,6 +43,15 @@ public class InstructorService {
     //강사 단건 조회
     public List<InstructorForm> findById(Long instructorId) {
         return instructorRepository.findByInstructorIdAndAndClassList(instructorId);
+    }
+
+    //강사 중복 생성 금지
+    public void hasDuplicateInstructor(Long id) {
+        List<User> findInstructors = instructorRepository.findByUserIn(id);
+        System.out.println(findInstructors);
+        if (!findInstructors.isEmpty()) {
+            throw new IllegalStateException("이미 강사 신청을 완료하였습니다.");
+        }
     }
 
 }
