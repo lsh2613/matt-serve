@@ -3,6 +3,7 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.Classes;
+import mat.mat_t.form.ClassCreateForm;
 import mat.mat_t.form.ClassForm;
 import mat.mat_t.web.service.ClassService;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -20,10 +24,13 @@ public class ClassController {
 
     private final ClassService classService;
 
+    @Temporal(TemporalType.DATE)
+    private Date now = new Date();
+
     /** 클래스 생성 **/
     @ApiOperation(value = "신규 클래스 생성")
     @PostMapping(value = "/class")
-    public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassForm form, BindingResult bindingResult) {
+    public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassCreateForm form, BindingResult bindingResult) {
 
         Classes classes = new Classes(form);
 
@@ -39,8 +46,8 @@ public class ClassController {
     /* 클래스 아이디, 강사아이디, 코드아이디는 변경안되게 함 */
     @ApiOperation(value = "클래스 수정")
     @PatchMapping("/class/{classId}")
-    public ResponseEntity<Classes> updateClass(@Valid @RequestBody ClassForm form, @PathVariable Long classId) {
-        Classes classes = new Classes(form.getClassId(), form.getTitle(), form.getNumberOfStudents(),
+    public ResponseEntity<Classes> updateClass(@Valid @RequestBody ClassCreateForm form, @PathVariable Long classId) {
+        Classes classes = new Classes(classId, form.getTitle(), form.getNumberOfStudents(),
                 form.getDescriptions(), form.getPlace(),
                 form.getStartTime(), form.getEndTime(), form.getCategory(), form.getStartDate(), form.getEndDate());
         classService.updateClass(classes, classId);
@@ -58,6 +65,24 @@ public class ClassController {
         List<ClassForm> classForms = new ArrayList<>();
 
         classForms = classService.findAllClass();
+        for(int i=0; i<classForms.size(); i++){
+            Date starts = classForms.get(i).getStartDate();
+            Date ends = classForms.get(i).getEndDate();
+            Long studentNum = classForms.get(i).getTotalCount();
+            Long maxNum = classForms.get(i).getNumberOfStudents();
+            if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
+                classForms.get(i).setStatus("진행중");
+            }
+            else if(ends.compareTo(now)<0){
+                classForms.get(i).setStatus("종료됨");
+            }
+            else if(starts.compareTo(now)>0){
+                if(studentNum<maxNum)
+                    classForms.get(i).setStatus("진행전 / 모집중");
+                else
+                    classForms.get(i).setStatus("진행전 / 모집완료");
+            }
+        }
         return ResponseEntity.ok().body(classForms);
     }
 
@@ -68,6 +93,25 @@ public class ClassController {
         ClassForm classForm = new ClassForm();
 
         classForm = classService.findByClassId(classId);
+
+        Date starts = classForm.getStartDate();
+        Date ends = classForm.getEndDate();
+        Long studentNum = classForm.getTotalCount();
+        Long maxNum = classForm.getNumberOfStudents();
+
+        if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
+            classForm.setStatus("진행중");
+        }
+        else if(ends.compareTo(now)<0){
+            classForm.setStatus("종료됨");
+        }
+        else if(starts.compareTo(now)>0){
+            if(studentNum<maxNum)
+                classForm.setStatus("진행전 / 모집중");
+            else
+                classForm.setStatus("진행전 / 모집완료");
+        }
+
         return ResponseEntity.ok().body(classForm);
     }
 
@@ -78,6 +122,26 @@ public class ClassController {
         List<ClassForm> classForms = new ArrayList<>();
 
         classForms = classService.findByInstructorId(instructorId);
+
+        for(int i=0; i<classForms.size(); i++){
+            Date starts = classForms.get(i).getStartDate();
+            Date ends = classForms.get(i).getEndDate();
+            Long studentNum = classForms.get(i).getTotalCount();
+            Long maxNum = classForms.get(i).getNumberOfStudents();
+            if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
+                classForms.get(i).setStatus("진행중");
+            }
+            else if(ends.compareTo(now)<0){
+                classForms.get(i).setStatus("종료됨");
+            }
+            else if(starts.compareTo(now)>0){
+                if(studentNum<maxNum)
+                    classForms.get(i).setStatus("진행전 / 모집중");
+                else
+                    classForms.get(i).setStatus("진행전 / 모집완료");
+            }
+        }
+
         return ResponseEntity.ok().body(classForms);
     }
 
@@ -129,6 +193,25 @@ public class ClassController {
         List<ClassForm> classForms = new ArrayList<>();
 
         classForms = classService.findByDayName(dayName);
+
+        for(int i=0; i<classForms.size(); i++){
+            Date starts = classForms.get(i).getStartDate();
+            Date ends = classForms.get(i).getEndDate();
+            Long studentNum = classForms.get(i).getTotalCount();
+            Long maxNum = classForms.get(i).getNumberOfStudents();
+            if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
+                classForms.get(i).setStatus("진행중");
+            }
+            else if(ends.compareTo(now)<0){
+                classForms.get(i).setStatus("종료됨");
+            }
+            else if(starts.compareTo(now)>0){
+                if(studentNum<maxNum)
+                    classForms.get(i).setStatus("진행전 / 모집중");
+                else
+                    classForms.get(i).setStatus("진행전 / 모집완료");
+            }
+        }
 
         return ResponseEntity.ok().body(classForms);
     }
