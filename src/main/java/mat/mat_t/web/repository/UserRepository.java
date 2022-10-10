@@ -3,6 +3,7 @@ package mat.mat_t.web.repository;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,12 @@ public class UserRepository {
         return em.createQuery("select u from User u where u.loginId = :name", User.class)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public User findByUserId(String userId) {
+        return em.createQuery("select u from User u where u.loginId = :userId", User.class)
+                        .setParameter("userId", userId)
+                        .getSingleResult();
     }
 
     public void remove(User user) {
