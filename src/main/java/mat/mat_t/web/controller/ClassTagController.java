@@ -3,9 +3,11 @@ package mat.mat_t.web.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassTag;
+import mat.mat_t.domain.class_.Classes;
 import mat.mat_t.domain.class_.dto.ClassInfoDto;
 import mat.mat_t.domain.class_.dto.ClassTagDto;
 import mat.mat_t.form.ClassTagForm;
+import mat.mat_t.web.service.ClassService;
 import mat.mat_t.web.service.ClassTagService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import java.util.List;
 public class ClassTagController {
 
     private final ClassTagService classTagService;
+    private final ClassService classService;
 
     /**
      * 태그 정보 생성
@@ -99,12 +102,12 @@ public class ClassTagController {
     public ResponseEntity<List<ClassInfoDto>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
         List<ClassInfoDto> classInfoDtoList = new ArrayList<>();
-        classTags = classTagService.findClassTagByTagInfoIdList(tagInfoId);
 
-        classTags.forEach(el -> {
-            ClassInfoDto data = new ClassInfoDto(el);
-            classInfoDtoList.add(data);
-        });
+        classTags = classTagService.findClassTagsByTagInfoList(tagInfoId);
+
+        for (ClassTag classTag : classTags) {
+            classInfoDtoList = classTagService.findGroupByClassId(classTag.getClassesCT().getClassId());
+        }
 
         return ResponseEntity.ok().body(classInfoDtoList);
     }

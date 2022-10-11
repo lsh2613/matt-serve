@@ -2,6 +2,7 @@ package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassTag;
+import mat.mat_t.domain.class_.dto.ClassInfoDto;
 import mat.mat_t.web.repository.ClassTagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,10 +52,11 @@ public class ClassTagService {
         return classTagRepository.findClassTagByTagInfo_TagInfoId(tagInfoId);
     }
 
-    /**
-     * 클래스 태그 태그 아이디 리스트로 조회
-     **/
-    public List findClassTagByTagInfoIdList(List<Long> tagInfoIdList) {
-        return classTagRepository.findClassTagByTagInfo_TagInfoIdIn(tagInfoIdList);
+    public List<ClassTag> findClassTagsByTagInfoList(List<Long> Id){
+        return classTagRepository.findByTagInfo_TagInfoIdIn(Id);
+    }
+
+    public List<ClassInfoDto> findGroupByClassId(Long classId){
+        return classTagRepository.findClassTag(classId);
     }
 }

@@ -1,6 +1,5 @@
 package mat.mat_t.domain.class_.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import mat.mat_t.domain.class_.ClassTag;
 
@@ -32,5 +31,17 @@ public class ClassInfoDto {
         }
     }
 
+    public ClassInfoDto(Long classId,String title,Long numberOfStudents, String descriptions,String place,String startTime,
+                        String endTime,Date startDate,Date endDate) {
+            this.classId = classId;
+            this.title = title;
+            this.numberOfStudents = numberOfStudents;
+            this.descriptions =  descriptions;
+            this.place = place;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
 
 }
