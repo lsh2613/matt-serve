@@ -122,7 +122,7 @@ public class WaitingStudentController {
     @Getter
     static class ClassWsDto{
          Long classId;
-
+         Long waitingStudentId;
          String title;
          Long numberOfStudents;
          String descriptions;
@@ -130,6 +130,7 @@ public class WaitingStudentController {
 
          public ClassWsDto(WaitingStudent waitingStudent){
              this.classId=waitingStudent.getClassesWS().getClassId();
+             this.waitingStudentId=waitingStudent.getWaitingId();
              this.title=waitingStudent.getClassesWS().getTitle();
              this.numberOfStudents=waitingStudent.getClassesWS().getNumberOfStudents();
              this.descriptions=waitingStudent.getClassesWS().getDescriptions();
@@ -139,17 +140,16 @@ public class WaitingStudentController {
 
     @Getter
     static class WsDto {
-        Long id;
+        Long waitingStudentId;
         String name;
         String content;
-
         String date;
 
         public WsDto(WaitingStudent waitingStudent) {
-            id = waitingStudent.getWaitingId();
-            name = waitingStudent.getUserWS().getName();
-            content = waitingStudent.getContent();
-            date = waitingStudent.getDate();
+            this.waitingStudentId = waitingStudent.getWaitingId();
+            this.name = waitingStudent.getUserWS().getName();
+            this.content = waitingStudent.getContent();
+            this.date = waitingStudent.getDate();
         }
     }
 
