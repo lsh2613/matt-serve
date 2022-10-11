@@ -2,6 +2,7 @@ package mat.mat_t.web.repository;
 
 import mat.mat_t.domain.Community;
 import mat.mat_t.domain.user.Category;
+import mat.mat_t.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,6 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
         Community findCommunityById(Long Id);
 
         List<Community> findCommunitiesByCategory(Category category);
+
+        List<Community> findCommunitiesByUserCom(User user);
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import mat.mat_t.domain.class_.Classes;
+import mat.mat_t.form.InstructorCreateForm;
 import mat.mat_t.form.InstructorForm;
 
 import javax.persistence.*;
@@ -56,6 +57,12 @@ public class Instructor {
     //InstructorForm 이용한 생성자 생성
     public Instructor(InstructorForm form) {
         this.instructorId = form.getInstructorId();
+        this.major = form.getMajor();
+        this.introduction = form.getIntroduction();
+    }
+
+    //InstructorForm 이용한 생성자 생성
+    public Instructor(InstructorCreateForm form) {
         this.major = form.getMajor();
         this.introduction = form.getIntroduction();
     }

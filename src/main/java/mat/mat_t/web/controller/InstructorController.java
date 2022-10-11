@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.InstructorCreateForm;
+import mat.mat_t.form.InstructorEditForm;
 import mat.mat_t.form.InstructorForm;
 import mat.mat_t.web.service.InstructorService;
 import mat.mat_t.web.service.UserService;
@@ -34,19 +36,19 @@ public class InstructorController {
     /**강사 생성**/
     @ApiOperation(value="강사 생성")
     @PostMapping(value = "/instructor/new")
-    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public ResponseEntity<Instructor> createInstructor(@Valid @RequestBody InstructorCreateForm form, BindingResult bindingResult, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
 
         Instructor instructor = new Instructor(form);
         User findUser = userService.findById(loginUser.getId());
+        instructorService.hasDuplicateInstructor(loginUser.getId());
         findUser.setInstructor(instructor);
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(instructor);
         }
-
         instructorService.saveInstructor(instructor);
         return ResponseEntity.ok().body(instructor);
     }
@@ -54,8 +56,8 @@ public class InstructorController {
     /**강사 수정**/
     @ApiOperation(value="강사 수정")
     @PatchMapping("/instructor/{instructorId}/edit")
-    public ResponseEntity<Instructor> updateInstructor(@Valid @RequestBody InstructorForm form, Long instructorId) {
-        Instructor instructor = new Instructor(form.getInstructorId(), form.getMajor(), form.getIntroduction());
+    public ResponseEntity<Instructor> updateInstructor(@Valid @RequestBody InstructorEditForm form, @PathVariable Long instructorId) {
+        Instructor instructor = new Instructor(form.getInstructorId(),form.getMajor(), form.getIntroduction());
         instructorService.updateInstructor(instructor, instructorId);
         return ResponseEntity.ok().body(instructor);
     }
@@ -84,10 +86,9 @@ public class InstructorController {
 
     /**강사 삭제**/
     @ApiOperation(value = "강사 삭제")
-    @DeleteMapping("/instructor/delete")
-    public ResponseEntity<Instructor> deleteClassInfo(@Valid @RequestBody InstructorForm form, Long instructorId) {
-        Instructor instructor = new Instructor(form);
+    @DeleteMapping("/instructor/delete/{instructorId}")
+    public ResponseEntity deleteClassInfo(@PathVariable Long instructorId) {
         instructorService.deleteInstructor(instructorId);
-        return ResponseEntity.ok().body(instructor);
+        return ResponseEntity.ok().body("댓글 삭제 완료");
     }
 }

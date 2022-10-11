@@ -2,6 +2,7 @@ package mat.mat_t.domain.class_;
 
 import lombok.Builder;
 import lombok.Data;
+import mat.mat_t.form.ClassCreateForm;
 import mat.mat_t.domain.user.Instructor;
 import mat.mat_t.form.ClassForm;
 
@@ -97,6 +98,19 @@ public class Classes implements Serializable {
     }
 
     public Classes() {
+    }
+
+    public Classes(ClassCreateForm form) {
+        this.instructorC = new Instructor(form.getInstructorId());
+        this.title = form.getTitle();
+        this.numberOfStudents = form.getNumberOfStudents();
+        this.descriptions = form.getDescriptions();
+        this.place = form.getPlace();
+        this.startTime = form.getStartTime();
+        this.endTime = form.getEndTime();
+        this.category = form.getCategory();
+        this.startDate = form.getStartDate();
+        this.endDate = form.getEndDate();
     }
 
     public void update(Classes upClasses) {

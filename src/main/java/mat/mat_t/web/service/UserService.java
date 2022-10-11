@@ -1,12 +1,15 @@
 package mat.mat_t.web.service;
 
 import lombok.RequiredArgsConstructor;
+import mat.mat_t.domain.class_.dto.MailDto;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.web.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +32,17 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByLoginId(loginName).stream().findFirst();
         if (optionalUser.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 아이디 입니다");
-        }
-        else
+        } else
             return optionalUser.get().getPassword();
     }
 
     public User findById(Long id) {
         return em.find(User.class, id);
+    }
+
+    public User findUserByLoginId(String loginId) {
+        User findUser = userRepository.findByUserId(loginId);
+        return findUser;
     }
 
     private void hasDuplicateUser(User user) {
@@ -61,4 +68,16 @@ public class UserService {
         User findUser = userRepository.findById(id);
         userRepository.remove(findUser);
     }
+
+    public boolean userEmailCheck(String userId, String email) {
+        User user = userRepository.findByUserId(userId);
+        if (user != null && user.getEmail().equals(email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
 }
