@@ -7,6 +7,7 @@ import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.WaitingStudent;
 import mat.mat_t.domain.user.User;
+import mat.mat_t.form.WaitingStudentForm;
 import mat.mat_t.web.service.ClassService;
 import mat.mat_t.web.service.ClassStudentsService;
 import mat.mat_t.web.service.WaitingStudentsService;
@@ -73,10 +74,9 @@ public class WaitingStudentController {
     }
 
     @ApiOperation("클래스 신청 수정")
-    @PatchMapping("/waitingStudent/{wsId}")
-    public ResponseEntity editWs(@PathVariable Long wsId,
-                                 @RequestBody String content) {
-        WaitingStudent updateStudent = waitingStudentsService.update(wsId, content);
+    @PatchMapping("/waitingStudent")
+    public ResponseEntity editWs(@RequestBody WaitingStudentForm waitingStudentForm) {
+        WaitingStudent updateStudent = waitingStudentsService.update(waitingStudentForm.getWsId(),waitingStudentForm.getContent());
         return ResponseEntity.ok(updateStudent);
     }
 
