@@ -58,4 +58,8 @@ public class WaitingStudentsService {
     public List<WaitingStudent> findClassByUserId(Long userId){
         return waitingStudentsRepository.findListByUserId(userId);
     }
+
+    public WaitingStudent findWaitingStudentByWsId(Long wsId){
+        return waitingStudentsRepository.findByWsId(wsId);
+    }
 }
