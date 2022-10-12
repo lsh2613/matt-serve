@@ -2,6 +2,7 @@ package mat.mat_t.web.repository;
 
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.TagInfo;
+import mat.mat_t.domain.class_.WaitingStudent;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -41,4 +42,9 @@ public class TagInfoRepository {
         return em.find(TagInfo.class, tagInfoId);
     }
 
+    public TagInfo findByTagName(String tagName){
+        return em.createQuery("select  t from TagInfo t where t.tagName=:tagName",TagInfo.class)
+                .setParameter("tagName",tagName)
+                .getSingleResult();
+    }
 }
