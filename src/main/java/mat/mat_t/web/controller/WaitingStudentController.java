@@ -35,8 +35,8 @@ public class WaitingStudentController {
     @ApiOperation("클래스 신청한 학생 DB에 저장")
     @PostMapping("/waitingStudent/{classId}")
     public ResponseEntity add(@PathVariable Long classId,
-                              @RequestParam String content,
-                              HttpServletRequest request) {
+            @RequestParam String content,
+            HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
@@ -52,7 +52,7 @@ public class WaitingStudentController {
     }
 
     @ApiOperation("해당 클래스에 신청한 학생들 조회")
-    @GetMapping("/waitingStudents/{classId}")
+    @GetMapping("/waitingStudent/class/{classId}")
     public ResponseEntity listStudents(@PathVariable Long classId) {
         List<WaitingStudent> classStudents = waitingStudentsService.findStudentsByClassId(classId);
 
@@ -66,9 +66,9 @@ public class WaitingStudentController {
     @ApiOperation("wsId로 waitingStuent 보기")
     @GetMapping("/waitingStudent/{wsId}")
     public ResponseEntity waitingStudent(@PathVariable Long wsId) {
-        WaitingStudent waitingStudent=waitingStudentsService.findWaitingStudentByWsId(wsId);
+        WaitingStudent waitingStudent = waitingStudentsService.findWaitingStudentByWsId(wsId);
 
-        WsDto wsDto=new WsDto(waitingStudent);
+        WsDto wsDto = new WsDto(waitingStudent);
 
         return ResponseEntity.ok(wsDto);
     }
@@ -76,7 +76,8 @@ public class WaitingStudentController {
     @ApiOperation("클래스 신청 수정")
     @PatchMapping("/waitingStudent")
     public ResponseEntity editWs(@RequestBody WaitingStudentForm waitingStudentForm) {
-        WaitingStudent updateStudent = waitingStudentsService.update(waitingStudentForm.getWsId(),waitingStudentForm.getContent());
+        WaitingStudent updateStudent = waitingStudentsService.update(waitingStudentForm.getWsId(),
+                waitingStudentForm.getContent());
         return ResponseEntity.ok(updateStudent);
     }
 
@@ -94,7 +95,8 @@ public class WaitingStudentController {
         CsDto csDto = new CsDto();
         csDto.setCsDto(classStudent);
         if (wishService.duplicate(classStudent.getClassesCS().getClassId(), classStudent.getUserCS().getId())) {
-            wishService.deleteByClassIdAndUserId(classStudent.getClassesCS().getClassId(), classStudent.getUserCS().getId());
+            wishService.deleteByClassIdAndUserId(classStudent.getClassesCS().getClassId(),
+                    classStudent.getUserCS().getId());
         }
         return ResponseEntity.ok().body(csDto);
     }
@@ -105,37 +107,35 @@ public class WaitingStudentController {
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
 
-        List<WaitingStudent> waitingStudents=new ArrayList<>();
-        List<ClassWsDto> classWsDtos=new ArrayList<>();
+        List<WaitingStudent> waitingStudents = new ArrayList<>();
+        List<ClassWsDto> classWsDtos = new ArrayList<>();
 
-        waitingStudents=waitingStudentsService.findClassByUserId(loginUser.getId());
+        waitingStudents = waitingStudentsService.findClassByUserId(loginUser.getId());
 
-        for(int i=0;i<waitingStudents.size();i++){
+        for (int i = 0; i < waitingStudents.size(); i++) {
             classWsDtos.add(new ClassWsDto(waitingStudents.get(i)));
         }
 
         return ResponseEntity.ok().body(classWsDtos);
     }
 
-
-
     @Getter
-    static class ClassWsDto{
-         Long classId;
-         Long waitingStudentId;
-         String title;
-         Long numberOfStudents;
-         String descriptions;
-         String category;
+    static class ClassWsDto {
+        Long classId;
+        Long waitingStudentId;
+        String title;
+        Long numberOfStudents;
+        String descriptions;
+        String category;
 
-         public ClassWsDto(WaitingStudent waitingStudent){
-             this.classId=waitingStudent.getClassesWS().getClassId();
-             this.waitingStudentId=waitingStudent.getWaitingId();
-             this.title=waitingStudent.getClassesWS().getTitle();
-             this.numberOfStudents=waitingStudent.getClassesWS().getNumberOfStudents();
-             this.descriptions=waitingStudent.getClassesWS().getDescriptions();
-             this.category=waitingStudent.getClassesWS().getCategory();
-         }
+        public ClassWsDto(WaitingStudent waitingStudent) {
+            this.classId = waitingStudent.getClassesWS().getClassId();
+            this.waitingStudentId = waitingStudent.getWaitingId();
+            this.title = waitingStudent.getClassesWS().getTitle();
+            this.numberOfStudents = waitingStudent.getClassesWS().getNumberOfStudents();
+            this.descriptions = waitingStudent.getClassesWS().getDescriptions();
+            this.category = waitingStudent.getClassesWS().getCategory();
+        }
     }
 
     @Getter
