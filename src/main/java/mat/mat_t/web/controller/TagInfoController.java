@@ -83,4 +83,11 @@ public class TagInfoController {
         return ResponseEntity.ok().body(tagInfo);
     }
 
+    @ApiOperation(value = "태그 이름으로 조회")
+    @GetMapping("/tagInfos/{tagName}")
+    public ResponseEntity<TagInfo> getTagInfoByTagName(@PathVariable String tagName) {
+        TagInfo tagInfo = tagInfoService.findByTagInfoName(tagName);
+        return ResponseEntity.ok().body(tagInfo);
+    }
+
 }

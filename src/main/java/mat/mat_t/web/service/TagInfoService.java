@@ -52,4 +52,8 @@ public class TagInfoService {
         return tagInfoRepository.findById(tagInfoId);
     }
 
+    public TagInfo findByTagInfoName(String tagName){
+        return tagInfoRepository.findByTagName(tagName);
+    }
+
 }
