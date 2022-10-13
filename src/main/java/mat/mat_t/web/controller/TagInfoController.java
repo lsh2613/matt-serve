@@ -40,7 +40,7 @@ public class TagInfoController {
     @ApiOperation(value = "태그 정보 수정")
     @PatchMapping("/tagInfo/update")
     public ResponseEntity<TagInfo> updateTagInfo(@Valid @RequestParam("tagInfoId") Long tagInfoId,
-                                                 @RequestParam("tagInfoName")String tagInfoName) {
+            @RequestParam("tagInfoName") String tagInfoName) {
         TagInfo tagInfo = new TagInfo(tagInfoId, tagInfoName);
         tagInfoService.updateTagInfo(tagInfoId, tagInfoName);
 
@@ -84,7 +84,7 @@ public class TagInfoController {
     }
 
     @ApiOperation(value = "태그 이름으로 조회")
-    @GetMapping("/tagInfos/{tagName}")
+    @GetMapping("/tagInfo/name/{tagName}")
     public ResponseEntity<TagInfo> getTagInfoByTagName(@PathVariable String tagName) {
         TagInfo tagInfo = tagInfoService.findByTagInfoName(tagName);
         return ResponseEntity.ok().body(tagInfo);

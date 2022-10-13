@@ -33,7 +33,7 @@ public class ClassTagController {
     public ResponseEntity<ClassTag> createClassTag(@Valid @RequestBody ClassTagForm form) {
         ClassTag classTag = new ClassTag(form);
 
-        //중복검사
+        // 중복검사
         if (classTagService.checkClassesAndTagInfoDuplicate(form.getClassesCT(), form.getTagInfo())) {
             throw new IllegalStateException("이미 클래스에 설정된 태그 입니다.");
         }
@@ -48,13 +48,11 @@ public class ClassTagController {
      **/
 
     @ApiOperation(value = "클래스 태그 삭제")
-    @DeleteMapping("classTag/delete")
-    public ResponseEntity<ClassTag> TagInfoDelete(@Valid @RequestBody ClassTagForm form, Long classTagId) {
-        ClassTag classTag = new ClassTag(form);
+    @DeleteMapping("classTag/delete/{classTagId}")
+    public ResponseEntity<ClassTag> TagInfoDelete(@PathVariable Long classTagId) {
         classTagService.deleteClassTag(classTagId);
-        return ResponseEntity.ok().body(classTag);
+        return ResponseEntity.ok().body(null);
     }
-
 
     /**
      * 클래스 아이디로 클래스 태그 정보 조회
@@ -99,7 +97,8 @@ public class ClassTagController {
 
     @ApiOperation(value = "클래스정보 태그정보 아이디 리스트로 조회")
     @GetMapping(value = "/classTag/tagInfoIdList")
-    public ResponseEntity<List<ClassInfoDto>> findClassTagByTagInfoIdList(@RequestParam(required = false) List<Long> tagInfoId) {
+    public ResponseEntity<List<ClassInfoDto>> findClassTagByTagInfoIdList(
+            @RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
         List<ClassInfoDto> classInfoDtoList = new ArrayList<>();
 

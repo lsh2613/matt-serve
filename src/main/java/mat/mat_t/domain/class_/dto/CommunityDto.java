@@ -16,7 +16,6 @@ import mat.mat_t.web.service.CommentService;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -35,13 +34,13 @@ public class CommunityDto {
     List<CommentForm> commentList;
 
     /**
-     flag=0 -> 커뮤니티 단일 조회 -> 관련 댓글들 출력
-     flag=1 -> 커뮤니티 복수 조회 -> 댓글 개수만 출력
+     * flag=0 -> 커뮤니티 단일 조회 -> 관련 댓글들 출력
+     * flag=1 -> 커뮤니티 복수 조회 -> 댓글 개수만 출력
      */
 
     public CommunityDto(Community community) {
         this.userId = community.getUserCom().getId();
-        this.userName = community.getUserCom().getName();
+        this.userName = community.getUserCom().getNickname();
         this.communityId = community.getId();
         this.title = community.getTitle();
         this.content = community.getContent();
@@ -63,15 +62,15 @@ public class CommunityDto {
         int nowMinute = now.getMinute();
 
         if (comYear < nowYear)
-            this.pastTime = Integer.toString(nowYear - comYear ).concat("년 전");
+            this.pastTime = Integer.toString(nowYear - comYear).concat("년 전");
         else if (comMonth < nowMonthValue)
-            this.pastTime = Integer.toString(nowMonthValue - comMonth ).concat("개월 전");
+            this.pastTime = Integer.toString(nowMonthValue - comMonth).concat("개월 전");
         else if (comDay < nowDayOfMonth)
-            this.pastTime = Integer.toString(nowDayOfMonth - comDay ).concat("일 전");
+            this.pastTime = Integer.toString(nowDayOfMonth - comDay).concat("일 전");
         else if (comHour < nowHour)
             this.pastTime = Integer.toString(nowHour - comHour).concat("시간 전");
         else if (comMinute < nowMinute)
-            this.pastTime = Integer.toString(nowMinute - comMinute ).concat("분 전");
+            this.pastTime = Integer.toString(nowMinute - comMinute).concat("분 전");
         else
             this.pastTime = "1분 전";
 
