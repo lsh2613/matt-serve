@@ -7,6 +7,7 @@ import mat.mat_t.domain.class_.dto.InstructorReviewDto;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.user.User;
 import mat.mat_t.form.InstructorReviewForm;
+import mat.mat_t.form.updateInsReviewForm;
 import mat.mat_t.web.service.ClassStudentsService;
 import mat.mat_t.web.service.InstructorReviewHatesService;
 import mat.mat_t.web.service.InstructorReviewLikesService;
@@ -33,8 +34,8 @@ public class InstructorReviewController {
 
     @ApiOperation(value = "수업 리뷰저장")
     @PostMapping("instructor/review")
-    public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form
-            , HttpServletRequest request) {
+    public ResponseEntity<InstructorReview> createInstructorReview(@Valid @RequestBody InstructorReviewForm form,
+            HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         User loginUser = (User) session.getAttribute("loginUser");
@@ -55,8 +56,9 @@ public class InstructorReviewController {
 
     @ApiOperation(value = "수업 리뷰수정")
     @PatchMapping("instructor/review/{id}")
-    public ResponseEntity<InstructorReview> updateInstructorReview(@PathVariable Long id,String content,float score) {
-        InstructorReview instructorReview = new InstructorReview(content,score);
+    public ResponseEntity<InstructorReview> updateInstructorReview(@PathVariable Long id,
+            @Valid @RequestBody updateInsReviewForm form, HttpServletRequest request) {
+        InstructorReview instructorReview = new InstructorReview(form.getReviewContent(), form.getScore());
         instructorReviewService.updateInstructorReview(instructorReview, id);
         return ResponseEntity.ok().body(instructorReview);
     }
@@ -64,13 +66,13 @@ public class InstructorReviewController {
     @ApiOperation(value = "수업 리뷰삭제")
     @DeleteMapping("instructor/review/{id}")
     public ResponseEntity deleteInstructorReview(@PathVariable Long id) {
-        InstructorReview instructorReview=instructorReviewService.findByInsReviewId(id);
+        InstructorReview instructorReview = instructorReviewService.findByInsReviewId(id);
 
-        if(instructorReview.getLikes()!=0){
+        if (instructorReview.getLikes() != 0) {
             instructorReviewLikesService.deleteLikesByInsId(id);
         }
 
-        if(instructorReview.getHates()!=0){
+        if (instructorReview.getHates() != 0) {
             instructorReviewHatesService.deleteHatesByInsId(id);
         }
 
@@ -83,9 +85,9 @@ public class InstructorReviewController {
     @GetMapping("instructor/review/all")
     public ResponseEntity<List<InstructorReviewDto>> checkAllInstructorReviews() {
         List<InstructorReview> instructorReviews = instructorReviewService.checkAll();
-        List<InstructorReviewDto> instructorReviewDtoList=new ArrayList<>();
+        List<InstructorReviewDto> instructorReviewDtoList = new ArrayList<>();
 
-        for(int i=0;i<instructorReviews.size();i++){
+        for (int i = 0; i < instructorReviews.size(); i++) {
             instructorReviewDtoList.add(new InstructorReviewDto(instructorReviews.get(i)));
         }
 
@@ -99,7 +101,7 @@ public class InstructorReviewController {
     public ResponseEntity<InstructorReviewDto> checkInstructorReview(@PathVariable Long reviewId) {
 
         InstructorReview instructorReview = instructorReviewService.check(reviewId);
-        InstructorReviewDto instructorReviewDto=new InstructorReviewDto(instructorReview);
+        InstructorReviewDto instructorReviewDto = new InstructorReviewDto(instructorReview);
 
         return ResponseEntity.ok().body(instructorReviewDto);
     }
@@ -144,7 +146,7 @@ public class InstructorReviewController {
     }
 
     /**
-     *  강사 id로 검색하면 review 뜨게 하는거
+     * 강사 id로 검색하면 review 뜨게 하는거
      */
     @ApiOperation(value = "강사 ID로 조회")
     @GetMapping("/instructor/review/instructor/{id}")
