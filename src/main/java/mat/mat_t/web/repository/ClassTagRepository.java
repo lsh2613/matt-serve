@@ -28,6 +28,8 @@ public interface ClassTagRepository extends JpaRepository<ClassTag, Long> {
     List<ClassTag> findByTagInfo_TagInfoIdIn(List<Long> Id);
 
     @Query(value = "SELECT new mat.mat_t.domain.class_.dto.ClassInfoDto(c.classId,c.title,c.numberOfStudents,c.descriptions,c.place,c.startTime,c.endTime,c.startDate,c.endDate)" +
-            "From ClassTag ct left join Classes c On ct.classesCT.classId=c.classId group by c.classId")
-    List<ClassInfoDto> findClassTag(Long classId);
+            "From ClassTag ct left join Classes c On ct.classesCT.classId=c.classId " +
+            "where ct.classesCT.classId IN(:classId)  " +
+            "group by ct.classesCT.classId")
+    List<ClassInfoDto> findClassTag(List<Long> classId);
 }
