@@ -68,8 +68,8 @@ public class CommentController {
     /** 댓글 삭제 **/
     @ApiOperation(value = "댓글 삭제")
     @DeleteMapping("/community/comment/{commentId}")
-    public ResponseEntity deleteComment(@PathVariable Long commentId, @Valid @RequestBody CommentReDto dto) {
+    public ResponseEntity deleteComment(@PathVariable Long commentId) {
         commentService.deleteComments(commentId);
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(null);
     }
 }

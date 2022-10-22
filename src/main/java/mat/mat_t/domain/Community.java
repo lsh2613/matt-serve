@@ -24,7 +24,7 @@ public class Community {
     private Long id;
     private String title;
     private String content;
-    private int likes=0;
+    private int likes = 0;
     private String Date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh시 mm분 ss초"));
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -32,11 +32,10 @@ public class Community {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     @JsonIgnore
-    private User userCom;
+    protected User userCom;
 
     @OneToMany(mappedBy = "community", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
-
 
     public Community() {
     }

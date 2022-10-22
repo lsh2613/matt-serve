@@ -25,7 +25,6 @@ public class UserController {
     private final EmailService emailService;
     private final UserService userService;
 
-
     @ApiOperation(value = "신규 회원가입")
     @GetMapping("/user/new")
     public String createForm(Model model) {
@@ -97,14 +96,17 @@ public class UserController {
         return null;
     }
 
-
-    /*@ApiOperation(value = "비밀번호 수정")
-    @PatchMapping("user/findPwd/editPwd")
-    public ResponseEntity editPwdById(@RequestBody Long id, @RequestBody String pwd) {
-        User findUser = userService.findById(id);
-        User updatedUser = userService.updatePwd(findUser.getId(), pwd);
-
-        return ResponseEntity.ok(updatedUser);
-}*/
+    /*
+     * @ApiOperation(value = "비밀번호 수정")
+     * 
+     * @PatchMapping("user/findPwd/editPwd")
+     * public ResponseEntity editPwdById(@RequestBody Long id, @RequestBody String
+     * pwd) {
+     * User findUser = userService.findById(id);
+     * User updatedUser = userService.updatePwd(findUser.getId(), pwd);
+     * 
+     * return ResponseEntity.ok(updatedUser);
+     * }
+     */
 
 }

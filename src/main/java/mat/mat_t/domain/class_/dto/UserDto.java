@@ -9,12 +9,14 @@ import mat.mat_t.domain.class_.ClassStudents;
 public class UserDto {
 
     protected String Name;
+    protected Long classStudentId;
     protected String contents;
     protected String date;
 
-    public UserDto(ClassStudents classStudents){
-        Name=classStudents.getUserCS().getName();
-        contents=classStudents.getContents();
-        date=classStudents.getDate();
+    public UserDto(ClassStudents classStudents) {
+        classStudentId = classStudents.getClassStudentId();
+        Name = classStudents.getUserCS().getName();
+        contents = classStudents.getContents();
+        date = classStudents.getDate();
     }
 }

@@ -12,6 +12,7 @@ public class InstructorReviewDto {
     protected Long instructorReviewId;
     protected float score;
     protected String instructorName;
+    protected Long userId;
     protected String reviewContent;
     protected String nickname;
     protected String title;
@@ -25,14 +26,15 @@ public class InstructorReviewDto {
     @Builder
     public InstructorReviewDto(InstructorReview instructorReview) {
 
-        this.instructorReviewId=instructorReview.getInsReviewId();
+        this.instructorReviewId = instructorReview.getInsReviewId();
         this.title = instructorReview.getClassStudents().getClassesCS().getTitle();
         this.instructorName = instructorReview.getClassStudents().getClassesCS().getInstructorC().getUserIn().getName();
+        this.userId = instructorReview.getClassStudents().getUserCS().getId();
         this.nickname = instructorReview.getClassStudents().getUserCS().getNickname();
         this.score = instructorReview.getScore();
         this.reviewContent = instructorReview.getReviewContent();
-        this.date=instructorReview.getDate();
-        this.likes=instructorReview.getLikes();
-        this.hates=instructorReview.getHates();
+        this.date = instructorReview.getDate();
+        this.likes = instructorReview.getLikes();
+        this.hates = instructorReview.getHates();
     }
 }
