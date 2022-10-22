@@ -101,12 +101,16 @@ public class ClassTagController {
             @RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
         List<ClassInfoDto> classInfoDtoList = new ArrayList<>();
+        List<Long> classId=new ArrayList<>();
 
         classTags = classTagService.findClassTagsByTagInfoList(tagInfoId);
 
         for (ClassTag classTag : classTags) {
-            classInfoDtoList = classTagService.findGroupByClassId(classTag.getClassesCT().getClassId());
+            classInfoDtoList.add(new ClassInfoDto(classTag));
+            classId.add(classTag.getClassesCT().getClassId());
         }
+
+        classInfoDtoList = classTagService.findGroupByClassId(classId);
 
         return ResponseEntity.ok().body(classInfoDtoList);
     }

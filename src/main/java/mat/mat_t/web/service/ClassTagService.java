@@ -56,7 +56,7 @@ public class ClassTagService {
         return classTagRepository.findByTagInfo_TagInfoIdIn(Id);
     }
 
-    public List<ClassInfoDto> findGroupByClassId(Long classId){
+    public List<ClassInfoDto> findGroupByClassId(List<Long> classId){
         return classTagRepository.findClassTag(classId);
     }
 }
