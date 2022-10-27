@@ -3,6 +3,7 @@ package mat.mat_t.web.service;
 import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStudents;
 
+import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.StudentReviewRepository;
 import org.springframework.stereotype.Service;
@@ -102,6 +103,15 @@ public class StudentReviewService {
 
     public boolean existsByClassStudentsId(Long csId){
         return studentReviewRepository.existsByClassStudents_ClassStudentId(csId);
+    }
+
+    public boolean hasReview(List<StudentReview> studentReviews, Long userId) {
+        for (StudentReview studentReview : studentReviews) {
+            if (studentReview.getClassStudents().getUserCS().getId().equals(userId)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

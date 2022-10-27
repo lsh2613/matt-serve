@@ -18,6 +18,7 @@ public interface ClassStudentsRepository extends JpaRepository<ClassStudents, Lo
     List<ClassStudents> findByUserCS_IdOrderByClassStudentIdDesc(Long userId);
     int countByClassesCS_ClassIdAndUserCS_Id(Long classId,Long userId);
     List<ClassStudents> findByClassesCS_ClassIdAndStatusIsLikeOrderByClassStudentIdDesc(Long classId,ClassStatus status);
+    List<ClassStudents> findByClassesCS_ClassIdAndStatusIsLike(Long classId,ClassStatus status);
 //    @Query(value = "select DISTINCT c from ClassStudents c " +
 //            "left outer join InstructorReview ir on c.classStudentId=ir.classStudents.classStudentId where c.classStudentId=:classStudentId"
 //    )

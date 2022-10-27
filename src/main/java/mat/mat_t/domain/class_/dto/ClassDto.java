@@ -57,7 +57,7 @@ public class ClassDto {
         this.startDate = classStudents.getClassesCS().getStartDate();
         this.endDate = classStudents.getClassesCS().getEndDate();
 
-        if(classStudentsService.checkReviews(classStudents,instructorReviewService,classStudents.getClassesCS().getClassId())){
+        if(classStudentsService.checkInstructorReviews(classStudents,instructorReviewService,classStudents.getClassesCS().getClassId())){
             this.review=ClassReviewStatus.NOT;
         } else{
             this.review=ClassReviewStatus.HAS;
