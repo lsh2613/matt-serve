@@ -101,7 +101,7 @@ public class ClassTagController {
             @RequestParam(required = false) List<Long> tagInfoId) {
         List<ClassTag> classTags = new ArrayList<>();
         List<ClassInfoDto> classInfoDtoList = new ArrayList<>();
-        List<Long> classId=new ArrayList<>();
+        List<Long> classId = new ArrayList<Long>();
 
         classTags = classTagService.findClassTagsByTagInfoList(tagInfoId);
 
