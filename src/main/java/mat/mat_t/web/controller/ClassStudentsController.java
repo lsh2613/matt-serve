@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.dto.ClassDto;
-import mat.mat_t.domain.class_.dto.ClassStudentsDto;
 import mat.mat_t.domain.class_.dto.UserDto;
 import mat.mat_t.domain.review.InstructorReview;
 import mat.mat_t.domain.review.StudentReview;
@@ -129,7 +128,7 @@ public class ClassStudentsController {
      *  review가 없는 클래스들 출력
      */
 
-    @ApiOperation(value = "InstructorReview가 없는 강의들")
+    @ApiOperation(value = "Review가 없는 강의들")
     @GetMapping("/class/students/NotReviews")
     public ResponseEntity<List<ClassDto>> findClassStudentsNotReviews(HttpServletRequest request) {
         List<ClassStudents> classStudents = new ArrayList<>();
@@ -143,7 +142,7 @@ public class ClassStudentsController {
         instructorReviews=instructorReviewService.findReviewByUserCS_id(loginUser.getId());
 
         for (int i = 0; i < classStudents.size(); i++) {
-            if (classStudentsService.checkNotInstructorReview(classStudents.get(i), instructorReviewService, instructorReviews)) {
+            if (classStudentsService.checkNotReview(classStudents.get(i), instructorReviewService, instructorReviews)) {
                 classDtoList.add(new ClassDto(classStudents.get(i)));
             }
         }
@@ -152,7 +151,7 @@ public class ClassStudentsController {
     }
 
     @ApiOperation(value = "classId로 할때 doing인 cs들 : 현재 수업을 듣는 학생들")
-    @GetMapping("/class/students/doing/{classId}")
+    @GetMapping("/class/students/{classId}")
     public ResponseEntity<List<UserDto>> findClassStudentsByClassIdAndStatus(@PathVariable Long classId) {
         List<ClassStudents> classStudents = new ArrayList<>();
         List<UserDto> userDtoList = new ArrayList<>();
@@ -174,19 +173,5 @@ public class ClassStudentsController {
         classStudentsService.finishedClass(classStudents);
 
         return null;
-    }
-
-    @ApiOperation(value = "classId로 할때 finished인 cs들 : 수업이 끝난 학생들   ")
-    @GetMapping("/class/students/finished/{classId}")
-    public ResponseEntity<List<ClassStudentsDto>> findClassStudentsByClassIdAndFinished(@PathVariable Long classId) {
-        List<ClassStudents> classStudents = new ArrayList<>();
-        List<ClassStudentsDto> classStudentsDtoList=new ArrayList<>();
-        classStudents = classStudentsService.findClassStudentsByClassIdAndFinished(classId);
-
-        for (int i = 0; i < classStudents.size(); i++) {
-            classStudentsDtoList.add(new ClassStudentsDto(classStudents.get(i),classStudentsService,studentReviewService));
-        }
-
-        return ResponseEntity.ok().body(classStudentsDtoList);
     }
 }

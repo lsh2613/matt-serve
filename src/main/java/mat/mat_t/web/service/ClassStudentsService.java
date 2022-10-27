@@ -5,7 +5,6 @@ import mat.mat_t.domain.class_.ClassStatus;
 import mat.mat_t.domain.class_.ClassStudents;
 import mat.mat_t.domain.class_.dto.ClassDto;
 import mat.mat_t.domain.review.InstructorReview;
-import mat.mat_t.domain.review.StudentReview;
 import mat.mat_t.web.repository.ClassStudentsRepository;
 import org.springframework.stereotype.Service;
 
@@ -78,24 +77,14 @@ public class ClassStudentsService {
         }
     }
 
-    public Boolean checkNotInstructorReview(ClassStudents classStudent,
+    public Boolean checkNotReview(ClassStudents classStudent,
                                   InstructorReviewService instructorReviewService, List<InstructorReview> instructorReviews) {
         return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
     }
 
-    public Boolean checkInstructorReviews(ClassStudents classStudent, InstructorReviewService instructorReviewService, Long classId) {
+    public Boolean checkReviews(ClassStudents classStudent, InstructorReviewService instructorReviewService, Long classId) {
         List<InstructorReview> instructorReviews;
         instructorReviews = instructorReviewService.findReviewByClassId(classId);
         return instructorReviewService.hasReview(instructorReviews, classStudent.getClassesCS().getClassId());
-    }
-
-    public Boolean checkStudentReviews(ClassStudents classStudents,StudentReviewService studentReviewService,Long userId){
-        List<StudentReview> studentReviews;
-        studentReviews = studentReviewService.findReviewByUserId(userId);
-        return studentReviewService.hasReview(studentReviews,classStudents.getUserCS().getId());
-    }
-
-    public List<ClassStudents> findClassStudentsByClassIdAndFinished(Long classId){
-        return classStudentsRepository.findByClassesCS_ClassIdAndStatusIsLike(classId,ClassStatus.FINISHED);
     }
 }
