@@ -1,10 +1,12 @@
 package mat.mat_t.form;
 
 import lombok.Data;
+import lombok.Setter;
 import mat.mat_t.domain.class_.Classes;
 import java.util.Date;
 
 @Data
+@Setter
 public class ClassCreateForm {
 
     private Long instructorId;
@@ -12,16 +14,17 @@ public class ClassCreateForm {
     private Long numberOfStudents;
     private String descriptions;
     private String place;
-    private String startTime;   //시작일
-    private String endTime; //종료일
+    private String startTime; // 시작일
+    private String endTime; // 종료일
     private String category;
     private Date startDate; // 시작날짜
-    private Date endDate;   //종료날짜
+    private Date endDate; // 종료날짜
+    private Short classSt;
 
+    public ClassCreateForm() {
+    }
 
-    public ClassCreateForm(){}
-
-    public ClassCreateForm(Classes classes){
+    public ClassCreateForm(Classes classes) {
         this.instructorId = classes.getInstructorC().getInstructorId();
         this.title = classes.getTitle();
         this.numberOfStudents = classes.getNumberOfStudents();
@@ -34,7 +37,8 @@ public class ClassCreateForm {
         this.endDate = classes.getEndDate();
     }
 
-    public ClassCreateForm(Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String category, Date startDate, Date endDate) {
+    public ClassCreateForm(Long instructorId, String title, Long numberOfStudents, String descriptions, String place,
+            String startTime, String endTime, String category, Date startDate, Date endDate) {
         this.instructorId = instructorId;
         this.title = title;
         this.numberOfStudents = numberOfStudents;

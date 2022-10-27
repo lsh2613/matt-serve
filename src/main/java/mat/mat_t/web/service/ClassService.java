@@ -29,6 +29,7 @@ public class ClassService {
     // 클래스 수정
     public void updateClass(Classes upClasses, Long ClassId) {
         Classes classes = classRepository.findById(ClassId).get();
+        upClasses.setClassSt(classes.getClassSt());
         classes.update(upClasses);
     }
 
@@ -82,7 +83,7 @@ public class ClassService {
         return classRepository.findAllByTitleOrCategoryOrDescriptionsOrPlace(keyword);
     }
 
-    public Classes findClassByClassId(Long classId){
+    public Classes findClassByClassId(Long classId) {
         return classRepository.findByClassId(classId);
     }
 }

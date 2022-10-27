@@ -31,7 +31,7 @@ public class ClassController {
     @ApiOperation(value = "신규 클래스 생성")
     @PostMapping(value = "/class")
     public ResponseEntity<Classes> createClass(@Valid @RequestBody ClassCreateForm form, BindingResult bindingResult) {
-
+        form.setClassSt((short) 1);
         Classes classes = new Classes(form);
 
         if (bindingResult.hasErrors()) {
@@ -65,24 +65,7 @@ public class ClassController {
         List<ClassForm> classForms = new ArrayList<>();
 
         classForms = classService.findAllClass();
-        for(int i=0; i<classForms.size(); i++){
-            Date starts = classForms.get(i).getStartDate();
-            Date ends = classForms.get(i).getEndDate();
-            Long studentNum = classForms.get(i).getTotalCount();
-            Long maxNum = classForms.get(i).getNumberOfStudents();
-            if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
-                classForms.get(i).setStatus("진행중");
-            }
-            else if(ends.compareTo(now)<0){
-                classForms.get(i).setStatus("종료됨");
-            }
-            else if(starts.compareTo(now)>0){
-                if(studentNum<maxNum)
-                    classForms.get(i).setStatus("진행전 / 모집중");
-                else
-                    classForms.get(i).setStatus("진행전 / 모집완료");
-            }
-        }
+
         return ResponseEntity.ok().body(classForms);
     }
 
@@ -99,19 +82,6 @@ public class ClassController {
         Long studentNum = classForm.getTotalCount();
         Long maxNum = classForm.getNumberOfStudents();
 
-        if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
-            classForm.setStatus("진행중");
-        }
-        else if(ends.compareTo(now)<0){
-            classForm.setStatus("종료됨");
-        }
-        else if(starts.compareTo(now)>0){
-            if(studentNum<maxNum)
-                classForm.setStatus("진행전 / 모집중");
-            else
-                classForm.setStatus("진행전 / 모집완료");
-        }
-
         return ResponseEntity.ok().body(classForm);
     }
 
@@ -122,25 +92,6 @@ public class ClassController {
         List<ClassForm> classForms = new ArrayList<>();
 
         classForms = classService.findByInstructorId(instructorId);
-
-        for(int i=0; i<classForms.size(); i++){
-            Date starts = classForms.get(i).getStartDate();
-            Date ends = classForms.get(i).getEndDate();
-            Long studentNum = classForms.get(i).getTotalCount();
-            Long maxNum = classForms.get(i).getNumberOfStudents();
-            if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
-                classForms.get(i).setStatus("진행중");
-            }
-            else if(ends.compareTo(now)<0){
-                classForms.get(i).setStatus("종료됨");
-            }
-            else if(starts.compareTo(now)>0){
-                if(studentNum<maxNum)
-                    classForms.get(i).setStatus("진행전 / 모집중");
-                else
-                    classForms.get(i).setStatus("진행전 / 모집완료");
-            }
-        }
 
         return ResponseEntity.ok().body(classForms);
     }
@@ -193,25 +144,6 @@ public class ClassController {
         List<ClassForm> classForms = new ArrayList<>();
 
         classForms = classService.findByDayName(dayName);
-
-        for(int i=0; i<classForms.size(); i++){
-            Date starts = classForms.get(i).getStartDate();
-            Date ends = classForms.get(i).getEndDate();
-            Long studentNum = classForms.get(i).getTotalCount();
-            Long maxNum = classForms.get(i).getNumberOfStudents();
-            if(starts.compareTo(now)<=0 && ends.compareTo(now)>=0){
-                classForms.get(i).setStatus("진행중");
-            }
-            else if(ends.compareTo(now)<0){
-                classForms.get(i).setStatus("종료됨");
-            }
-            else if(starts.compareTo(now)>0){
-                if(studentNum<maxNum)
-                    classForms.get(i).setStatus("진행전 / 모집중");
-                else
-                    classForms.get(i).setStatus("진행전 / 모집완료");
-            }
-        }
 
         return ResponseEntity.ok().body(classForms);
     }

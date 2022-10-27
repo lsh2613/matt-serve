@@ -28,15 +28,15 @@ public class Classes implements Serializable {
     private String startTime; // 시작시간
     private String endTime; // 종료시간\
     private String category;
+    private Short classSt; // 클래스 수업상태
 
-
-    @Temporal(TemporalType.DATE)    // 값 입력할 때 '2022-01-01' 이런식으로 입력하면 됨
+    @Temporal(TemporalType.DATE) // 값 입력할 때 '2022-01-01' 이런식으로 입력하면 됨
     @Column(nullable = false)
     private Date startDate; // 시작날짜
 
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date endDate;   //종료날짜
+    private Date endDate; // 종료날짜
 
     // 클래스 수강생 매핑
     @OneToMany(mappedBy = "classesCS")
@@ -55,12 +55,12 @@ public class Classes implements Serializable {
     @JoinColumn(name = "instructor_id")
     private Instructor instructorC;
 
-    //요일 매핑
+    // 요일 매핑
     @OneToMany(mappedBy = "classesD")
     private List<ClassDay> classDays = new ArrayList<>();
 
-    public Classes(String title){
-        this.title=title;
+    public Classes(String title) {
+        this.title = title;
     }
 
     @Builder
@@ -93,7 +93,7 @@ public class Classes implements Serializable {
         this.endDate = form.getEndDate();
     }
 
-    public Classes(Long classId){
+    public Classes(Long classId) {
         this.classId = classId;
     }
 
@@ -125,9 +125,10 @@ public class Classes implements Serializable {
         this.endDate = upClasses.getEndDate();
     }
 
-    public Classes(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime,  String category, Date startDate, Date endDate) {
+    public Classes(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions,
+            String place, String startTime, String endTime, String category, Date startDate, Date endDate) {
         this.classId = classId;
-        this.instructorC= new Instructor(instructorId);
+        this.instructorC = new Instructor(instructorId);
         this.title = title;
         this.numberOfStudents = numberOfStudents;
         this.descriptions = descriptions;

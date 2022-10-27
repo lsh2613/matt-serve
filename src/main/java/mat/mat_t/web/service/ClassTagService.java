@@ -52,11 +52,11 @@ public class ClassTagService {
         return classTagRepository.findClassTagByTagInfo_TagInfoId(tagInfoId);
     }
 
-    public List<ClassTag> findClassTagsByTagInfoList(List<Long> Id){
+    public List<ClassTag> findClassTagsByTagInfoList(List<Long> Id) {
         return classTagRepository.findByTagInfo_TagInfoIdIn(Id);
     }
 
-    public List<ClassInfoDto> findGroupByClassId(Long classId){
+    public List<ClassInfoDto> findGroupByClassId(Long classId) {
         return classTagRepository.findClassTag(classId);
     }
 }

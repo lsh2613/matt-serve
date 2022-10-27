@@ -15,26 +15,28 @@ public class ClassForm {
     private Long numberOfStudents;
     private String descriptions;
     private String place;
-    private String startTime;   //시작일
-    private String endTime; //종료일
+    private String startTime; // 시작일
+    private String endTime; // 종료일
     private String category;
     private Date startDate; // 시작날짜
-    private Date endDate;   //종료날짜
-    private Long countWS; //수강신청한 학생 수
-    private Long countCS; //수강신청 후 수락된 학생 수
-    private Long totalCount; //총 지원자 수
+    private Date endDate; // 종료날짜
+    private Short classSt; // 클래스 상태
 
-    private String instructorName;  //강사 이름
-    private String instructorMajor;     //강사 전공
-    private double instructorScore; //강사 평점
+    private Long countWS; // 수강신청한 학생 수
+    private Long countCS; // 수강신청 후 수락된 학생 수
+    private Long totalCount; // 총 지원자 수
+
+    private String instructorName; // 강사 이름
+    private String instructorMajor; // 강사 전공
+    private double instructorScore; // 강사 평점
 
     @Transient
     private String status;
 
+    public ClassForm() {
+    }
 
-    public ClassForm(){}
-
-    public ClassForm(Classes classes){
+    public ClassForm(Classes classes) {
         this.classId = classes.getClassId();
         this.instructorId = classes.getInstructorC().getInstructorId();
         this.title = classes.getTitle();
@@ -46,9 +48,14 @@ public class ClassForm {
         this.category = classes.getCategory();
         this.startDate = classes.getStartDate();
         this.endDate = classes.getEndDate();
+        this.classSt = classes.getClassSt();
     }
 
-    public ClassForm(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions, String place, String startTime, String endTime, String category, Date startDate, Date endDate, Long countWS, Long countCS, String instructorName, String instructorMajor, double instructorScore) {
+    public ClassForm(Long classId, Long instructorId, String title, Long numberOfStudents, String descriptions,
+            String place, String startTime, String endTime, String category, Date startDate, Date endDate,
+            Short classSt,
+            Long countWS,
+            Long countCS, String instructorName, String instructorMajor, double instructorScore) {
         this.classId = classId;
         this.instructorId = instructorId;
         this.title = title;
@@ -60,12 +67,13 @@ public class ClassForm {
         this.category = category;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.classSt = classSt;
         this.countWS = countWS;
         this.countCS = countCS;
         this.instructorName = instructorName;
         this.instructorMajor = instructorMajor;
         this.instructorScore = instructorScore;
-        this.totalCount = countWS+countCS;
+        this.totalCount = countWS + countCS;
     }
 
 }
