@@ -17,7 +17,7 @@
 
 <h3>Server Environment ⚙️</h3>
 <hr />
-<li>Spring 2.7.2</li>
+<li>Spring boot 2.7.2</li>
 <li>jdk 11</li>
 <li>Swagger 2.9.2</li>
 <br />
